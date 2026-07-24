@@ -33,6 +33,7 @@ def derive_edition(hackathon):
 def to_draft_record(hackathon):
     url = str(hackathon.get("url") or "").strip()
     title = " ".join(str(hackathon.get("title") or "").split())
+    period = str(hackathon.get("submission_period_dates") or "").strip() or None
     return {
         "id": stable_id("devpost", url),
         "brand_id": "devpost",
@@ -51,6 +52,13 @@ def to_draft_record(hackathon):
         "draft": True,
         "source_list": "devpost",
         "source_list_name": "Devpost Hackathons",
+        # 源侧时间线索：审核阶段优先解析，无需模型臆造
+        "source_schedule_text": period,
+        "raw_schedule": {
+            "submission_period_dates": period,
+            "open_state": hackathon.get("open_state"),
+            "time_left": hackathon.get("time_left"),
+        },
     }
 
 

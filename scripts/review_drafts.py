@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
-"""用 DeepSeek 审核采集草稿，判断每条是否为真实的学生竞赛报名机会。
+"""用 DeepSeek 审核采集草稿，判断是否为真实学生竞赛，并按需补充赛程。
 
 流程定位（自动化管线的第二步）：
 
     采集脚本 -> draft_*.json -> [本脚本审核] -> reviewed.json -> apply 合并
 
-本脚本只输出审核结论（accept / reject + 分类 + 品牌映射 + 理由），
-不写入 data/competitions.json，也不推断任何比赛日期。
+赛程策略（源优先 + 模型补充）：
+1. 草稿/API 已带可解析日期 → 直接采用，不让模型编日期
+2. 没有源日期 → 请 DeepSeek 仅从给定线索提取（禁止臆造）
+3. 仍无合法日期 → 留给 apply 标 needs_review
 
 依赖环境变量 DEEPSEEK_API_KEY。默认模型 deepseek-chat。
 """
@@ -23,6 +25,14 @@ from urllib.parse import urlparse
 
 import requests
 
+from schedule_utils import (
+    SCHEDULE_FIELDS,
+    clean_schedule,
+    empty_schedule,
+    has_usable_schedule,
+    schedule_from_source_record,
+)
+
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_GLOB = os.path.join(ROOT, "scripts", "out", "draft_*.json")
@@ -35,7 +45,8 @@ KINDS = ("全国赛事", "大厂赛事", "国际赛事", "校级赛事")
 
 SYSTEM_PROMPT = (
     "你是竞赛数据审核员，负责判断一条采集到的通知是否是面向大学生的"
-    "『竞赛报名 / 选拔 / 正在组织参赛』机会。你只做判断，不编造任何日期。"
+    "『竞赛报名 / 选拔 / 正在组织参赛』机会。"
+    "日期只能从用户提供的线索中提取或规范化，严禁臆造、推算、用往届规律填日期。"
     "严格只输出一个 JSON 对象，不要输出多余文字。"
 )
 
@@ -73,7 +84,7 @@ def load_brands():
     return compact
 
 
-def build_messages(record, brands):
+def build_messages(record, brands, source_schedule, need_model_schedule):
     """构造发给 DeepSeek 的对话，要求返回结构化审核 JSON。"""
     brand_lines = "\n".join(
         "- %s | %s | 别名: %s | %s"
@@ -89,12 +100,33 @@ def build_messages(record, brands):
         "published_at": record.get("published_at"),
         "kind_guess": record.get("kind"),
         "brand_id_guess": record.get("brand_id"),
+        "description": record.get("description"),
+        "source_schedule_text": record.get("source_schedule_text"),
+        "deadline": record.get("deadline"),
+        "raw_schedule": record.get("raw_schedule"),
     }
+    if has_usable_schedule(source_schedule):
+        candidate["already_parsed_schedule"] = {
+            field: source_schedule.get(field) for field in SCHEDULE_FIELDS
+        }
+
+    schedule_rules = (
+        "5. 赛程：源侧已解析出日期（见 already_parsed_schedule）时，"
+        "schedule 全部填 null，schedule_confidence 填 null，不要改日期。\n"
+        if has_usable_schedule(source_schedule)
+        else (
+            "5. 赛程：源侧没有可靠日期。仅当线索中出现明确年月日时，"
+            "才填写 registration_start/end 或 competition_start/end（格式 YYYY-MM-DD）。"
+            "模糊说法（如「7 月下旬」「rolling」「见官网」）一律填 null。"
+            "拿不准就全部 null。禁止用往届或常识编日期。\n"
+        )
+    )
+
     user_prompt = (
         "已知品牌库（映射到已有 brand_id 时必须从中选择，找不到就填 null）：\n"
         + brand_lines
         + "\n\n合法的赛事类别 kind 只能是：全国赛事 / 大厂赛事 / 国际赛事 / 校级赛事。\n\n"
-        "待审核候选（来自采集脚本，标题可能带年份或主办单位）：\n"
+        "待审核候选（来自采集脚本）：\n"
         + json.dumps(candidate, ensure_ascii=False, indent=2)
         + "\n\n审核规则：\n"
         "1. accept：确为大学生可报名/参加/选拔的具体竞赛或赛道。\n"
@@ -104,13 +136,18 @@ def build_messages(record, brands):
         "4. 确为真实竞赛但品牌库里没有对应品牌时，brand_id 置 null，并在 new_brand "
         "里提议新品牌：brand_id 用简短小写英文或拼音（如 xjtu_ai），official_home "
         "必须是该赛事官方主页的完整网址（http/https），拿不准官网就把 new_brand 置 null。\n"
-        "5. 不要臆造任何报名或比赛日期。\n\n"
-        "只返回如下 JSON（字段齐全）：\n"
+        + schedule_rules
+        + "\n只返回如下 JSON（字段齐全）：\n"
         '{"verdict":"accept|reject","is_competition":true,'
         '"kind":"全国赛事","brand_id":"lanqiao 或 null",'
         '"new_brand":null 或 {"brand_id":"xxx","name":"赛事全称",'
         '"official_home":"https://...","kind":"全国赛事"},'
-        '"confidence":"high|medium|low","reason":"一句话中文理由"}'
+        '"confidence":"high|medium|low","reason":"一句话中文理由",'
+        '"registration_start":"YYYY-MM-DD 或 null",'
+        '"registration_end":"YYYY-MM-DD 或 null",'
+        '"competition_start":"YYYY-MM-DD 或 null",'
+        '"competition_end":"YYYY-MM-DD 或 null",'
+        '"schedule_confidence":"high|medium|low|null"}'
     )
     return [
         {"role": "system", "content": SYSTEM_PROMPT},
@@ -171,7 +208,7 @@ def normalize_new_brand(proposal, existing_ids):
     }
 
 
-def normalize_decision(decision, brand_ids):
+def normalize_decision(decision, brand_ids, source_schedule):
     verdict = str(decision.get("verdict") or "").strip().lower()
     if verdict not in ("accept", "reject"):
         verdict = "reject"
@@ -187,7 +224,22 @@ def normalize_decision(decision, brand_ids):
     confidence = str(decision.get("confidence") or "low").strip().lower()
     if confidence not in ("high", "medium", "low"):
         confidence = "low"
-    return {
+
+    # 源日期优先；否则仅接受模型 high 置信的合法日期
+    if has_usable_schedule(source_schedule):
+        schedule = dict(source_schedule)
+    else:
+        conf = str(decision.get("schedule_confidence") or "").strip().lower()
+        if conf not in ("high", "medium", "low"):
+            conf = "low"
+        model_schedule = clean_schedule(decision, "model", conf)
+        # 只有 high 才采用模型日期，medium/low 视为不可靠 → 待核验
+        if conf == "high" and has_usable_schedule(model_schedule):
+            schedule = model_schedule
+        else:
+            schedule = empty_schedule()
+
+    result = {
         "verdict": verdict,
         "is_competition": bool(decision.get("is_competition")),
         "kind": kind,
@@ -196,6 +248,11 @@ def normalize_decision(decision, brand_ids):
         "confidence": confidence,
         "reason": str(decision.get("reason") or "").strip(),
     }
+    for field in SCHEDULE_FIELDS:
+        result[field] = schedule.get(field)
+    result["schedule_source"] = schedule.get("schedule_source")
+    result["schedule_confidence"] = schedule.get("schedule_confidence")
+    return result
 
 
 def iter_candidates(draft):
@@ -240,6 +297,8 @@ def main():
     rejected = []
     errors = []
     candidates = []
+    source_schedule_hits = 0
+    model_schedule_hits = 0
     for path in files:
         with open(path, "r", encoding="utf-8") as handle:
             candidates.extend(iter_candidates(json.load(handle)))
@@ -247,25 +306,40 @@ def main():
 
     for index, record in enumerate(candidates, 1):
         name = record.get("name")
+        source_schedule = schedule_from_source_record(record)
+        need_model_schedule = not has_usable_schedule(source_schedule)
         try:
             raw = call_deepseek(
-                build_messages(record, brands),
+                build_messages(record, brands, source_schedule, need_model_schedule),
                 api_key,
                 args.model,
                 args.base_url,
                 args.timeout,
             )
-            decision = normalize_decision(raw, brand_ids)
+            decision = normalize_decision(raw, brand_ids, source_schedule)
         except ReviewError as error:
             errors.append({"name": name, "link": record.get("link"), "error": str(error)})
             print("  [%d/%d] 失败: %s" % (index, len(candidates), name), file=sys.stderr)
             continue
 
+        if decision.get("schedule_source") == "source":
+            source_schedule_hits += 1
+        elif decision.get("schedule_source") == "model":
+            model_schedule_hits += 1
+
         bucket = accepted if decision["verdict"] == "accept" else rejected
         bucket.append({"record": record, "decision": decision})
+        sched_tag = decision.get("schedule_source") or "none"
         print(
-            "  [%d/%d] %s <- %s (%s)"
-            % (index, len(candidates), decision["verdict"], name, decision["confidence"])
+            "  [%d/%d] %s <- %s (%s) schedule=%s"
+            % (
+                index,
+                len(candidates),
+                decision["verdict"],
+                name,
+                decision["confidence"],
+                sched_tag,
+            )
         )
         time.sleep(max(0.0, args.delay))
 
@@ -277,8 +351,13 @@ def main():
                 "accepted": len(accepted),
                 "rejected": len(rejected),
                 "errors": len(errors),
+                "schedule_from_source": source_schedule_hits,
+                "schedule_from_model": model_schedule_hits,
             },
-            "note": "审核结论，仍需 apply 步骤才会写入生产数据；不含推断日期。",
+            "note": (
+                "审核结论；赛程源优先、模型仅 high 置信补充；"
+                "apply 时有合法赛程+深链接可自动 needs_review=false。"
+            ),
         },
         "accepted": accepted,
         "rejected": rejected,
@@ -293,8 +372,14 @@ def main():
         handle.write("\n")
 
     print(
-        "完成: 通过 %d / 拒绝 %d / 失败 %d"
-        % (len(accepted), len(rejected), len(errors))
+        "完成: 通过 %d / 拒绝 %d / 失败 %d | 源日期 %d / 模型日期 %d"
+        % (
+            len(accepted),
+            len(rejected),
+            len(errors),
+            source_schedule_hits,
+            model_schedule_hits,
+        )
     )
     print("结果: %s" % args.out)
     return 1 if errors else 0

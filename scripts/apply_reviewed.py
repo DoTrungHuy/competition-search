@@ -5,10 +5,11 @@
 
     reviewed.json -> [本脚本] -> data/competitions.json (+ data/brands.json)
 
-只写入 needs_review=true 的记录：公开页面仅显示「见官网详情」，
-不含推断日期。对不上已有品牌、但 DeepSeek 提议了合法新品牌时，
-自动在 brands.json 建该品牌（校验 URL、按 id/官网/名称去重）。
+赛程策略：
+- 决策里带有合法赛程 + 深链接 → needs_review=false，写入日期与 last_checked
+- 否则 → needs_review=true，不写公开赛程字段（前端仅「见官网详情」）
 
+对不上已有品牌、但 DeepSeek 提议了合法新品牌时，自动在 brands.json 建该品牌。
 产出仍需 validate_data.py + npm test 作为闸门；本脚本不推送。
 """
 from __future__ import print_function
@@ -19,13 +20,21 @@ import os
 import sys
 from urllib.parse import urlparse
 
+from schedule_utils import (
+    SCHEDULE_FIELDS,
+    can_auto_verify,
+    clean_schedule,
+    has_usable_schedule,
+    today_iso,
+)
+
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(ROOT, "data")
 DEFAULT_IN = os.path.join(ROOT, "scripts", "out", "reviewed.json")
 
 KINDS = ("全国赛事", "大厂赛事", "国际赛事", "校级赛事")
-# 从草稿记录带入生产记录的白名单字段（不含任何推断赛程字段）。
+# 从草稿记录带入生产记录的白名单字段（赛程由 decision 单独处理）。
 CARRY_FIELDS = (
     "id",
     "edition",
@@ -78,7 +87,6 @@ class BrandResolver:
             return brand_id
         if not new_brand:
             return None
-        # 去重：id / 官网 / 名称任一撞上就复用已有品牌
         existing = (
             self.by_id.get(new_brand["brand_id"])
             or self.by_home.get(normalized_url(new_brand["official_home"]))
@@ -106,7 +114,13 @@ class BrandResolver:
         return brand["brand_id"]
 
 
-def build_record(source, brand_id, kind, brand_home):
+def decision_schedule(decision):
+    conf = decision.get("schedule_confidence") or "high"
+    source = decision.get("schedule_source") or "model"
+    return clean_schedule(decision, source, conf)
+
+
+def build_record(source, brand_id, kind, brand_home, decision):
     record = {}
     for field in CARRY_FIELDS:
         if source.get(field) is not None:
@@ -114,14 +128,31 @@ def build_record(source, brand_id, kind, brand_home):
     record["brand_id"] = brand_id
     record["kind"] = kind
     record["active"] = True
-    record["needs_review"] = True
-    record["last_checked"] = None
-    # link 允许缺省（前端回退品牌官网）；但不能等于品牌首页。
+    record.setdefault("edition", "unknown")
+    record.setdefault("eligibility", "以通知原文为准")
+
     link = source.get("link")
     if link and normalized_url(link) != normalized_url(brand_home):
         record["link"] = link
-    record.setdefault("edition", "unknown")
-    record.setdefault("eligibility", "以通知原文为准")
+    else:
+        link = record.get("link")
+
+    schedule = decision_schedule(decision)
+    if can_auto_verify(link, schedule):
+        record["needs_review"] = False
+        record["last_checked"] = today_iso()
+        for field in SCHEDULE_FIELDS:
+            if schedule.get(field):
+                record[field] = schedule[field]
+        # 可选审计字段（不参与状态计算，validate 允许未知字段）
+        if schedule.get("schedule_source"):
+            record["schedule_source"] = schedule["schedule_source"]
+        if schedule.get("schedule_confidence"):
+            record["schedule_confidence"] = schedule["schedule_confidence"]
+    else:
+        record["needs_review"] = True
+        record["last_checked"] = None
+        # 待核验不得带公开赛程（validate_data 强制）
     return record
 
 
@@ -138,6 +169,8 @@ def apply(reviewed, competitions_doc, brands_doc):
 
     added = []
     skipped = []
+    verified = 0
+    pending = 0
     for entry in reviewed.get("accepted", []):
         source = entry.get("record") or {}
         decision = entry.get("decision") or {}
@@ -154,7 +187,7 @@ def apply(reviewed, competitions_doc, brands_doc):
             continue
 
         brand_home = resolver.by_id[brand_id].get("official_home")
-        record = build_record(source, brand_id, kind, brand_home)
+        record = build_record(source, brand_id, kind, brand_home, decision)
 
         if not record.get("id") or not record.get("track_id"):
             skipped.append({"name": name, "reason": "缺少 id 或 track_id"})
@@ -176,9 +209,22 @@ def apply(reviewed, competitions_doc, brands_doc):
         existing_keys.add(key)
         if record.get("link"):
             existing_links.add(link_norm)
-        added.append({"name": name, "brand_id": brand_id})
+        if record.get("needs_review"):
+            pending += 1
+            flag = "needs_review"
+        else:
+            verified += 1
+            flag = "verified"
+        added.append(
+            {
+                "name": name,
+                "brand_id": brand_id,
+                "status": flag,
+                "schedule_source": decision.get("schedule_source"),
+            }
+        )
 
-    return added, resolver.created, skipped
+    return added, resolver.created, skipped, verified, pending
 
 
 def main():
@@ -197,15 +243,25 @@ def main():
     competitions_doc = load_json(args.competitions)
     brands_doc = load_json(args.brands)
 
-    added, created_brands, skipped = apply(reviewed, competitions_doc, brands_doc)
+    added, created_brands, skipped, verified, pending = apply(
+        reviewed, competitions_doc, brands_doc
+    )
 
     if not args.dry_run and (added or created_brands):
         dump_json(args.brands, brands_doc)
         dump_json(args.competitions, competitions_doc)
 
-    print("新增赛事: %d" % len(added))
+    print("新增赛事: %d（已核验 %d / 待核验 %d）" % (len(added), verified, pending))
     for item in added:
-        print("  + %s [%s]" % (item["name"], item["brand_id"]))
+        print(
+            "  + %s [%s] %s%s"
+            % (
+                item["name"],
+                item["brand_id"],
+                item["status"],
+                (" via " + item["schedule_source"]) if item.get("schedule_source") else "",
+            )
+        )
     print("自动新建品牌: %d %s" % (len(created_brands), created_brands or ""))
     print("跳过: %d" % len(skipped))
     for item in skipped:

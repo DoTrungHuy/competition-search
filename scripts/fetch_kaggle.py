@@ -46,6 +46,8 @@ def derive_edition(item):
 def to_draft_record(item):
     url = competition_url(item)
     ref = str(item.get("ref") or "").rstrip("/").split("/")[-1]
+    deadline = str(item.get("deadline") or "").strip() or None
+    enabled = str(item.get("enabledDate") or "").strip() or None
     return {
         "id": stable_id("kaggle", url),
         "brand_id": "kaggle",
@@ -64,6 +66,12 @@ def to_draft_record(item):
         "draft": True,
         "source_list": "kaggle",
         "source_list_name": "Kaggle Competitions",
+        "deadline": deadline,
+        "source_schedule_text": deadline,
+        "raw_schedule": {
+            "deadline": deadline,
+            "enabledDate": enabled,
+        },
     }
 
 

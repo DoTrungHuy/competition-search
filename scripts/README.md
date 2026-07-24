@@ -46,8 +46,14 @@ python -m playwright install chromium
 
 ```bash
 python scripts/review_drafts.py       # 审核所有 draft_*.json -> reviewed.json（需 DEEPSEEK_API_KEY）
-python scripts/apply_reviewed.py      # 通过的写成 needs_review 合并；对不上品牌时按提议自动建品牌
+python scripts/apply_reviewed.py      # 合并进生产数据；对不上品牌时按提议自动建品牌
 ```
+
+赛程策略（源优先 + 模型补充）：
+
+1. 采集草稿若已有 `source_schedule_text` / `deadline` / 结构化日期，审核阶段**直接解析采用**。
+2. 没有源日期时，DeepSeek 仅从线索提取；**仅 `schedule_confidence=high` 才写入**。
+3. `apply`：有合法赛程且有深链接 → `needs_review=false`；否则待核验且不写公开赛程字段。
 
 ## 本机一键全流程
 
