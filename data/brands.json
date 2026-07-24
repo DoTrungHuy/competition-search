@@ -274,6 +274,36 @@
       ],
       "priority_tier": "P2",
       "active": true
+    },
+    {
+      "brand_id": "national_college_math_contest",
+      "name": "全国高校大学生数学竞赛",
+      "kind": "全国赛事",
+      "official_home": "http://www.cmathc.cn/",
+      "aliases": [],
+      "priority_tier": "P3",
+      "active": true,
+      "auto_added": true
+    },
+    {
+      "brand_id": "xuechuangbei",
+      "name": "学创杯全国大学生创业综合模拟大赛",
+      "kind": "全国赛事",
+      "official_home": "http://www.xcbds.com",
+      "aliases": [],
+      "priority_tier": "P3",
+      "active": true,
+      "auto_added": true
+    },
+    {
+      "brand_id": "ican",
+      "name": "iCAN创新大赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.ican-contest.org",
+      "aliases": [],
+      "priority_tier": "P3",
+      "active": true,
+      "auto_added": true
     }
   ]
 }
