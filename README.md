@@ -52,7 +52,22 @@ scripts/sources.yaml    采集与巡查入口的唯一配置
 python scripts/fetch_campus_cxcy.py
 ```
 
-输出写入 `scripts/out/draft_campus.json`，按 `new / changed / duplicate / rejected` 分类，供人工审核后再决定是否并入生产数据。脚本不会自动写入 `data/competitions.json`。
+输出写入 `scripts/out/draft_campus.json`，按 `new / changed / duplicate / rejected` 分类，供审核后再决定是否并入生产数据。脚本不会自动写入 `data/competitions.json`。
+
+## 自动化管线
+
+每周由 GitHub Actions（`.github/workflows/weekly-sync.yml`）自动执行，也可手动触发：
+
+```text
+采集  fetch_campus_cxcy.py / fetch_devpost.py  -> scripts/out/draft_*.json
+审核  review_drafts.py（DeepSeek）             -> scripts/out/reviewed.json
+合并  apply_reviewed.py                        -> data/competitions.json (+ brands.json)
+闸门  validate_data.py + npm test 通过后才自动提交
+```
+
+- 审核用 DeepSeek，需在仓库 Settings → Secrets 配置 `DEEPSEEK_API_KEY`。
+- 自动合并的记录一律 `needs_review=true`：只显示「见官网详情」，不含推断日期，排在列表末尾。
+- 数据校验或测试不通过则中断，绝不提交坏数据。
 
 ## 视觉来源
 
