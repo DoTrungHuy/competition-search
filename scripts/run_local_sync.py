@@ -79,6 +79,10 @@ def main():
         print("测试未通过，已中止，不提交。", file=sys.stderr)
         return 1
 
+    # 与 GitHub weekly-sync 共用：标记本周已成功，备用 cron 可跳过
+    os.environ.setdefault("SYNC_SOURCE", "local")
+    run([PY, "scripts/write_sync_state.py"])
+
     if not data_changed():
         print("\n本次无数据变更，无需提交。")
         return 0

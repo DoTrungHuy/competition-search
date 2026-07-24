@@ -1,12 +1,25 @@
 name: Weekly competition sync
 
 # 每周定时：采集 -> DeepSeek 审核 -> 合并 -> 校验/测试闸门 -> 通过才自动提交。
-# 需要在仓库 Settings -> Secrets and variables -> Actions 配置 DEEPSEEK_API_KEY。
+# 可靠性参考 X-daily-digest：
+#   - 双 cron、非整点，避开 GitHub Actions 整点高峰
+#   - schedule 若本周已成功跑过则跳过（防备用时段重复烧 API）
+#   - workflow_dispatch 始终可强制跑；force=true 可忽略本周已跑守卫
+# Secrets：DEEPSEEK_API_KEY（必填）；KAGGLE_USERNAME / KAGGLE_KEY（可选）
 
 on:
   schedule:
-    - cron: "0 2 * * 1" # 每周一 02:00 UTC（北京时间 10:00）
-  workflow_dispatch: {}
+    # 主：周一 10:17 北京 = 02:17 UTC
+    - cron: "17 2 * * 1"
+    # 备：周一 22:47 北京 = 14:47 UTC（主时段漏跑/严重延后时补一次）
+    - cron: "47 14 * * 1"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "忽略「本周已成功」守卫，强制再跑一整轮"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -19,34 +32,107 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Show workflow context
+        run: |
+          echo "event=${GITHUB_EVENT_NAME}"
+          echo "ref=${GITHUB_REF}"
+          echo "ref_name=${GITHUB_REF_NAME}"
+          echo "force=${{ github.event.inputs.force }}"
+          echo "shanghai_now=$(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M %Z')"
+          echo "iso_week=$(TZ=Asia/Shanghai date +%G-W%V)"
 
-      - uses: actions/setup-python@v5
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Weekly success guard
+        id: weekly_guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          THIS_WEEK="$(TZ=Asia/Shanghai date +%G-W%V)"
+          STATE="data/sync_state.json"
+          FORCE="${{ github.event.inputs.force }}"
+
+          should_run=true
+          reason="need full pipeline"
+
+          # 对齐 X-daily：定时触发时，若本周产物已存在则跳过（备用槽不重复烧 API）
+          if [[ "$GITHUB_EVENT_NAME" == "schedule" && -f "$STATE" ]]; then
+            LAST_WEEK="$(python -c "import json;print(json.load(open('data/sync_state.json',encoding='utf-8')).get('last_success_week') or '')" 2>/dev/null || true)"
+            if [[ -n "$LAST_WEEK" && "$LAST_WEEK" == "$THIS_WEEK" ]]; then
+              should_run=false
+              reason="this week already succeeded (${THIS_WEEK}); backup slot skipped"
+            fi
+          fi
+
+          # 手动触发始终跑（与 X-daily 一致）；force 仅作日志标记
+          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+            should_run=true
+            if [[ "$FORCE" == "true" ]]; then
+              reason="manual force=true"
+            else
+              reason="manual workflow_dispatch"
+            fi
+          fi
+
+          echo "this_week=${THIS_WEEK}"
+          echo "should_run=${should_run} (${reason})"
+          echo "should_run=${should_run}" >> "$GITHUB_OUTPUT"
+          echo "this_week=${THIS_WEEK}" >> "$GITHUB_OUTPUT"
+          echo "reason=${reason}" >> "$GITHUB_OUTPUT"
+
+      - name: Setup Python
+        if: steps.weekly_guard.outputs.should_run == 'true'
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-scripts.txt
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        if: steps.weekly_guard.outputs.should_run == 'true'
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
 
       - name: Install script deps
-        run: python -m pip install -r requirements-scripts.txt
+        if: steps.weekly_guard.outputs.should_run == 'true'
+        run: |
+          python -m pip install -U pip
+          python -m pip install -r requirements-scripts.txt
+
+      - name: Require DEEPSEEK_API_KEY
+        if: steps.weekly_guard.outputs.should_run == 'true'
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+        run: |
+          test -n "$DEEPSEEK_API_KEY" || {
+            echo "Need repository secret DEEPSEEK_API_KEY"
+            exit 1
+          }
 
       # 采集可能因单个列表反爬/超时报错，但仍会写出部分草稿，故不因此中断。
       - name: Collect campus drafts
+        if: steps.weekly_guard.outputs.should_run == 'true'
         continue-on-error: true
         run: python scripts/fetch_campus_cxcy.py
 
       - name: Collect Devpost drafts
+        if: steps.weekly_guard.outputs.should_run == 'true'
         continue-on-error: true
         run: python scripts/fetch_devpost.py
 
       - name: Collect MLH drafts
+        if: steps.weekly_guard.outputs.should_run == 'true'
         continue-on-error: true
         run: python scripts/fetch_mlh.py
 
       # Kaggle 可选：未配置 KAGGLE_USERNAME/KAGGLE_KEY 时脚本自动跳过。
       - name: Collect Kaggle drafts
+        if: steps.weekly_guard.outputs.should_run == 'true'
         continue-on-error: true
         env:
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
@@ -54,28 +140,51 @@ jobs:
         run: python scripts/fetch_kaggle.py
 
       - name: Review drafts with DeepSeek
+        if: steps.weekly_guard.outputs.should_run == 'true'
         env:
+          TZ: Asia/Shanghai
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: python scripts/review_drafts.py
 
       - name: Apply approved competitions
+        if: steps.weekly_guard.outputs.should_run == 'true'
         run: python scripts/apply_reviewed.py
 
       # 闸门：数据不合规或测试不过则中断，不会提交。
       - name: Validate data (gate)
+        if: steps.weekly_guard.outputs.should_run == 'true'
         run: python scripts/validate_data.py
 
       - name: Run tests (gate)
+        if: steps.weekly_guard.outputs.should_run == 'true'
         run: npm test
 
+      - name: Update weekly sync state
+        if: steps.weekly_guard.outputs.should_run == 'true'
+        env:
+          THIS_WEEK: ${{ steps.weekly_guard.outputs.this_week }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SYNC_SOURCE: github-actions
+        run: python scripts/write_sync_state.py
+
       - name: Commit and push if data changed
+        if: steps.weekly_guard.outputs.should_run == 'true'
         run: |
-          if [ -n "$(git status --porcelain data/)" ]; then
-            git config user.name "competition-sync-bot"
-            git config user.email "actions@users.noreply.github.com"
-            git add data/
-            git commit -m "chore(data): weekly auto-sync reviewed competitions"
-            git push
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add data/
+
+          if git diff --staged --quiet; then
+            echo "本周无数据变更（含 sync_state）。"
           else
-            echo "本周无数据变更。"
+            WEEK="$(TZ=Asia/Shanghai date +%G-W%V)"
+            git commit -m "chore(data): weekly auto-sync reviewed competitions (${WEEK})"
+            git push origin "HEAD:${{ github.ref_name }}"
           fi
+
+      - name: Skip notice
+        if: steps.weekly_guard.outputs.should_run != 'true'
+        run: |
+          echo "Skipped: ${{ steps.weekly_guard.outputs.reason }}"
+          echo "this_week=${{ steps.weekly_guard.outputs.this_week }}"

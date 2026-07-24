@@ -59,6 +59,8 @@ python scripts/run_local_sync.py --no-push       # 只提交不推送
 
 天池等国内/反爬源建议用它在**本机**跑（国内 IP + 真实浏览器更易通过）；国际 API 源（Devpost/MLH/Kaggle）也可交给 GitHub Actions 的每周工作流。配合 Windows 任务计划程序调用 `run_local_sync.py` 即可每周自动运行。
 
+GitHub 周更（对齐 X-daily）：周一 **10:17** 主跑 + **22:47** 备用（北京时间，非整点）；成功后写 `data/sync_state.json`，同周备用槽跳过。手动 Run workflow 始终会跑。
+
 ## 入口清单
 
 ```bash
