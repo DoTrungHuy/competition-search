@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Node
+node_modules/
+
+# Local drafts and reports
+scripts/out/
+reports/
+
+# AI agent tooling and internal docs (not for GitHub)
+docs/
+AGENTS.md
+.grok/
+.claude/
+
+# Editors and operating systems
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+

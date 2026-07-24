@@ -1,0 +1,1165 @@
+{
+  "meta": {
+    "schema_version": 3,
+    "disclaimer": "信息可能滞后，报名与规则以各竞赛及学校通知原文为准。",
+    "window_years": 2,
+    "date_policy": "只有 needs_review=false 的日期参与公开状态计算"
+  },
+  "competitions": [
+    {
+      "id": "lanqiao-16",
+      "brand_id": "lanqiao",
+      "name": "第16届蓝桥杯全国软件和信息技术专业人才大赛",
+      "category": [
+        "算法",
+        "软件开发"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "工业和信息化部人才交流中心等",
+      "description": "软件、电子、人工智能等赛道，覆盖面广。",
+      "eligibility": "高校在校生；个人赛为主",
+      "tags": [
+        "C++",
+        "Java",
+        "Python"
+      ],
+      "has_campus_notice": true,
+      "active": true,
+      "edition": "16",
+      "track_id": "main",
+      "last_checked": null,
+      "needs_review": true
+    },
+    {
+      "id": "lanqiao-17",
+      "brand_id": "lanqiao",
+      "name": "第17届蓝桥杯全国软件和信息技术专业人才大赛",
+      "category": [
+        "算法",
+        "软件开发"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "工业和信息化部人才交流中心等",
+      "link": "https://dasai.lanqiao.cn/pages/v7/dasai/competition/individual_competition.html",
+      "description": "第十七届蓝桥杯个人赛软件、电子与鸿蒙应用开发科目。",
+      "eligibility": "高校在校生；个人赛为主",
+      "tags": [
+        "C++",
+        "Java",
+        "Python"
+      ],
+      "has_campus_notice": true,
+      "active": true,
+      "edition": "17",
+      "track_id": "main",
+      "registration_start": "2025-10-20",
+      "registration_end": "2026-03-11",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "gplt-2025",
+      "brand_id": "gplt",
+      "name": "2025 中国高校计算机大赛-团体程序设计天梯赛",
+      "category": [
+        "算法"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "教育部高等学校计算机类专业教学指导委员会等",
+      "description": "高校团体程序设计竞赛。",
+      "eligibility": "在校生；以团队为单位",
+      "tags": [
+        "团队",
+        "GPLT"
+      ],
+      "has_campus_notice": true,
+      "active": true,
+      "edition": "2025",
+      "track_id": "main",
+      "last_checked": null,
+      "needs_review": true
+    },
+    {
+      "id": "gplt-2026",
+      "brand_id": "gplt",
+      "name": "2026 中国高校计算机大赛-团体程序设计天梯赛",
+      "category": [
+        "算法"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "教指委等",
+      "description": "以当年报名系统与章程为准。",
+      "eligibility": "在校生；团队参赛",
+      "tags": [
+        "团队"
+      ],
+      "active": true,
+      "edition": "2026",
+      "track_id": "main",
+      "last_checked": null,
+      "needs_review": true
+    },
+    {
+      "id": "ciscn-2025-works",
+      "brand_id": "ciscn",
+      "name": "第十八届全国大学生信息安全竞赛作品赛",
+      "category": [
+        "安全"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "教育部高等学校信息安全类专业教学指导委员会等",
+      "link": "https://www.ciscn.cn/competition/securityCompetition?compet_id=43",
+      "description": "2025 年作品赛，官方赛程为 5 月至 8 月。",
+      "eligibility": "高校在校生；以作品赛章程为准",
+      "tags": [
+        "作品赛",
+        "安全"
+      ],
+      "active": true,
+      "edition": "2025",
+      "track_id": "works",
+      "status_override": "已结束",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "ciscn-2025-innovation",
+      "brand_id": "ciscn",
+      "name": "第十八届全国大学生信息安全竞赛创新实践能力赛",
+      "category": [
+        "安全"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "教育部高等学校网络空间安全专业教学指导委员会等",
+      "link": "https://www.ciscn.cn/index.php/announcement/view/384",
+      "description": "2025 年创新实践能力赛，官方公告记录全国总决赛于 7 月举行。",
+      "eligibility": "高校在校生；以创新实践能力赛章程为准",
+      "tags": [
+        "CTF",
+        "安全"
+      ],
+      "active": true,
+      "edition": "2025",
+      "track_id": "innovation",
+      "status_override": "已结束",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "cnsoftbei-13",
+      "brand_id": "cnsoftbei",
+      "name": "第13届中国软件杯大学生软件设计大赛",
+      "category": [
+        "软件开发"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "工业和信息化部等",
+      "description": "企业命题软件设计赛。",
+      "eligibility": "高校在校生；可组队",
+      "tags": [
+        "软件设计"
+      ],
+      "active": true,
+      "edition": "13",
+      "track_id": "main",
+      "last_checked": null,
+      "needs_review": true
+    },
+    {
+      "id": "cnsoftbei-14",
+      "brand_id": "cnsoftbei",
+      "name": "第14届中国软件杯大学生软件设计大赛",
+      "category": [
+        "软件开发"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "工业和信息化部等",
+      "link": "https://www.cnsoftbei.com/content-1-1101-1.html",
+      "description": "软件设计，贴近产业题目。",
+      "eligibility": "高校在校生；可组队",
+      "tags": [
+        "软件设计"
+      ],
+      "active": true,
+      "edition": "14",
+      "track_id": "main",
+      "published_at": "2025-04-25",
+      "competition_start": "2025-04-15",
+      "competition_end": "2025-08-28",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "cnsoftbei-15",
+      "brand_id": "cnsoftbei",
+      "name": "第15届中国软件杯大学生软件设计大赛",
+      "category": [
+        "软件开发"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "工业和信息化部等",
+      "link": "https://www.cnsoftbei.com/content-1-1349-1.html",
+      "description": "官方通知将报名及作品提交截止时间延长至 2026 年 7 月 20 日 15:00。",
+      "eligibility": "高校在校生",
+      "tags": [
+        "软件设计"
+      ],
+      "active": true,
+      "edition": "15",
+      "track_id": "main",
+      "published_at": "2026-06-18",
+      "registration_start": "2026-03-24",
+      "registration_end": "2026-07-20",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "jsjzs-2025",
+      "brand_id": "jssj",
+      "name": "2025 中国大学生计算机设计大赛",
+      "category": [
+        "软件开发",
+        "AI",
+        "综合"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "教指委等",
+      "link": "https://jsjds.blcu.edu.cn/info/1043/2484.htm",
+      "description": "多赛道作品类竞赛。",
+      "eligibility": "高校在校生；按赛道组队",
+      "tags": [
+        "作品赛"
+      ],
+      "active": true,
+      "edition": "2025",
+      "track_id": "main",
+      "published_at": "2025-01-04",
+      "competition_end": "2025-09-28",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "jsjzs-2026",
+      "brand_id": "jssj",
+      "name": "2026 中国大学生计算机设计大赛",
+      "category": [
+        "软件开发",
+        "AI",
+        "综合"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "中国大学生计算机设计大赛组织委员会",
+      "link": "https://jsjds.blcu.edu.cn/info/1042/2294.htm",
+      "description": "第十九届大赛分设 11 个大类，国赛六个决赛现场依次举行。",
+      "eligibility": "2026 年在籍本科生；国赛作品须经省级赛或相当赛区上推",
+      "tags": [
+        "作品赛"
+      ],
+      "active": true,
+      "edition": "2026",
+      "track_id": "main",
+      "published_at": "2026-03-01",
+      "competition_start": "2026-07-17",
+      "competition_end": "2026-08-20",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "c4-ai-2025",
+      "brand_id": "c4",
+      "name": "中国高校计算机大赛-人工智能创意赛 2025",
+      "category": [
+        "AI"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "全国高等学校计算机教育研究会、浙江大学、百度",
+      "link": "https://aicontest.baidu.com/rules.html",
+      "description": "第八届中国高校计算机大赛人工智能创意赛，设置飞桨文心赛道。",
+      "eligibility": "高校在校生；按简章组队",
+      "tags": [
+        "AI"
+      ],
+      "active": true,
+      "edition": "2025",
+      "track_id": "ai",
+      "registration_end": "2025-07-25",
+      "status_override": "已结束",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "c4-bigdata-2025",
+      "brand_id": "c4",
+      "name": "中国高校计算机大赛-大数据挑战赛 2025",
+      "category": [
+        "大数据",
+        "AI"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "全国高等学校计算机教育研究会、清华大学",
+      "link": "https://www.tsinghua.edu.cn/info/1180/120893.htm",
+      "description": "2025 中国高校计算机大赛大数据挑战赛，聚焦时间序列数据建模与预测。",
+      "eligibility": "高校在校生",
+      "tags": [
+        "大数据"
+      ],
+      "active": true,
+      "edition": "2025",
+      "track_id": "big-data",
+      "competition_end": "2025-08-28",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "c4-net-2025",
+      "brand_id": "c4",
+      "name": "中国高校计算机大赛-网络技术挑战赛 2025",
+      "category": [
+        "系统",
+        "综合"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "全国高等学校计算机教育研究会",
+      "link": "http://net.c4best.cn/details/entryGuide",
+      "description": "第十届中国高校计算机大赛网络技术挑战赛。",
+      "eligibility": "高校在校生",
+      "tags": [
+        "网络"
+      ],
+      "active": true,
+      "edition": "2025",
+      "track_id": "network",
+      "registration_start": "2025-02-25",
+      "registration_end": "2025-04-06",
+      "status_override": "已结束",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "syscap-2025-intelligent-computing",
+      "brand_id": "sys",
+      "name": "2025 全国大学生计算机系统能力大赛智能计算创新设计赛",
+      "category": [
+        "系统",
+        "AI"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "全国高等学校计算机教育研究会等",
+      "link": "https://course.educg.net/pages/contest/contest.jsp?contestCID=0&contestID=-Gi89ZfJ7e0&my=false&tabDocID=3416957",
+      "description": "计算机系统能力大赛的智能计算创新设计赛。",
+      "eligibility": "高校在校生；以赛道章程为准",
+      "tags": [
+        "系统能力",
+        "智能计算"
+      ],
+      "active": true,
+      "edition": "2025",
+      "track_id": "intelligent-computing",
+      "competition_end": "2025-11-30",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "syscap-2025-database",
+      "brand_id": "sys",
+      "name": "2025 全国大学生计算机系统能力大赛数据库管理系统设计赛",
+      "category": [
+        "系统",
+        "软件开发"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "全国高等学校计算机教育研究会等",
+      "link": "https://course.educg.net/pages/contest/contest.jsp?contestCID=0&contestID=TdDHMaJLFgs&my=false&tabDocID=301000",
+      "description": "计算机系统能力大赛的数据库管理系统设计赛。",
+      "eligibility": "高校在校生；以赛道章程为准",
+      "tags": [
+        "系统能力",
+        "数据库"
+      ],
+      "active": true,
+      "edition": "2025",
+      "track_id": "database",
+      "competition_end": "2025-09-10",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "syscap-2026-os-kernel",
+      "brand_id": "sys",
+      "name": "2026 全国大学生计算机系统能力大赛操作系统设计赛（OS 内核实现赛道）",
+      "category": [
+        "系统"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "全国高等学校计算机教育研究会等",
+      "link": "https://course.educg.net/pages/contest/contest.jsp?contestCID=0&contestID=Z7zWWwTfti0&my=false&tabDocID=3467784",
+      "description": "操作系统设计赛全国赛的 OS 内核实现赛道。",
+      "eligibility": "全国高校在校生，以赛道章程为准",
+      "tags": [
+        "系统能力",
+        "OS"
+      ],
+      "active": true,
+      "edition": "2026",
+      "track_id": "os-kernel",
+      "competition_start": "2026-03-18",
+      "competition_end": "2026-08-12",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "syscap-2026-os-function",
+      "brand_id": "sys",
+      "name": "2026 全国大学生计算机系统能力大赛操作系统设计赛（OS 功能挑战赛道）",
+      "category": [
+        "系统"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "全国高等学校计算机教育研究会等",
+      "link": "https://course.educg.net/pages/contest/contest.jsp?contestCID=0&contestID=Y8zmbRcqh1Q&my=false&tabDocID=3901252",
+      "description": "操作系统设计赛全国赛的 OS 功能挑战赛道。",
+      "eligibility": "全国高校在校生，以赛道章程为准",
+      "tags": [
+        "系统能力",
+        "OS"
+      ],
+      "active": true,
+      "edition": "2026",
+      "track_id": "os-function",
+      "competition_start": "2026-03-18",
+      "competition_end": "2026-08-12",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "syscap-2026-intelligent-system",
+      "brand_id": "sys",
+      "name": "2026 全国大学生计算机系统能力大赛智能系统创新设计赛",
+      "category": [
+        "系统",
+        "AI"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "全国高等学校计算机教育研究会等",
+      "link": "https://course.educg.net/pages/contest/contest.jsp?contestCID=0&contestID=y8uWyHEWHNo&my=false&tabDocID=13707175",
+      "description": "面向智能系统研究、设计、开发和应用能力的独立赛道。",
+      "eligibility": "全国普通高等学校全日制在校本科生",
+      "tags": [
+        "系统能力",
+        "AI"
+      ],
+      "active": true,
+      "edition": "2026",
+      "track_id": "intelligent-system",
+      "registration_start": "2026-03-09",
+      "registration_end": "2026-05-27",
+      "competition_start": "2026-03-09",
+      "competition_end": "2026-09-01",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "syscap-2026-intelligent-computing",
+      "brand_id": "sys",
+      "name": "2026 全国大学生计算机系统能力大赛智能计算创新设计赛（先导杯）",
+      "category": [
+        "系统",
+        "AI"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "全国高等学校计算机教育研究会等",
+      "link": "https://course.educg.net/pages/contest/contest.jsp?contestCID=0&contestID=dyN7ryomFdw&my=false&tabDocID=4408323",
+      "description": "面向国产科学智算生态的智能计算创新设计赛道。",
+      "eligibility": "高校在校生，以赛道章程为准",
+      "tags": [
+        "系统能力",
+        "AI",
+        "智算"
+      ],
+      "active": true,
+      "edition": "2026",
+      "track_id": "intelligent-computing",
+      "competition_start": "2026-06-24",
+      "competition_end": "2026-11-01",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "mcm-cn-2024",
+      "brand_id": "mcm_cn",
+      "name": "2024 高教社杯全国大学生数学建模竞赛",
+      "category": [
+        "数模",
+        "综合"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "中国工业与应用数学学会",
+      "link": "https://www.mcm.edu.cn/html_cn/node/2506eb88a1fc2ac28491aaa8eab303b8.html",
+      "description": "全国大学生数学建模竞赛。",
+      "eligibility": "在校生；3 人一队",
+      "tags": [
+        "数模"
+      ],
+      "active": true,
+      "edition": "2024",
+      "track_id": "main",
+      "published_at": "2024-04-09",
+      "competition_start": "2024-09-05",
+      "competition_end": "2024-09-08",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "mcm-cn-2025",
+      "brand_id": "mcm_cn",
+      "name": "2025 高教社杯全国大学生数学建模竞赛",
+      "category": [
+        "数模",
+        "综合"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "中国工业与应用数学学会",
+      "link": "https://www.mcm.edu.cn/html_cn/node/26a645851659040725c2892fb1935f95.html",
+      "description": "2025 年全国大学生数学建模竞赛。",
+      "eligibility": "在校生；3 人一队",
+      "tags": [
+        "数模"
+      ],
+      "has_campus_notice": true,
+      "active": true,
+      "edition": "2025",
+      "track_id": "main",
+      "published_at": "2025-04-01",
+      "competition_start": "2025-09-04",
+      "competition_end": "2025-09-07",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "mcm-cn-2026",
+      "brand_id": "mcm_cn",
+      "name": "2026 高教社杯全国大学生数学建模竞赛",
+      "category": [
+        "数模",
+        "综合"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "中国工业与应用数学学会",
+      "link": "https://www.mcm.edu.cn/html_cn/node/d6fd7a0ee8f3a3d525e30af1c365fcec.html",
+      "description": "2026 年全国大学生数学建模竞赛。官网已发布第一次通知，并公布赛题将于竞赛开始时上线。",
+      "eligibility": "在校生；3 人一队；报名与论文提交通过中国知网通道",
+      "tags": [
+        "数模"
+      ],
+      "has_campus_notice": true,
+      "active": true,
+      "edition": "2026",
+      "track_id": "main",
+      "published_at": "2026-03-24",
+      "competition_start": "2026-09-10",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "mcm-icm-2025",
+      "brand_id": "mcm_us",
+      "name": "2025 MCM/ICM",
+      "category": [
+        "数模",
+        "综合"
+      ],
+      "level": "国际级",
+      "kind": "国际赛事",
+      "info_channel": "官方渠道",
+      "organizer": "COMAP",
+      "link": "https://www.contest.comap.com/undergraduate/contests/mcm/contests/2025/results/",
+      "description": "美国大学生数学建模竞赛。",
+      "eligibility": "在校生；3 人一队",
+      "tags": [
+        "MCM",
+        "ICM"
+      ],
+      "active": true,
+      "edition": "2025",
+      "track_id": "main",
+      "status_override": "已结束",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "mcm-icm-2026",
+      "brand_id": "mcm_us",
+      "name": "2026 MCM/ICM",
+      "category": [
+        "数模",
+        "综合"
+      ],
+      "level": "国际级",
+      "kind": "国际赛事",
+      "info_channel": "官方渠道",
+      "organizer": "COMAP",
+      "link": "https://www.contest.comap.com/undergraduate/contests/mcm/contests/2026/results/",
+      "description": "COMAP 2026 年 MCM/ICM 竞赛。",
+      "eligibility": "同一学校在读学生；每队 1-3 人并由顾问完成注册",
+      "tags": [
+        "MCM",
+        "ICM"
+      ],
+      "active": true,
+      "edition": "2026",
+      "track_id": "main",
+      "registration_end": "2026-01-29",
+      "competition_start": "2026-01-29",
+      "competition_end": "2026-02-02",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "mcm-icm-2027",
+      "brand_id": "mcm_us",
+      "name": "2027 MCM/ICM",
+      "category": [
+        "数模",
+        "综合"
+      ],
+      "level": "国际级",
+      "kind": "国际赛事",
+      "info_channel": "官方渠道",
+      "organizer": "COMAP",
+      "link": "https://www.contest.comap.com/undergraduate/contests/mcm/instructions.html",
+      "description": "COMAP 2027 年 MCM/ICM。官方规则页已公布赛程与报名截止（2027-01-28 前）；当前注册入口显示暂未开放，开放后以官网为准。",
+      "eligibility": "同一学校在读学生；每队最多 3 人，由顾问完成注册",
+      "tags": [
+        "MCM",
+        "ICM"
+      ],
+      "active": true,
+      "edition": "2027",
+      "track_id": "main",
+      "competition_start": "2027-01-28",
+      "competition_end": "2027-02-01",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "internetplus-2025",
+      "brand_id": "internetplus",
+      "name": "2025 中国国际大学生创新大赛",
+      "category": [
+        "综合"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "教育部等",
+      "link": "https://cy.ncss.cn/information/2c93f4c696430957019685b7f7090018",
+      "description": "综合创新创业类大赛（原互联网+）。",
+      "eligibility": "在校生；以项目组队",
+      "tags": [
+        "双创"
+      ],
+      "has_campus_notice": true,
+      "active": true,
+      "edition": "2025",
+      "track_id": "main",
+      "published_at": "2025-04-30",
+      "status_override": "已结束",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "internetplus-2026",
+      "brand_id": "internetplus",
+      "name": "2026 中国国际大学生创新大赛",
+      "category": [
+        "综合"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "教育部等",
+      "description": "关注校内选拔与省赛通知。",
+      "eligibility": "在校生；项目制",
+      "tags": [
+        "双创"
+      ],
+      "has_campus_notice": true,
+      "active": true,
+      "edition": "2026",
+      "track_id": "main",
+      "last_checked": null,
+      "needs_review": true
+    },
+    {
+      "id": "challengecup-2025",
+      "brand_id": "challengecup",
+      "name": "第十九届挑战杯全国大学生课外学术科技作品竞赛",
+      "category": [
+        "综合"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "共青团中央等",
+      "link": "https://2025.tiaozhanbei.net/d49/article/676/",
+      "description": "挑战杯主体赛。",
+      "eligibility": "在校生；作品/项目组队",
+      "tags": [
+        "挑战杯"
+      ],
+      "has_campus_notice": true,
+      "active": true,
+      "edition": "2025",
+      "track_id": "main",
+      "competition_end": "2025-11-03",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "icpc-2024-regionals",
+      "brand_id": "icpc",
+      "name": "ICPC 2024 亚洲区域赛",
+      "category": [
+        "算法"
+      ],
+      "level": "国际级",
+      "kind": "国际赛事",
+      "info_channel": "官方渠道",
+      "organizer": "ICPC Foundation",
+      "link": "https://icpc.global/regionals/finder/World-Finals-2025",
+      "description": "国际大学生程序设计竞赛区域赛。",
+      "eligibility": "在校生；3 人一队",
+      "tags": [
+        "ICPC",
+        "ACM"
+      ],
+      "active": true,
+      "edition": "2024",
+      "track_id": "asia-regionals",
+      "status_override": "已结束",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "icpc-2025-regionals",
+      "brand_id": "icpc",
+      "name": "ICPC 2025 亚洲区域赛",
+      "category": [
+        "算法"
+      ],
+      "level": "国际级",
+      "kind": "国际赛事",
+      "info_channel": "官方渠道",
+      "organizer": "ICPC Foundation",
+      "link": "https://icpc.global/regionals/finder/AEC-2026",
+      "description": "ICPC 亚洲东部区域赛，官方赛历列出 2025 年各站。",
+      "eligibility": "在校生；3 人一队",
+      "tags": [
+        "ICPC"
+      ],
+      "has_campus_notice": true,
+      "active": true,
+      "edition": "2025",
+      "track_id": "asia-regionals",
+      "competition_start": "2025-10-19",
+      "competition_end": "2025-11-30",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "matiji-2025",
+      "brand_id": "matiji",
+      "name": "2025 码蹄杯全国大学生程序设计大赛",
+      "category": [
+        "算法"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "相关组委会",
+      "description": "程序设计类竞赛。",
+      "eligibility": "高校在校生",
+      "tags": [
+        "程序设计"
+      ],
+      "active": true,
+      "edition": "2025",
+      "track_id": "main",
+      "last_checked": null,
+      "needs_review": true
+    },
+    {
+      "id": "huawei-ict-2024-2025",
+      "brand_id": "huawei_ict",
+      "name": "2024-2025 华为 ICT 大赛",
+      "category": [
+        "综合",
+        "AI"
+      ],
+      "level": "国际级",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "organizer": "华为",
+      "link": "https://www.huawei.com/minisite/ict-competition-2024-2025-global/en/index.html",
+      "description": "实践赛与创新赛等方向。",
+      "eligibility": "高校学生；分赛道",
+      "tags": [
+        "ICT",
+        "云"
+      ],
+      "career_benefit": true,
+      "active": true,
+      "edition": "2024-2025",
+      "track_id": "main",
+      "competition_end": "2025-05-24",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "huawei-ict-2025-2026",
+      "brand_id": "huawei_ict",
+      "name": "华为 ICT 大赛 2025-2026 全球总决赛",
+      "category": [
+        "综合",
+        "AI"
+      ],
+      "level": "国际级",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "organizer": "华为",
+      "link": "https://www.huawei.com/minisite/ict-competition-2025-2026-global/cn/index.html",
+      "description": "第十届华为 ICT 大赛全球总决赛，包含实践赛、创新赛与编程赛等方向。",
+      "eligibility": "晋级全球总决赛的高校参赛队伍",
+      "tags": [
+        "ICT"
+      ],
+      "career_benefit": true,
+      "active": true,
+      "edition": "2025-2026",
+      "track_id": "global-final",
+      "competition_start": "2026-06-02",
+      "competition_end": "2026-06-05",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "huawei-codecraft-2025",
+      "brand_id": "huawei_codecraft",
+      "name": "2025 华为软件精英挑战赛",
+      "category": [
+        "算法",
+        "软件开发"
+      ],
+      "level": "国家级",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "organizer": "华为",
+      "link": "https://developer.huaweicloud.com/codecraft2025",
+      "description": "2025 年华为软件精英挑战赛，全球总决赛于 4 月 20 日结束。",
+      "eligibility": "高校在校生；按简章组队",
+      "tags": [
+        "软挑"
+      ],
+      "career_benefit": true,
+      "active": true,
+      "edition": "2025",
+      "track_id": "main",
+      "competition_end": "2025-04-20",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "huawei-codecraft-2026",
+      "brand_id": "huawei_codecraft",
+      "name": "2026 第十二届华为软件精英挑战赛",
+      "category": [
+        "算法",
+        "软件开发"
+      ],
+      "level": "国家级",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "organizer": "华为",
+      "link": "https://www.huaweicloud.com/news/2026/20260517153529145.html",
+      "description": "以“普朗克计划”为主题，经过区域初赛、区域复赛和全球总决赛。",
+      "eligibility": "全球高校在校大学生，按赛区规则参赛",
+      "tags": [
+        "软挑"
+      ],
+      "career_benefit": true,
+      "active": true,
+      "edition": "2026",
+      "track_id": "main",
+      "registration_start": "2026-03-16",
+      "registration_end": "2026-04-09",
+      "competition_start": "2026-03-16",
+      "competition_end": "2026-05-17",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "baidu-star-2025",
+      "brand_id": "baidu_star",
+      "name": "2025 百度之星程序设计大赛",
+      "category": [
+        "算法"
+      ],
+      "level": "国家级",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "organizer": "百度",
+      "description": "程序设计竞赛。",
+      "eligibility": "在校生；以简章为准",
+      "tags": [
+        "算法"
+      ],
+      "active": true,
+      "edition": "2025",
+      "track_id": "main",
+      "last_checked": null,
+      "needs_review": true
+    },
+    {
+      "id": "tencent-cloud-security-hackathon-2025",
+      "brand_id": "tencent",
+      "name": "腾讯云黑客松·第一届智能渗透挑战赛",
+      "category": [
+        "AI",
+        "安全"
+      ],
+      "level": "国家级",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "organizer": "腾讯云、腾讯安全",
+      "link": "https://tch.cloud.tencent.com/contest/37",
+      "description": "面向智能渗透与安全攻防的腾讯云黑客松专项赛事。",
+      "eligibility": "以赛事详情页的参赛规则为准",
+      "tags": [
+        "安全",
+        "AI"
+      ],
+      "active": true,
+      "edition": "2025",
+      "track_id": "security-hackathon",
+      "registration_start": "2025-10-23",
+      "competition_start": "2025-11-10",
+      "competition_end": "2025-11-28",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "iot-2025",
+      "brand_id": "iot",
+      "name": "2025 全国大学生物联网设计竞赛",
+      "category": [
+        "物联网",
+        "综合"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "全国大学生物联网设计竞赛组织委员会",
+      "link": "https://iot.sjtu.edu.cn/show.aspx?flag=2&info_id=5057&info_lb=34",
+      "description": "2025 年全国大学生物联网设计竞赛，全国总决赛于 8 月 27 日至 29 日举行。",
+      "eligibility": "高校在校生；按赛区组队",
+      "tags": [
+        "IoT"
+      ],
+      "active": true,
+      "edition": "2025",
+      "track_id": "main",
+      "competition_start": "2025-08-27",
+      "competition_end": "2025-08-29",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "robomaster-2025",
+      "brand_id": "robomaster",
+      "name": "RoboMaster 2025 机甲大师赛",
+      "category": [
+        "机器人",
+        "综合"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "大疆等",
+      "link": "https://www.robomaster.com/zh-CN/resource/pages/announcement/1857",
+      "description": "RoboMaster 2025 赛季高校机器人对抗与技术竞赛。",
+      "eligibility": "高校战队；按赛事章程",
+      "tags": [
+        "机器人"
+      ],
+      "active": true,
+      "edition": "2025",
+      "track_id": "main",
+      "competition_start": "2024-10-23",
+      "competition_end": "2025-08-25",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "tianchi-532479-2026",
+      "brand_id": "tianchi",
+      "edition": "2026",
+      "track_id": "ccks-behavior-steering",
+      "name": "CCKS2026 任务七：大模型行为调控评测",
+      "category": [
+        "人工智能",
+        "自然语言处理"
+      ],
+      "level": "公开赛事",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "organizer": "中国中文信息学会相关评测任务组",
+      "registration_start": "2026-05-01",
+      "registration_end": "2026-07-15",
+      "competition_start": "2026-05-01",
+      "competition_end": "2026-08-15",
+      "link": "https://tianchi.aliyun.com/competition/entrance/532479",
+      "description": "面向大模型行为引导、知识调控与可控生成的评测任务。",
+      "eligibility": "可个人参赛或 2-3 人组队，具体以官方规则为准",
+      "tags": [
+        "大模型",
+        "自然语言处理",
+        "天池"
+      ],
+      "has_campus_notice": false,
+      "active": true,
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "tianchi-532486-2026",
+      "brand_id": "tianchi",
+      "edition": "2026",
+      "track_id": "afac-agent-memory",
+      "name": "AFAC2026 挑战组赛题四：金融长文本 Agent 动态记忆压缩与高效问答",
+      "category": [
+        "人工智能",
+        "金融科技"
+      ],
+      "level": "公开赛事",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "organizer": "AFAC2026 金融智能创新大赛组委会",
+      "registration_start": "2026-06-08",
+      "registration_end": "2026-07-20",
+      "competition_start": "2026-06-08",
+      "competition_end": "2026-07-25",
+      "link": "https://tianchi.aliyun.com/competition/entrance/532486",
+      "description": "面向金融长文本智能体记忆压缩和高效问答的算法挑战。",
+      "eligibility": "可个人参赛或最多 3 人组队，具体以官方规则为准",
+      "tags": [
+        "智能体",
+        "大模型",
+        "金融科技",
+        "天池"
+      ],
+      "has_campus_notice": false,
+      "active": true,
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "ciscn-2026-works",
+      "brand_id": "ciscn",
+      "edition": "2026",
+      "track_id": "works",
+      "name": "第十九届全国大学生信息安全竞赛作品赛",
+      "category": [
+        "安全"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "全国大学生信息安全竞赛组委会",
+      "link": "https://www.ciscn.cn/competition/securityCompetition?compet_id=45",
+      "description": "全国大学生信息安全竞赛作品赛，官网当前显示赛道仍在推进。",
+      "eligibility": "在校大学生，具体组队和作品要求以官方通知为准",
+      "tags": [
+        "网络安全",
+        "信息安全",
+        "作品赛"
+      ],
+      "has_campus_notice": true,
+      "active": true,
+      "status_override": "进行中",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    },
+    {
+      "id": "ciscn-2026-innovation",
+      "brand_id": "ciscn",
+      "edition": "2026",
+      "track_id": "innovation-practice",
+      "name": "第十九届全国大学生信息安全竞赛创新实践能力赛",
+      "category": [
+        "安全"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "全国大学生信息安全竞赛组委会",
+      "link": "https://www.ciscn.cn/competition/securityCompetition?compet_id=44",
+      "description": "创新实践能力赛独立赛道，当前时间信息仍需进一步核对。",
+      "eligibility": "以官方赛道说明为准",
+      "tags": [
+        "网络安全",
+        "信息安全"
+      ],
+      "has_campus_notice": true,
+      "active": true,
+      "status_override": "进行中",
+      "last_checked": "2026-07-24",
+      "needs_review": false
+    }
+  ]
+}

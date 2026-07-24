@@ -1,0 +1,4 @@
+beautifulsoup4>=4.12,<5
+PyYAML>=6,<7
+requests>=2.31,<3
+

@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "brands": [
+    {
+      "brand_id": "lanqiao",
+      "name": "蓝桥杯",
+      "kind": "全国赛事",
+      "official_home": "https://dasai.lanqiao.cn/",
+      "aliases": ["蓝桥", "蓝桥杯大赛"],
+      "priority_tier": "P0",
+      "active": true
+    },
+    {
+      "brand_id": "gplt",
+      "name": "团体程序设计天梯赛",
+      "kind": "全国赛事",
+      "official_home": "https://gplt.patest.cn/",
+      "aliases": ["天梯赛", "GPLT"],
+      "priority_tier": "P0",
+      "active": true
+    },
+    {
+      "brand_id": "ciscn",
+      "name": "全国大学生信息安全竞赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.ciscn.cn/",
+      "aliases": ["CISCN", "信息安全竞赛"],
+      "priority_tier": "P0",
+      "active": true
+    },
+    {
+      "brand_id": "cnsoftbei",
+      "name": "中国软件杯",
+      "kind": "全国赛事",
+      "official_home": "https://www.cnsoftbei.com/",
+      "aliases": ["软件杯"],
+      "priority_tier": "P0",
+      "active": true
+    },
+    {
+      "brand_id": "jssj",
+      "name": "中国大学生计算机设计大赛",
+      "kind": "全国赛事",
+      "official_home": "https://jsjds.blcu.edu.cn/",
+      "aliases": ["计算机设计大赛"],
+      "priority_tier": "P0",
+      "active": true
+    },
+    {
+      "brand_id": "c4",
+      "name": "中国高校计算机大赛",
+      "kind": "全国赛事",
+      "official_home": "http://www.c4best.cn/",
+      "aliases": ["C4", "高校计算机大赛"],
+      "priority_tier": "P0",
+      "active": true
+    },
+    {
+      "brand_id": "sys",
+      "name": "全国大学生计算机系统能力大赛",
+      "kind": "全国赛事",
+      "official_home": "https://compiler.educg.net/",
+      "aliases": ["系统能力大赛"],
+      "priority_tier": "P0",
+      "active": true
+    },
+    {
+      "brand_id": "mcm_cn",
+      "name": "全国大学生数学建模竞赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.mcm.edu.cn/",
+      "aliases": ["国赛数模", "高教社杯"],
+      "priority_tier": "P0",
+      "active": true
+    },
+    {
+      "brand_id": "mcm_us",
+      "name": "MCM/ICM",
+      "kind": "国际赛事",
+      "official_home": "https://www.contest.comap.com/",
+      "aliases": ["美赛", "美国大学生数学建模竞赛"],
+      "priority_tier": "P1",
+      "active": true
+    },
+    {
+      "brand_id": "internetplus",
+      "name": "中国国际大学生创新大赛",
+      "kind": "全国赛事",
+      "official_home": "https://cy.ncss.cn/",
+      "aliases": ["互联网+", "创新大赛"],
+      "priority_tier": "P0",
+      "active": true
+    },
+    {
+      "brand_id": "challengecup",
+      "name": "挑战杯",
+      "kind": "全国赛事",
+      "official_home": "https://www.tiaozhanbei.net/",
+      "aliases": ["挑战杯竞赛"],
+      "priority_tier": "P1",
+      "active": true
+    },
+    {
+      "brand_id": "icpc",
+      "name": "ICPC",
+      "kind": "国际赛事",
+      "official_home": "https://icpc.global/",
+      "aliases": ["国际大学生程序设计竞赛"],
+      "priority_tier": "P0",
+      "active": true
+    },
+    {
+      "brand_id": "matiji",
+      "name": "码蹄杯",
+      "kind": "全国赛事",
+      "official_home": "https://www.matiji.net/",
+      "aliases": ["码蹄杯程序设计大赛"],
+      "priority_tier": "P1",
+      "active": true
+    },
+    {
+      "brand_id": "tianchi",
+      "name": "阿里云天池",
+      "kind": "大厂赛事",
+      "official_home": "https://tianchi.aliyun.com/competition/",
+      "aliases": ["天池", "天池大赛"],
+      "priority_tier": "P0",
+      "active": true
+    },
+    {
+      "brand_id": "huawei_ict",
+      "name": "华为 ICT 大赛",
+      "kind": "大厂赛事",
+      "official_home": "https://e.huawei.com/cn/talent/ict-academy/",
+      "aliases": ["Huawei ICT Competition"],
+      "priority_tier": "P0",
+      "active": true
+    },
+    {
+      "brand_id": "huawei_codecraft",
+      "name": "华为软件精英挑战赛",
+      "kind": "大厂赛事",
+      "official_home": "https://developer.huaweicloud.com/competition",
+      "aliases": ["CodeCraft", "软件精英挑战赛"],
+      "priority_tier": "P0",
+      "active": true
+    },
+    {
+      "brand_id": "baidu_star",
+      "name": "百度之星",
+      "kind": "大厂赛事",
+      "official_home": "https://star.baidu.com/",
+      "aliases": ["百度之星程序设计大赛"],
+      "priority_tier": "P1",
+      "active": true
+    },
+    {
+      "brand_id": "bytedance",
+      "name": "字节跳动青训营",
+      "kind": "大厂赛事",
+      "official_home": "https://juejin.cn/",
+      "aliases": ["字节青训营"],
+      "priority_tier": "P2",
+      "active": true
+    },
+    {
+      "brand_id": "tencent",
+      "name": "腾讯云开发者赛事",
+      "kind": "大厂赛事",
+      "official_home": "https://cloud.tencent.com/developer",
+      "aliases": ["腾讯云竞赛"],
+      "priority_tier": "P2",
+      "active": true
+    },
+    {
+      "brand_id": "iot",
+      "name": "全国大学生物联网设计竞赛",
+      "kind": "全国赛事",
+      "official_home": "https://iot.sjtu.edu.cn/",
+      "aliases": ["物联网设计竞赛"],
+      "priority_tier": "P1",
+      "active": true
+    },
+    {
+      "brand_id": "robomaster",
+      "name": "RoboMaster 机甲大师赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.robomaster.com/",
+      "aliases": ["机甲大师赛"],
+      "priority_tier": "P1",
+      "active": true
+    },
+    {
+      "brand_id": "devpost",
+      "name": "Devpost",
+      "kind": "国际赛事",
+      "official_home": "https://devpost.com/hackathons",
+      "aliases": ["Devpost Hackathons"],
+      "priority_tier": "P2",
+      "active": true
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "competition-search",
+  "version": "0.1.0",
+  "private": true,
+  "description": "面向南邮学生的竞赛查询静态站点",
+  "scripts": {
+    "serve": "python -m http.server 4173",
+    "check:js": "node --check js/status.js && node --check js/app.js && node --check js/theme.js && node --check js/visits.js && node --check js/particles.js && node --check js/blur-text.js",
+    "test:js": "node --test tests/js/*.test.js",
+    "test:python": "python -m unittest discover -s tests/python -p \"test_*.py\"",
+    "test:data": "python scripts/validate_data.py",
+    "check:links": "python scripts/check_links.py",
+    "test": "npm run check:js && npm run test:js && npm run test:python && npm run test:data"
+  }
+}

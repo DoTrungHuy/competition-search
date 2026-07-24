@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "portals": [
+    {
+      "id": "tianchi",
+      "name": "阿里云天池赛事广场",
+      "kind": "大厂赛事",
+      "link": "https://tianchi.aliyun.com/competition/",
+      "description": "浏览天池平台当前开放的算法、数据与大模型赛事。",
+      "last_checked": "2026-07-24",
+      "active": true
+    },
+    {
+      "id": "devpost",
+      "name": "Devpost Hackathons",
+      "kind": "国际赛事",
+      "link": "https://devpost.com/hackathons",
+      "description": "浏览 Devpost 平台发布的国际黑客松。",
+      "last_checked": "2026-07-24",
+      "active": true
+    }
+  ]
+}
+

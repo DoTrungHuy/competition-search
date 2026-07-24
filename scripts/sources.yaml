@@ -1,0 +1,156 @@
+# 采集源唯一配置。脚本只生成审核草稿，不直接改写生产数据。
+
+campus:
+  base: "https://cxcy.njupt.edu.cn"
+  user_agent: "Mozilla/5.0 (compatible; CompetitionSearchMaintainer/0.1)"
+  timeout_seconds: 25
+  selectors:
+    item: "li.news"
+    link: ".news_title a"
+    date: ".news_meta"
+  lists:
+    - id: tzgg
+      name: 通知公告
+      path: /tzgg/list.htm
+      priority: P0
+    - id: contest_notice
+      name: 学科竞赛-相关通知
+      path: /15495/list.htm
+      priority: P0
+      allow_empty: true
+    - id: dachuang_notice
+      name: 大创项目-相关通知
+      path: /15493/list.htm
+      priority: P1
+      allow_empty: true
+
+  title_include_any:
+    - 竞赛
+    - 大赛
+    - 挑战赛
+    - 选拔
+    - 蓝桥
+    - 建模
+    - 软件杯
+    - 天梯
+    - 信安
+    - 互联网
+    - 挑战杯
+    - ACM
+    - ICPC
+    - CTF
+    - 物联网
+    - 机器人
+    - 程序设计
+    - 黑客松
+    - hackathon
+    - 创新大赛
+    - 软件设计
+
+  title_exclude_any:
+    - 基金
+    - 资助项目
+    - 获奖
+    - 成绩公示
+    - 结果公示
+    - 评审结果
+    - 名单公示
+    - 讲座
+    - 培训
+    - 宣讲
+    - 访学
+    - 研学
+
+portals:
+  - id: lanqiao
+    name: 蓝桥杯
+    kind: 全国赛事
+    url: https://dasai.lanqiao.cn/
+  - id: gplt
+    name: 天梯赛
+    kind: 全国赛事
+    url: https://gplt.patest.cn/
+  - id: ciscn
+    name: 全国大学生信息安全竞赛
+    kind: 全国赛事
+    url: https://www.ciscn.cn/
+  - id: cnsoftbei
+    name: 中国软件杯
+    kind: 全国赛事
+    url: https://www.cnsoftbei.com/
+  - id: jssj
+    name: 中国大学生计算机设计大赛
+    kind: 全国赛事
+    url: https://jsjds.blcu.edu.cn/
+  - id: c4
+    name: 中国高校计算机大赛
+    kind: 全国赛事
+    url: http://www.c4best.cn/
+  - id: sys
+    name: 全国大学生计算机系统能力大赛
+    kind: 全国赛事
+    url: https://compiler.educg.net/
+  - id: mcm_cn
+    name: 全国大学生数学建模竞赛
+    kind: 全国赛事
+    url: https://www.mcm.edu.cn/
+  - id: mcm_us
+    name: MCM/ICM
+    kind: 国际赛事
+    url: https://www.contest.comap.com/
+  - id: internetplus
+    name: 中国国际大学生创新大赛
+    kind: 全国赛事
+    url: https://cy.ncss.cn/
+  - id: challengecup
+    name: 挑战杯
+    kind: 全国赛事
+    url: https://www.tiaozhanbei.net/
+  - id: icpc
+    name: ICPC
+    kind: 国际赛事
+    url: https://icpc.global/
+  - id: matiji
+    name: 码蹄杯
+    kind: 全国赛事
+    url: https://www.matiji.net/
+  - id: tianchi
+    name: 阿里云天池
+    kind: 大厂赛事
+    url: https://tianchi.aliyun.com/competition/
+  - id: huawei_ict
+    name: 华为 ICT 大赛
+    kind: 大厂赛事
+    url: https://e.huawei.com/cn/talent/ict-academy/
+  - id: huawei_codecraft
+    name: 华为软件精英挑战赛
+    kind: 大厂赛事
+    url: https://developer.huaweicloud.com/competition
+  - id: baidu_star
+    name: 百度之星
+    kind: 大厂赛事
+    url: https://star.baidu.com/
+  - id: bytedance
+    name: 字节跳动青训营
+    kind: 大厂赛事
+    url: https://juejin.cn/
+  - id: tencent
+    name: 腾讯云开发者赛事
+    kind: 大厂赛事
+    url: https://cloud.tencent.com/developer
+  - id: iot
+    name: 全国大学生物联网设计竞赛
+    kind: 全国赛事
+    url: https://iot.sjtu.edu.cn/
+  - id: robomaster
+    name: RoboMaster 机甲大师赛
+    kind: 全国赛事
+    url: https://www.robomaster.com/
+  - id: devpost
+    name: Devpost Hackathons
+    kind: 国际赛事
+    url: https://devpost.com/hackathons
+  - id: cxcy
+    name: 南邮创新创业教育学院通知
+    kind: 校内渠道
+    url: https://cxcy.njupt.edu.cn/tzgg/list.htm

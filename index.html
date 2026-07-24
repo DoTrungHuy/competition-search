@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#e8eef8" />
+    <title>竞赛查询</title>
+    <meta
+      name="description"
+      content="竞赛信息查询：全国赛、大厂赛等，可搜索筛选并查看时间与报名要求。"
+    />
+    <link rel="stylesheet" href="./css/style.css?v=20260724-10" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("compsearch-theme");
+          if (t !== "dark" && t !== "light") {
+            t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+          }
+          document.documentElement.setAttribute("data-theme", t);
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="bg-stage" aria-hidden="true">
+      <div class="bg-base"></div>
+      <div class="bg-mesh"></div>
+      <div class="bg-glow bg-glow--cyan"></div>
+      <div class="bg-glow bg-glow--purple"></div>
+      <div class="bg-glow bg-glow--warm"></div>
+      <div class="bg-shine"></div>
+      <canvas id="particle-canvas" class="bg-particles"></canvas>
+      <div class="bg-noise"></div>
+    </div>
+
+    <header class="topbar">
+      <a
+        class="brand-link"
+        href="https://www.njupt.edu.cn/"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="南京邮电大学"
+      >
+        <img
+          class="brand-badge"
+          src="./assets/images/njupt-badge.png"
+          srcset="./assets/images/njupt-badge.png 2x"
+          width="240"
+          height="64"
+          alt="南京邮电大学校徽"
+          decoding="async"
+          fetchpriority="high"
+        />
+      </a>
+      <nav class="nav-pill liquid-glass" aria-label="主导航">
+        <a class="fluid-link is-active" href="./index.html"><span>首页</span></a>
+        <a class="fluid-link" href="./about.html"><span>关于</span></a>
+      </nav>
+      <div class="topbar-tools">
+        <div class="visit-pill liquid-glass" title="访问量">
+          <span class="visit-label">访问量</span>
+          <strong id="visit-count">…</strong>
+        </div>
+        <button type="button" id="theme-toggle" class="theme-toggle liquid-glass" aria-pressed="false">
+          <span class="theme-toggle-icon" aria-hidden="true">暗</span>
+          <span class="theme-toggle-label">夜间</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <div id="error-banner" class="error-banner" role="alert"></div>
+
+      <section class="hero">
+        <h1 class="hero-title" data-blur-text="竞赛查询">竞赛查询</h1>
+      </section>
+
+      <section class="search-block" aria-label="搜索">
+        <label class="visually-hidden" for="search-input" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0)">
+          搜索竞赛
+        </label>
+        <div class="search-shell liquid-glass-strong">
+          <input
+            id="search-input"
+            type="search"
+            placeholder="搜索：天池、华为、蓝桥、信安…"
+            autocomplete="off"
+          />
+          <button type="button" id="search-clear" class="search-clear" aria-label="清空搜索">
+            ×
+          </button>
+        </div>
+      </section>
+
+      <div class="chips" role="group" aria-label="筛选">
+        <button type="button" class="chip liquid-glass is-on" data-quick="" aria-pressed="true"><span>全部</span></button>
+        <button type="button" class="chip liquid-glass" data-quick="全国" aria-pressed="false"><span>全国赛</span></button>
+        <button type="button" class="chip liquid-glass" data-quick="大厂" aria-pressed="false"><span>大厂赛</span></button>
+        <button type="button" class="chip liquid-glass" data-quick="报名中" aria-pressed="false"><span>报名中</span></button>
+        <button type="button" class="chip liquid-glass" data-quick="快截止" aria-pressed="false"><span>报名快截止</span></button>
+        <button type="button" class="chip liquid-glass" data-quick="即将开始报名" aria-pressed="false"><span>即将报名</span></button>
+        <button type="button" class="chip liquid-glass" data-quick="进行中" aria-pressed="false"><span>进行中</span></button>
+      </div>
+
+      <div class="list-toolbar">
+        <p class="result-meta" id="result-meta">加载中…</p>
+        <button type="button" id="btn-reload-data" class="btn-reload liquid-glass" title="重新加载本站已保存的竞赛数据">
+          刷新列表
+        </button>
+        <span id="reload-status" class="reload-status" aria-live="polite"></span>
+      </div>
+      <div id="list" class="list" aria-live="polite" aria-busy="true">
+        <div class="card-skeleton liquid-glass" aria-hidden="true"></div>
+        <div class="card-skeleton liquid-glass" aria-hidden="true"></div>
+        <div class="card-skeleton liquid-glass" aria-hidden="true"></div>
+      </div>
+
+      <footer class="footer">
+        <p><a href="./about.html">关于</a></p>
+      </footer>
+    </main>
+
+    <div id="drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div>
+    <aside
+      id="drawer"
+      class="drawer liquid-glass-strong"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="drawer-title"
+      aria-hidden="true"
+      tabindex="-1"
+    >
+      <button type="button" id="drawer-close" class="drawer-close" aria-label="关闭">×</button>
+      <h2 id="drawer-title">详情</h2>
+      <div id="drawer-body"></div>
+    </aside>
+
+    <script src="./js/status.js?v=20260724-8"></script>
+    <script src="./js/theme.js?v=20260724-6"></script>
+    <script src="./js/visits.js?v=20260724-7"></script>
+    <script src="./js/particles.js?v=20260724-6"></script>
+    <script src="./js/blur-text.js?v=20260724-6"></script>
+    <script src="./js/app.js?v=20260724-9"></script>
+  </body>
+</html>
