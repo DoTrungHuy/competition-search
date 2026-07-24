@@ -1,0 +1,30 @@
+name: Test Tianchi scrape
+
+# 临时探针：验证 GitHub 美国 runner 能否抓到天池（跑完即删）。
+on:
+  workflow_dispatch: {}
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Playwright
+        run: |
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Run tianchi fetch
+        run: python scripts/fetch_tianchi.py --scrolls 5
+      - name: Show result
+        run: |
+          python - <<'PY'
+          import json
+          d = json.load(open("scripts/out/draft_tianchi.json", encoding="utf-8"))
+          new = d["review"]["new"]
+          print("NEW_COUNT=%d" % len(new))
+          for x in new[:5]:
+              print("-", x["name"])
+          PY
