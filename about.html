@@ -1,111 +1,94 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
-    <meta name="theme-color" content="#e8eef8" />
-    <title>关于 · 竞赛查询</title>
-    <meta
-      name="description"
-      content="了解竞赛查询的数据来源、状态规则和使用边界。"
-    />
-    <link rel="stylesheet" href="./css/style.css?v=20260725-03" />
-    <script>
-      (function () {
-        try {
-          var t = localStorage.getItem("compsearch-theme");
-          if (t !== "dark" && t !== "light") {
-            t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-          }
-          document.documentElement.setAttribute("data-theme", t);
-        } catch (e) {
-          document.documentElement.setAttribute("data-theme", "light");
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#e8eef8" />
+  <title>关于 · 竞赛查询</title>
+  <meta name="description" content="了解竞赛查询的数据来源、状态规则和使用边界。" />
+  <link rel="stylesheet" href="./css/style.css?v=20260725-03" />
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("compsearch-theme");
+        if (t !== "dark" && t !== "light") {
+          t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
         }
-      })();
-    </script>
-  </head>
-  <body>
-    <div class="bg-stage" aria-hidden="true">
-      <div class="bg-base"></div>
-      <div class="bg-mesh"></div>
-      <div class="bg-glow bg-glow--cyan"></div>
-      <div class="bg-glow bg-glow--purple"></div>
-      <div class="bg-glow bg-glow--warm"></div>
-      <div class="bg-shine"></div>
-      <canvas id="particle-canvas" class="bg-particles"></canvas>
-      <div class="bg-noise"></div>
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <div class="bg-stage" aria-hidden="true">
+    <div class="bg-base"></div>
+    <div class="bg-mesh"></div>
+    <div class="bg-glow bg-glow--cyan"></div>
+    <div class="bg-glow bg-glow--purple"></div>
+    <div class="bg-glow bg-glow--warm"></div>
+    <div class="bg-shine"></div>
+    <canvas id="particle-canvas" class="bg-particles"></canvas>
+    <div class="bg-noise"></div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand-link" href="https://www.njupt.edu.cn/" target="_blank" rel="noopener noreferrer" title="南京邮电大学">
+      <img class="brand-badge" src="./assets/images/njupt-badge.png" srcset="./assets/images/njupt-badge.png 2x"
+        width="240" height="64" alt="南京邮电大学校徽" decoding="async" fetchpriority="high" />
+    </a>
+    <nav class="nav-pill liquid-glass" aria-label="主导航">
+      <a class="fluid-link" href="./index.html"><span>首页</span></a>
+      <a class="fluid-link is-active" href="./about.html"><span>关于</span></a>
+    </nav>
+    <div class="topbar-tools">
+      <button type="button" id="theme-toggle" class="theme-toggle liquid-glass" aria-pressed="false">
+        <span class="theme-toggle-icon" aria-hidden="true">暗</span>
+        <span class="theme-toggle-label">夜间</span>
+      </button>
     </div>
+    <div class="visit-pill liquid-glass" title="访问量">
+      <span class="visit-label">访问量</span>
+      <strong id="visit-count">…</strong>
+    </div>
+  </header>
 
-    <header class="topbar">
-      <a
-        class="brand-link"
-        href="https://www.njupt.edu.cn/"
-        target="_blank"
-        rel="noopener noreferrer"
-        title="南京邮电大学"
-      >
-        <img
-          class="brand-badge"
-          src="./assets/images/njupt-badge.png"
-          srcset="./assets/images/njupt-badge.png 2x"
-          width="240"
-          height="64"
-          alt="南京邮电大学校徽"
-          decoding="async"
-          fetchpriority="high"
-        />
-      </a>
-      <nav class="nav-pill liquid-glass" aria-label="主导航">
-        <a class="fluid-link" href="./index.html"><span>首页</span></a>
-        <a class="fluid-link is-active" href="./about.html"><span>关于</span></a>
-      </nav>
-      <div class="topbar-tools">
-        <button type="button" id="theme-toggle" class="theme-toggle liquid-glass" aria-pressed="false">
-          <span class="theme-toggle-icon" aria-hidden="true">暗</span>
-          <span class="theme-toggle-label">夜间</span>
-        </button>
-      </div>
-      <div class="visit-pill liquid-glass" title="访问量">
-        <span class="visit-label">访问量</span>
-        <strong id="visit-count">…</strong>
-      </div>
-    </header>
+  <main class="wrap">
+    <article class="about-card liquid-glass bloom-card">
+      <h1>关于</h1>
+      <p>
+        这里是我个人整理的竞赛信息，方便大家搜索和筛选。列表里能直接看到时间和简要要求；有已核验原文时点「查看原文」，预计卡片只提供「赛事主页」。
+      </p>
+      <ul>
+        <li>「全部」主栏只含国内相关赛事；「国际赛」单独成类，不与全国赛、大厂赛混排</li>
+        <li>「全国赛 / 大厂赛 / 国际赛」指比赛类型</li>
+        <li>标「校认定 A/B/C/C2」的来自<strong>南邮创新创业竞赛项目认定目录</strong>中的计算机相关固定清单；同一状态下校认定优先，档位 A→B→C→C2</li>
+        <li>「即将报名」包含开报前 1–30 天的赛事（国际赛不进入）；官方报名日优先</li>
+        <li>校认定固定清单在缺少官方报名日时，可据往年已核验窗口给出「预计」并进入状态筛选，卡片会标「预计」，以官网为准</li>
+        <li>无任何赛程时显示「见官网详情」；预计日不是官方通知</li>
+        <li>报名规则以原文为准，这里信息可能不完整</li>
+        <li>该网站的信息更新为周更，可能会存在几天的延迟</li>
+        <li>若对本站内容有任何疑问与建议，可以通过 GitHub 联系本人，如果有需要可以考虑后续加入更多类型的赛事。</li>
+        <li>如果觉得本站对您有帮助，欢迎访问 GitHub 仓库并 Star 一下，<strong>感谢！</strong></li>
+        <li>源码地址：<a href="https://github.com/DoTrungHuy/competition-search" target="_blank"
+            rel="noopener noreferrer">DoTrungHuy/competition-search</a></li>
+      </ul>
+      <p style="margin-top: 1.35rem">
+        <a class="btn-white" href="./index.html">返回查询</a>
+      </p>
+    </article>
+  </main>
+  <script src="./js/theme.js?v=20260724-6"></script>
+  <script src="./js/visits.js?v=20260724-7"></script>
+  <script src="./js/particles.js?v=20260724-6"></script>
+  <script>
+    if (window.CompTheme) CompTheme.init();
+    if (window.CompVisits) CompVisits.init();
+    if (window.CompParticles) CompParticles.start(document.getElementById("particle-canvas"));
+  </script>
+</body>
 
-    <main class="wrap">
-      <article class="about-card liquid-glass bloom-card">
-        <h1>关于</h1>
-        <p>
-          这里整理一些竞赛信息，方便搜索和筛选。列表里能直接看到时间和简要要求；有已核验原文时点「查看原文」，预计卡片只提供「赛事主页」。
-        </p>
-        <ul>
-          <li>「全部」主栏只含国内相关赛事；「国际赛」单独成类，不与全国赛、大厂赛混排</li>
-          <li>「全国赛 / 大厂赛 / 国际赛」指比赛类型</li>
-          <li>标「校认定 A/B/C/C2」的来自南邮创新创业竞赛项目认定目录中的计算机相关固定清单；同一状态下校认定优先，档位 A→B→C→C2</li>
-          <li>「即将报名」包含开报前 1–30 天的赛事（国际赛不进入）；官方报名日优先</li>
-          <li>校认定固定清单在缺少官方报名日时，可据往年已核验窗口给出「预计」并进入状态筛选，卡片会标「预计」，以官网为准</li>
-          <li>预计卡片禁止挂本届报名深链与伪参数链接；按钮只打开品牌官网入口（「赛事主页」）。数据校验与前端都会拦截假外链，宁可不展示也不给误导信息</li>
-          <li>固定清单中既无官方也无历史可推算的项目仍可搜索查看，但不进「即将报名」</li>
-          <li>若写「学校网站有相关通知」，只说明校内发过通知，不等于学校主办</li>
-          <li>无任何赛程时显示「见官网详情」；预计日不是官方通知</li>
-          <li>报名规则以原文为准，这里信息可能不完整</li>
-          <li>页面上的「刷新列表」只重新加载本站已保存的数据，不会自动去外网抓取</li>
-          <li>学校通知和赛事官网数据都要经过人工审核后才会进入正式列表</li>
-        </ul>
-        <p style="margin-top: 1.35rem">
-          <a class="btn-white" href="./index.html">返回查询</a>
-        </p>
-      </article>
-    </main>
-    <script src="./js/theme.js?v=20260724-6"></script>
-    <script src="./js/visits.js?v=20260724-7"></script>
-    <script src="./js/particles.js?v=20260724-6"></script>
-    <script>
-      if (window.CompTheme) CompTheme.init();
-      if (window.CompVisits) CompVisits.init();
-      if (window.CompParticles) CompParticles.start(document.getElementById("particle-canvas"));
-    </script>
-  </body>
 </html>
