@@ -1,117 +1,155 @@
-# 竞赛查询
+# 竞赛查询（南邮 · 计算机相关）
 
-面向南邮学生的竞赛搜索与筛选工具。首页优先展示当前仍可行动的机会，已结束赛事随后排列；官网没有统一精确日期时仅提示「见官网详情」。
+面向 **南京邮电大学学生** 的竞赛信息查询站：快速查找还能报名、即将开报、正在进行或即将开赛的比赛，并跳到官网或品牌入口核对原文。
 
-「学校网站有相关通知」只表示校内发布过通知，不代表南京邮电大学是赛事主办方。报名、组队和赛程最终以赛事原文为准。
+**线上地址：<https://njupt.cs-contest.cn>**
 
-已核验的 `registration_start` 在开报前 1–30 天显示为「即将开始报名」（国际赛不进该筛选）。校认定固定清单在缺少官方报名日时，可用往年已核验窗口写入 `registration_*_estimated`（`schedule_source: estimated`），卡片标「预计」并可进入状态芯片；一旦有官方 `registration_*` 则覆盖预计。
+---
 
-**链接诚信（硬门禁，禁止虚假外链）**
+## 给谁用
 
-- 预计记录**禁止**写 `link`（含往届深链、`?estimate=` 等伪参数）；只允许 `link_kind: brand_home`，前端按钮为「赛事主页」，只打开品牌 `official_home`。
-- 共享规则：`scripts/link_integrity.py`；`validate_data.py` 与 `apply_registration_estimates.py` 写入前/落盘前都会审计，失败即中止。
-- 前端 `CompStatus.resolvePublicLink` 即便读到脏 `link` 也会忽略预计深链；含伪标记的 URL 宁可不展示。
-- `npm test` 含回归：伪 `estimate=` 深链不得通过校验/生成/前端解析。
+| 对象 | 能帮什么 |
+|------|----------|
+| 南邮在校生（尤其计软网安等） | 按关键词/类型筛竞赛，看时间与参赛要求摘要 |
+| 想冲校认定目录的同学 | 标有「校认定 A/B/C/C2」的条目来自学校创新创业竞赛认定目录中的计算机相关固定清单 |
+| 辅导员/实验室同学 | 分享同一入口，减少到处翻通知 |
 
-```bash
-python scripts/apply_registration_estimates.py
-python scripts/validate_data.py
-npm test
-```
+**不是**学校官方报名系统，也**不能**代替赛事官网与校内正式通知。
 
-## 当前状态
+---
 
-- 静态 HTML、CSS、JavaScript，无前端构建步骤。
-- 生产数据使用 schema v3，拆分赛事、品牌和平台入口。
-- 约 44 条赛事/赛道中，多数已完成本轮官方核验，7 条保留在内部复核队列。
-- 校内采集只生成审核草稿，不会自动覆盖生产数据。
-- 本地 Git 已初始化，未配置远端、未部署。
+## 能做什么
 
-## 本地预览
+- **搜索**：名称、品牌、标签等
+- **筛选**：全部 / 全国赛 / 大厂赛 / 国际赛；以及 **报名中**、**即将开始报名**、**进行中** 等状态
+- **卡片信息**：时间线、简要要求、状态角标；校认定档位；「预计」标记
+- **外链**：有已核验原文 →「查看原文」；预计或仅品牌入口 →「赛事主页」
+- **关于页**：状态与数据边界说明（`about.html`）
+
+### 状态怎么理解（产品规则）
+
+| 状态 | 含义 |
+|------|------|
+| **报名中** | 报名窗口开着（已核验官方日期，或固定清单上标了「预计」的推算窗口） |
+| **即将开始报名** | 开报日在未来 **1～30 天**内（不含开报当天）；**国际赛不进**此筛选 |
+| **即将开始** | 比赛尚未开始（常有比赛日、报名可能已结束或未录入） |
+| **进行中** | 比赛日已到且未结束 |
+| **预计** | 报名日据往年已核验窗口推算，**不是**官网通知；按钮只给品牌官网，不给假报名深链 |
+
+其它约定：
+
+- **「全部」主栏**默认是国内相关赛事；**国际赛**单独成类（黑客松等在报时，请点「国际赛」或搜索）。
+- 「学校网站有相关通知」只说明校内发过通知，**不等于**学校主办。
+- 待人工复核、无可靠赛程的条目不显示精确公开状态，多为「见官网详情」。
+- 页面上的「刷新列表」只重新加载本站已保存的数据，**不会**当场去外网抓取。
+
+---
+
+## 在线使用
+
+打开 **[https://njupt.cs-contest.cn](https://njupt.cs-contest.cn)** 即可，无需安装。
+
+建议用手机或电脑现代浏览器；若刚更新后内容异常，可强制刷新（Ctrl+F5 / 清缓存）。
+
+---
+
+## 本地预览（开发/验收）
 
 ```bash
 npm run serve
 ```
 
-浏览器打开 <http://localhost:4173>。不要直接用 `file://` 打开，因为页面需要通过 `fetch` 加载 JSON。
+浏览器打开 <http://localhost:4173>。  
+**不要**用 `file://` 打开，页面需要通过 HTTP 加载 JSON。
 
-## 安装脚本依赖
+```bash
+npm test                          # JS 语法 + 单元测试 + 生产数据校验
+python scripts/validate_data.py   # 仅数据校验
+python scripts/check_links.py     # 外链巡检（生成 reports/，不入库）
+```
+
+脚本依赖：
 
 ```bash
 python -m pip install -r requirements-scripts.txt
 ```
 
-## 验证
+---
+
+## 项目如何实现（维护者）
+
+技术形态：**纯静态站**（HTML / CSS / JS + `data/*.json`），无前端构建。  
+线上通过 **Cloudflare Workers 静态资源** 发布根目录（见 `wrangler.toml`）；域名 **njupt.cs-contest.cn**。
+
+### 目录要点
+
+| 路径 | 作用 |
+|------|------|
+| `index.html` / `about.html` | 查询页 / 关于 |
+| `js/status.js` | 报名/比赛状态、芯片契约、外链诚信解析 |
+| `js/app.js` | 列表、筛选、抽屉 |
+| `data/competitions.json` / `brands.json` / `portals.json` | 生产数据（schema v3） |
+| `scripts/validate_data.py` | 数据闸门（含链接诚信） |
+| `scripts/link_integrity.py` | 禁止预计假深链、`?estimate=` 等 |
+| `scripts/apply_registration_estimates.py` | 固定清单「预计报名」维护 |
+| `.github/workflows/ci.yml` | push/PR：`npm test` |
+| `.github/workflows/weekly-sync.yml` | 周更：采集 → 审核 → 合并 → **刷新预计** → 校验 → 通过才提交 |
+
+### 数据原则
+
+1. **已核验**记录：需要 `last_checked`、可用赛程或官方状态；赛事深链不得与品牌首页简单重复，也不得带伪参数。  
+2. **待复核**（`needs_review`）：不写公开精确报名/比赛日进状态计算。  
+3. **预计报名**：仅 `njupt_fixed` 且存在往年已核验 `registration_*` 时生成；**不写** `link`（`link_kind: brand_home`）；前端只打开品牌 `official_home`。  
+4. 官方 `registration_*` **优先于**预计字段。
+
+手动刷新预计（一般不必，周更会跑）：
 
 ```bash
-npm test
-python scripts/check_links.py
+python scripts/apply_registration_estimates.py
+# 复现可用：--today YYYY-MM-DD
 ```
 
-`npm test` 包含 JavaScript 语法、状态排序、采集解析和生产数据校验。链接巡检会生成忽略提交的 `reports/link-check.json`。
-
-## 数据与采集
+### 自动化管线（周更）
 
 ```text
-data/competitions.json  具体赛事或赛道
-data/brands.json        品牌和官网根地址
-data/portals.json       天池、Devpost 等平台入口
-scripts/sources.yaml    采集与巡查入口的唯一配置
-```
-
-拉取南邮通知草稿：
-
-```bash
-python scripts/fetch_campus_cxcy.py
-```
-
-输出写入 `scripts/out/draft_campus.json`，按 `new / changed / duplicate / rejected` 分类，供审核后再决定是否并入生产数据。脚本不会自动写入 `data/competitions.json`。
-
-## 自动化管线
-
-每周由 GitHub Actions（`.github/workflows/weekly-sync.yml`）自动执行，也可手动触发：
-
-```text
-采集  fetch_*.py -> draft_*.json（Devpost/Kaggle 等尽量带上源日期线索）
-审核  review_drafts.py（DeepSeek）
-      · 源侧已有可解析日期 → 直接采用
-      · 没有 → 模型仅从线索提取（high 才信，禁止臆造）
-      · 仍无日期 → 留给待核验
+采集  fetch_*.py → draft_*.json
+审核  review_drafts.py（DeepSeek；禁止臆造日期）
 合并  apply_reviewed.py
-      · 有合法赛程 + 深链接 → needs_review=false（可参与状态排序）
-      · 否则 → needs_review=true（仅「见官网详情」）
-预计  apply_registration_estimates.py（固定清单维护）
-      · 有官方在报/将报窗口 → 不写预计
-      · 仅有往年已核验报名日 → 写入预计（标「预计」，无假深链）
-      · 无历史 → 跳过，不臆造日期
-闸门  validate_data.py + npm test（含链接诚信）通过后才自动提交
-状态  data/sync_state.json（本周是否已成功，供备用时段跳过）
+预计  apply_registration_estimates.py   ← 固定清单维护
+闸门  validate_data.py + npm test       ← 含链接诚信，失败不提交
+状态  data/sync_state.json              ← 本周成功标记（备用 cron 防重跑）
 ```
 
-**定时（可靠性对齐 X-daily：双 cron + 非整点 + 本周成功守卫）**
+- 定时：周一北京时间约 10:17 / 22:47（UTC `02:17` / `14:47`），双槽 + 本周成功守卫。  
+- Secrets：`DEEPSEEK_API_KEY`（必填）；Kaggle 可选。  
+- 天池等需国内网络的源：本机 `scripts/run_local_sync.py` / Windows 任务（同样会跑预计维护）。  
+- `scripts/upgrade_pending.py` 为**手动**补审工具，不进自动周更。
 
-| 槽位 | UTC | 北京时间 |
-|------|-----|----------|
-| 主 | 周一 `02:17` | 周一 10:17 |
-| 备 | 周一 `14:47` | 周一 22:47 |
+### 发布
 
-- 若主时段已成功写入 `sync_state.json` 的本周标记，备用时段会跳过，避免重复调用 DeepSeek。
-- Actions → Weekly competition sync → **Run workflow** 可随时手动跑（不受守卫拦截）。
-- 审核用 DeepSeek，需在仓库 Settings → Secrets 配置 `DEEPSEEK_API_KEY`。
-- 自动合并的记录一律 `needs_review=true`：只显示「见官网详情」，不含推断日期，排在列表末尾。
-- 数据校验或测试不通过则中断，绝不提交坏数据。
-- 预计报名由周更自动刷新；也可手动：`python scripts/apply_registration_estimates.py`（可加 `--today YYYY-MM-DD` 复现）。
-- 天池等需国内 IP 的源走本机 `scripts/run_local_sync.py` / Windows 任务，不进 GitHub 美国 runner（本机流程同样会跑预计维护）。
-- `scripts/upgrade_pending.py` 是**维护工具**（手动补审旧待核验），不接入上述自动周更；详见 `scripts/README.md`。
+静态资源部署示例：
 
-## 视觉来源
+```bash
+npx wrangler deploy
+```
 
-页面保留项目既有的 web_beauty 多风格组合：
+仅 `git push` 更新仓库**不等于**线上一定已刷新；改完前端或数据后需按你的 Cloudflare 流程发布，用户侧建议强刷。
 
-- liquidGlass / liquidGlassAgency：玻璃基底、导航和字体层级。
-- openDoor：筛选芯片和导航的流体交互。
-- bloom：列表卡片的模糊层次。
-- flower：轻量背景粒子。
-- blueEyes：主标题层级。
+### 视觉
 
-字体文件已经本地化；页面不展示数据维护日期。
+多风格组合（liquidGlassAgency 玻璃底、openDoor 芯片、bloom 卡片、flower 粒子等）；字体本地 WOFF2，不请求 Google Fonts；左上角南邮校徽；页面不展示本站维护日期。
+
+---
+
+## 验证与诚信
+
+- `npm test`：语法检查、状态/访问量单测、Python 单测、**生产数据校验**。  
+- 预计卡片与任何 `estimate=` / 往届冒充本届深链会被 **生成脚本 + validate + 前端** 拦截。  
+- 外链 HTTP 存活巡检：`python scripts/check_links.py`（默认不进 CI，避免外网抖动挡合并）。
+
+---
+
+## 许可与声明
+
+数据与链接可能滞后或不完整；**报名、组队、奖项认定一律以赛事官网与学校通知为准**。  
+本仓库为查询辅助工具，不代表南京邮电大学官方教务或竞赛组委会立场。
