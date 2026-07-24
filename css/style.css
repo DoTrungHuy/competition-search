@@ -464,7 +464,7 @@ html[data-theme="dark"] .brand-badge {
     drop-shadow(0 2px 10px rgba(0, 0, 0, 0.58));
 }
 
-/* 右上：访问量 + 主题切换 */
+/* 右上：访问量 + 主题切换 + GitHub（首页） */
 .topbar-tools {
   display: flex;
   align-items: center;
