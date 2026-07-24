@@ -43,6 +43,23 @@ STATUS_OVERRIDES = {
     "已停办",
 }
 
+# 采集/合并时禁止再写入的纯套话（列表「要求」不得全站同一句）
+GENERIC_ELIGIBILITY = {
+    "以活动页面为准",
+    "以赛题页面为准",
+    "以通知原文为准",
+    "open",
+    "详见官网",
+    "见官网详情",
+}
+GENERIC_DESCRIPTIONS = {
+    "MLH 认证的国际黑客松，报名与规则以活动页面为准。",
+    "Devpost 平台国际黑客松，报名与规则以活动页面为准。",
+    "阿里云天池平台竞赛，报名与规则以赛题页面为准。",
+    "Kaggle 平台数据科学竞赛，报名与规则以赛题页面为准。",
+}
+PLATFORM_BRANDS = {"mlh", "devpost", "tianchi", "kaggle"}
+
 
 def load_json(name):
     path = os.path.join(DATA_DIR, name)
@@ -182,6 +199,22 @@ def validate():
 
         if item.get("status_override") and item.get("status_override") not in STATUS_OVERRIDES:
             errors.append("%s status_override 非法" % prefix)
+
+        eligibility = item.get("eligibility")
+        if isinstance(eligibility, str) and eligibility.strip() in GENERIC_ELIGIBILITY:
+            errors.append(
+                "%s eligibility 不能是纯套话「%s」，须区分到具体赛事"
+                % (prefix, eligibility.strip())
+            )
+        description = item.get("description")
+        if (
+            item.get("brand_id") in PLATFORM_BRANDS
+            and isinstance(description, str)
+            and description.strip() in GENERIC_DESCRIPTIONS
+        ):
+            errors.append(
+                "%s description 不能使用平台统一模板，须带上赛事名" % prefix
+            )
 
         if item.get("needs_review"):
             review_count += 1

@@ -110,8 +110,32 @@
     return "见官网详情";
   }
 
+  var GENERIC_REQUIREMENT = {
+    以活动页面为准: true,
+    以赛题页面为准: true,
+    以通知原文为准: true,
+    open: true,
+    详见官网: true,
+    见官网详情: true,
+  };
+
   function requirementLine(item) {
-    return item.eligibility || item.team_size || "";
+    var eligibility = String(item.eligibility || "").trim();
+    if (eligibility && !GENERIC_REQUIREMENT[eligibility]) {
+      return eligibility;
+    }
+    if (item.team_size) return item.team_size;
+    // 套话要求不直接展示；尽量用已有字段拼出可区分的一行
+    var brand = brandFor(item);
+    var brandName = brand && brand.name ? brand.name : "";
+    if (item.organizer) {
+      return "主办 " + item.organizer + "；细则见官网";
+    }
+    if (brandName && item.name) {
+      return brandName + "「" + item.name + "」；细则见官网";
+    }
+    if (item.name) return "「" + item.name + "」细则见官网";
+    return "";
   }
 
   function normalize(item) {
@@ -165,6 +189,18 @@
     return blob.indexOf(query) !== -1;
   }
 
+  function isInternational(item) {
+    return item.kind === "国际赛事";
+  }
+
+  /**
+   * 主栏（全部 / 全国 / 大厂 / 状态筛选）不展示国际赛事；
+   * 国际赛单独芯片；搜索有关键词时仍可命中国际赛事。
+   */
+  function inMainLane(item) {
+    return !isInternational(item);
+  }
+
   function filterItems() {
     var query = state.query.trim().toLowerCase();
     var list = state.items.map(enrich).filter(function (item) {
@@ -175,22 +211,25 @@
       ) {
         return false;
       }
-      if (state.quick === "大厂" && item.kind !== "大厂赛事") return false;
-      if (state.quick === "全国" && item.kind !== "全国赛事") return false;
-      if (state.quick === "报名中" && item._status !== "报名中") return false;
-      if (
-        state.quick === "快截止" &&
-        !(item._status === "报名中" && item._urgent)
-      ) {
-        return false;
+
+      if (state.quick === "国际") {
+        if (!isInternational(item)) return false;
+      } else if (state.quick === "大厂") {
+        if (item.kind !== "大厂赛事") return false;
+      } else if (state.quick === "全国") {
+        if (item.kind !== "全国赛事") return false;
+      } else if (state.quick === "报名中") {
+        // 含即将截止：排序里紧急项仍靠前，不再单独设「快截止」芯片
+        if (!inMainLane(item) || item._status !== "报名中") return false;
+      } else if (state.quick === "即将开始报名") {
+        if (!inMainLane(item) || item._status !== "即将开始报名") return false;
+      } else if (state.quick === "进行中") {
+        if (!inMainLane(item) || item._status !== "进行中") return false;
+      } else {
+        // 全部：默认主栏不含国际赛；有搜索词时放行国际赛，便于检索
+        if (!query && !inMainLane(item)) return false;
       }
-      if (
-        state.quick === "即将开始报名" &&
-        item._status !== "即将开始报名"
-      ) {
-        return false;
-      }
-      if (state.quick === "进行中" && item._status !== "进行中") return false;
+
       return matchesQuery(item, query);
     });
 
@@ -211,7 +250,9 @@
       var emptyHint =
         state.quick === "即将开始报名"
           ? "当前没有已核验的「报名开始日」仍在未来的赛事；有官网日期后会自动显示"
-          : "可以清空搜索或切换到「全部」";
+          : state.quick === "国际"
+            ? "当前没有符合条件的国际赛；可清空搜索或切回「全部」查看国内主栏"
+            : "可以清空搜索、切换「国际赛」或回到「全部」";
       root.innerHTML =
         '<div class="empty liquid-glass"><p>没有符合条件的竞赛</p><p>' +
         emptyHint +

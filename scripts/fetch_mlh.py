@@ -19,6 +19,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from draft_common import ROOT, categorize, load_production, save_draft, stable_id
+from platform_text import description_for, eligibility_for
 
 
 DEFAULT_OUT = os.path.join(ROOT, "scripts", "out", "draft_mlh.json")
@@ -48,7 +49,7 @@ def parse_events(html):
 
 
 def to_draft_record(name, link, season):
-    return {
+    record = {
         "id": stable_id("mlh", link),
         "brand_id": "mlh",
         "edition": season,
@@ -57,8 +58,6 @@ def to_draft_record(name, link, season):
         "kind": "国际赛事",
         "info_channel": "官方渠道",
         "link": link,
-        "eligibility": "以活动页面为准",
-        "description": "MLH 认证的国际黑客松，报名与规则以活动页面为准。",
         "active": True,
         "last_checked": None,
         "needs_review": True,
@@ -66,6 +65,10 @@ def to_draft_record(name, link, season):
         "source_list": "mlh",
         "source_list_name": "MLH Hackathons",
     }
+    # 每条带上赛事名，禁止全站统一「以活动页面为准」
+    record["eligibility"] = eligibility_for(record, "mlh")
+    record["description"] = description_for(record, "mlh")
+    return record
 
 
 def main():

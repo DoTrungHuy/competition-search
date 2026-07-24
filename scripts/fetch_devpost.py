@@ -17,6 +17,7 @@ from datetime import datetime
 import requests
 
 from draft_common import ROOT, categorize, load_production, save_draft, stable_id
+from platform_text import description_for, eligibility_for
 
 
 DEFAULT_OUT = os.path.join(ROOT, "scripts", "out", "draft_devpost.json")
@@ -34,7 +35,10 @@ def to_draft_record(hackathon):
     url = str(hackathon.get("url") or "").strip()
     title = " ".join(str(hackathon.get("title") or "").split())
     period = str(hackathon.get("submission_period_dates") or "").strip() or None
-    return {
+    organizer = hackathon.get("organization_name")
+    if isinstance(organizer, str):
+        organizer = " ".join(organizer.split()) or None
+    record = {
         "id": stable_id("devpost", url),
         "brand_id": "devpost",
         "edition": derive_edition(hackathon),
@@ -42,10 +46,8 @@ def to_draft_record(hackathon):
         "name": title,
         "kind": "国际赛事",
         "info_channel": "官方渠道",
-        "organizer": hackathon.get("organization_name"),
+        "organizer": organizer,
         "link": url,
-        "eligibility": "以活动页面为准",
-        "description": "Devpost 平台国际黑客松，报名与规则以活动页面为准。",
         "active": True,
         "last_checked": None,
         "needs_review": True,
@@ -60,6 +62,10 @@ def to_draft_record(hackathon):
             "time_left": hackathon.get("time_left"),
         },
     }
+    # 有主办方就写入主办方；否则至少带赛事名，避免要求字段全站雷同
+    record["eligibility"] = eligibility_for(record, "devpost")
+    record["description"] = description_for(record, "devpost")
+    return record
 
 
 def fetch_hackathons(pages, timeout, delay):

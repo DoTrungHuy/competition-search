@@ -22,6 +22,7 @@ import sys
 from datetime import datetime
 
 from draft_common import ROOT, categorize, load_production, save_draft, stable_id
+from platform_text import description_for, eligibility_for
 
 
 DEFAULT_OUT = os.path.join(ROOT, "scripts", "out", "draft_tianchi.json")
@@ -79,7 +80,7 @@ def collect(url, headed, timeout_ms, scrolls, wait_ms):
 
 
 def to_draft_record(event):
-    return {
+    record = {
         "id": stable_id("tianchi", event["link"]),
         "brand_id": "tianchi",
         "edition": str(datetime.now().year),
@@ -88,8 +89,6 @@ def to_draft_record(event):
         "kind": "大厂赛事",
         "info_channel": "官方渠道",
         "link": event["link"],
-        "eligibility": "以赛题页面为准",
-        "description": "阿里云天池平台竞赛，报名与规则以赛题页面为准。",
         "active": True,
         "last_checked": None,
         "needs_review": True,
@@ -97,6 +96,9 @@ def to_draft_record(event):
         "source_list": "tianchi",
         "source_list_name": "阿里云天池",
     }
+    record["eligibility"] = eligibility_for(record, "tianchi")
+    record["description"] = description_for(record, "tianchi")
+    return record
 
 
 def main():

@@ -1,0 +1,10 @@
+@echo off
+rem Weekly competition data sync (WorkingDirectory = repo root)
+rem Copy to competition_sync_task.bat and fill the key. Do NOT commit the real bat.
+rem Also set GitHub Actions secret DEEPSEEK_API_KEY for cloud weekly-sync.
+
+set "DEEPSEEK_API_KEY=REPLACE_WITH_YOUR_KEY"
+if not exist "scripts\out" mkdir "scripts\out"
+echo ==== %date% %time% ==== >> "scripts\out\sync.log"
+"C:\Python\Python312\python.exe" scripts\run_local_sync.py >> "scripts\out\sync.log" 2>&1
+echo ---- exit %errorlevel% ---- >> "scripts\out\sync.log"

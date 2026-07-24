@@ -10,6 +10,13 @@ node_modules/
 scripts/out/
 reports/
 
+# Local secrets / machine-only sync (API keys — never commit)
+scripts/local/*.bat
+scripts/local/.env
+scripts/local/.env.*
+.env
+.env.*
+
 # AI agent tooling and internal docs (not for GitHub)
 docs/
 AGENTS.md

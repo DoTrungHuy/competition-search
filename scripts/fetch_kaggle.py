@@ -18,6 +18,7 @@ from datetime import datetime
 import requests
 
 from draft_common import ROOT, categorize, load_production, save_draft, stable_id
+from platform_text import description_for, eligibility_for
 
 
 DEFAULT_OUT = os.path.join(ROOT, "scripts", "out", "draft_kaggle.json")
@@ -48,7 +49,10 @@ def to_draft_record(item):
     ref = str(item.get("ref") or "").rstrip("/").split("/")[-1]
     deadline = str(item.get("deadline") or "").strip() or None
     enabled = str(item.get("enabledDate") or "").strip() or None
-    return {
+    organizer = item.get("organizationName")
+    if isinstance(organizer, str):
+        organizer = " ".join(organizer.split()) or None
+    record = {
         "id": stable_id("kaggle", url),
         "brand_id": "kaggle",
         "edition": derive_edition(item),
@@ -56,10 +60,8 @@ def to_draft_record(item):
         "name": " ".join(str(item.get("title") or "").split()),
         "kind": "大厂赛事",
         "info_channel": "官方渠道",
-        "organizer": item.get("organizationName"),
+        "organizer": organizer,
         "link": url,
-        "eligibility": "以赛题页面为准",
-        "description": "Kaggle 平台数据科学竞赛，报名与规则以赛题页面为准。",
         "active": True,
         "last_checked": None,
         "needs_review": True,
@@ -73,6 +75,9 @@ def to_draft_record(item):
             "enabledDate": enabled,
         },
     }
+    record["eligibility"] = eligibility_for(record, "kaggle")
+    record["description"] = description_for(record, "kaggle")
+    return record
 
 
 def fetch_page(page, timeout, auth):

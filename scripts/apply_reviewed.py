@@ -20,6 +20,7 @@ import os
 import sys
 from urllib.parse import urlparse
 
+from platform_text import enrich_platform_text, is_generic_eligibility
 from schedule_utils import (
     SCHEDULE_FIELDS,
     can_auto_verify,
@@ -129,13 +130,21 @@ def build_record(source, brand_id, kind, brand_home, decision):
     record["kind"] = kind
     record["active"] = True
     record.setdefault("edition", "unknown")
-    record.setdefault("eligibility", "以通知原文为准")
+    # 套话 eligibility 不能原样入库；平台赛事会在 enrich 时按赛事名重写
+    if is_generic_eligibility(record.get("eligibility")):
+        record.pop("eligibility", None)
+    if source.get("organizer"):
+        record["organizer"] = source.get("organizer")
 
     link = source.get("link")
     if link and normalized_url(link) != normalized_url(brand_home):
         record["link"] = link
     else:
         link = record.get("link")
+
+    # 自动同步：平台记录必须带可区分的要求/简介，禁止再写「以活动页面为准」
+    enrich_platform_text(record, brand_id=brand_id)
+    record.setdefault("eligibility", "「%s」规则以官方原文为准" % (record.get("name") or "该赛事"))
 
     schedule = decision_schedule(decision)
     if can_auto_verify(link, schedule):
