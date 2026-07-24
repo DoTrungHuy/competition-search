@@ -408,17 +408,20 @@ input:focus-visible,
 }
 
 /* 顶栏：左南邮校徽 · 中导航 · 右占位平衡（liquidGlass 布局） */
-/* prompt navbar: fixed top-4, px-8 / lg:px-16, py-3 */
+/* prompt navbar: fixed; desktop single row, mobile two rows */
 .topbar {
   position: fixed;
   top: max(1rem, env(safe-area-inset-top, 0px));
   left: 0;
   right: 0;
   z-index: 50;
-  display: flex;
+  display: grid;
+  /* brand | nav | visit | tools — single row on desktop */
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  grid-template-rows: auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
+  column-gap: 0.65rem;
+  row-gap: 0;
   padding: 0.75rem max(2rem, env(safe-area-inset-right, 0px)) 0.75rem
     max(2rem, env(safe-area-inset-left, 0px));
   max-width: none;
@@ -426,24 +429,56 @@ input:focus-visible,
   pointer-events: none;
 }
 
-@media (max-width: 720px) {
-  .topbar {
-    padding-left: max(1rem, env(safe-area-inset-left, 0px));
-    padding-right: max(1rem, env(safe-area-inset-right, 0px));
-  }
-}
-
 .topbar > * {
   pointer-events: auto;
 }
 
 .brand-link {
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
   align-items: center;
   text-decoration: none;
-  flex: 0 0 auto;
+  justify-self: start;
   min-width: 0;
   min-height: 44px;
+}
+
+.nav-pill {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  padding: 0.3rem;
+  border-radius: var(--radius-pill);
+  justify-self: center;
+  min-width: 0;
+}
+
+.visit-pill {
+  grid-column: 3;
+  grid-row: 1;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.28rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  user-select: none;
+  justify-self: end;
+}
+
+.topbar-tools {
+  grid-column: 4;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  justify-self: end;
 }
 
 .brand-badge {
@@ -462,26 +497,6 @@ input:focus-visible,
 html[data-theme="dark"] .brand-badge {
   filter: brightness(1.35) contrast(1.06)
     drop-shadow(0 2px 10px rgba(0, 0, 0, 0.58));
-}
-
-/* 右上：访问量 + 主题切换 + GitHub（首页） */
-.topbar-tools {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  flex: 0 0 auto;
-}
-
-.visit-pill {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.28rem;
-  padding: 0.4rem 0.7rem;
-  border-radius: var(--radius-pill);
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  white-space: nowrap;
-  user-select: none;
 }
 
 .visit-label {
@@ -539,29 +554,57 @@ html[data-theme="dark"] .brand-badge {
   line-height: 1;
 }
 
-@media (max-width: 520px) {
-  .brand-badge {
-    height: 40px;
-    /* 给中间导航 + 右侧三控件留空（含 GitHub） */
-    max-width: min(132px, 34vw);
+/* 手机：双行 — 徽+工具 / 导航+访问量 */
+@media (max-width: 720px) {
+  /* 须覆盖 html[data-theme] 选择器，不能只写 :root */
+  :root,
+  html[data-theme="light"],
+  html[data-theme="dark"] {
+    /* topbar top offset (~1rem) + 双行高度 + 余量 */
+    --safe-top: calc(9.75rem + env(safe-area-inset-top, 0px));
+  }
+
+  .topbar {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    column-gap: 0.75rem;
+    row-gap: 0.65rem;
+    padding: 0.7rem max(1rem, env(safe-area-inset-right, 0px)) 0.75rem
+      max(1rem, env(safe-area-inset-left, 0px));
+  }
+
+  .brand-link {
+    grid-column: 1;
+    grid-row: 1;
   }
 
   .topbar-tools {
-    gap: 0.28rem;
+    grid-column: 2;
+    grid-row: 1;
+    gap: 0.5rem;
   }
 
-  /* 窄屏只保留数字，完整含义仍在 title */
-  .visit-label {
-    display: none;
+  .nav-pill {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: start;
   }
 
   .visit-pill {
-    padding: 0.4rem 0.55rem;
-    min-height: 44px;
+    grid-column: 2;
+    grid-row: 2;
     align-items: center;
+    min-height: 44px;
+    padding: 0.4rem 0.65rem;
   }
 
-  .nav-pill .fluid-link.is-active {
+  .brand-badge {
+    height: 42px;
+    max-width: min(200px, 52vw);
+  }
+
+  /* 完整含义仍在 title */
+  .visit-label {
     display: none;
   }
 
@@ -570,38 +613,14 @@ html[data-theme="dark"] .brand-badge {
   }
 
   .theme-toggle {
-    padding: 0.45rem 0.55rem;
-  }
-
-  .github-link {
-    padding: 0.4rem;
+    padding: 0.45rem 0.65rem;
   }
 }
 
-/* 极窄屏再收一点校徽，保证「关于」可点 */
-@media (max-width: 390px) {
-  .brand-badge {
-    max-width: min(118px, 32vw);
+@media (max-width: 520px) {
+  .nav-pill .fluid-link.is-active {
+    display: none;
   }
-
-  .topbar-tools {
-    gap: 0.22rem;
-  }
-
-  .visit-pill {
-    padding: 0.35rem 0.45rem;
-  }
-}
-
-.nav-pill {
-  display: flex;
-  align-items: center;
-  gap: 0.15rem;
-  padding: 0.3rem;
-  border-radius: var(--radius-pill);
-  /* 不要被两侧校徽/工具区挤成一条缝 */
-  flex: 0 0 auto;
-  min-width: 0;
 }
 
 /* openDoor 流体链接 */
@@ -1237,8 +1256,11 @@ html[data-theme="dark"] .badge-estimated {
 
 /* 手机：改布局与触控，不压视频/校徽分辨率 */
 @media (max-width: 720px) {
-  :root {
-    --safe-top: calc(4.5rem + env(safe-area-inset-top, 0px));
+  :root,
+  html[data-theme="light"],
+  html[data-theme="dark"] {
+    /* 双行顶栏：与上方 .topbar 规则一致，避免被压回单行高度 */
+    --safe-top: calc(9.75rem + env(safe-area-inset-top, 0px));
   }
 
   .bg-glow {
