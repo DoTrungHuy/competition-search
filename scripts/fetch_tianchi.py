@@ -26,7 +26,7 @@ from draft_common import ROOT, categorize, load_production, save_draft, stable_i
 
 DEFAULT_OUT = os.path.join(ROOT, "scripts", "out", "draft_tianchi.json")
 ACTIVE_URL = "https://tianchi.aliyun.com/competition/activeList"
-ENTRANCE_RE = re.compile(r"/competition/entrance/(\d+)/")
+ENTRANCE_RE = re.compile(r"/competition/entrance/(\d+)")
 USER_AGENT = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"
