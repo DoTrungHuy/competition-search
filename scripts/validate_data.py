@@ -10,10 +10,18 @@ from urllib.parse import urlparse
 
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
+if SCRIPTS_DIR not in sys.path:
+    sys.path.insert(0, SCRIPTS_DIR)
+
+import link_integrity  # noqa: E402
+
 DATA_DIR = os.path.join(ROOT, "data")
 DATE_FIELDS = (
     "registration_start",
     "registration_end",
+    "registration_start_estimated",
+    "registration_end_estimated",
     "competition_start",
     "competition_end",
     "published_at",
@@ -181,14 +189,49 @@ def validate():
         ):
             errors.append("%s 报名开始晚于报名截止" % prefix)
         if (
+            item.get("registration_start_estimated")
+            and item.get("registration_end_estimated")
+            and item["registration_start_estimated"]
+            > item["registration_end_estimated"]
+        ):
+            errors.append("%s 预计报名开始晚于预计报名截止" % prefix)
+        if (
             item.get("competition_start")
             and item.get("competition_end")
             and item["competition_start"] > item["competition_end"]
         ):
             errors.append("%s 比赛开始晚于比赛结束" % prefix)
 
+        has_official_reg = bool(
+            item.get("registration_start") or item.get("registration_end")
+        )
+        has_estimated_reg = bool(
+            item.get("registration_start_estimated")
+            or item.get("registration_end_estimated")
+        )
+        if has_estimated_reg:
+            if item.get("schedule_source") not in (None, "estimated", "official"):
+                errors.append(
+                    "%s schedule_source 非法: %s"
+                    % (prefix, item.get("schedule_source"))
+                )
+            if has_official_reg and item.get("schedule_source") == "estimated":
+                errors.append(
+                    "%s 已有官方报名日时不应再标 schedule_source=estimated" % prefix
+                )
+            if item.get("needs_review") is True:
+                errors.append("%s 待核验记录不应带预计报名日" % prefix)
+
         link = item.get("link")
-        if link:
+        link_kind = item.get("link_kind")
+        is_estimate = link_integrity.is_estimate_record(item)
+        # 硬门禁：伪参数 / 预计深链 / 缺 brand_home 一律失败（不可绕过）
+        errors.extend(
+            link_integrity.check_competition_link_honesty(
+                item, brand, prefix=prefix
+            )
+        )
+        if link and not is_estimate:
             if not valid_url(link):
                 errors.append("%s link 非法" % prefix)
             if normalized_url(link) == normalized_url(brand.get("official_home")):
@@ -236,13 +279,18 @@ def validate():
         else:
             if not item.get("last_checked"):
                 errors.append("%s 已核验记录缺少 last_checked" % prefix)
-            if not link:
+            if is_estimate:
+                # official_home / link_kind 已由 link_integrity 强制
+                pass
+            elif not link:
                 errors.append("%s 已核验记录缺少赛事深链接" % prefix)
             if not item.get("status_override") and not any(
                 item.get(field)
                 for field in (
                     "registration_start",
                     "registration_end",
+                    "registration_start_estimated",
+                    "registration_end_estimated",
                     "competition_start",
                     "competition_end",
                 )

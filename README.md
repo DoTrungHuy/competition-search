@@ -1,10 +1,23 @@
 # 竞赛查询
 
-面向南邮学生的竞赛搜索与筛选工具。首页优先展示当前仍可行动的机会，已结束赛事随后排列；官网没有统一精确日期时仅提示「见官网详情」，不推定时间或额外添加状态标签。
+面向南邮学生的竞赛搜索与筛选工具。首页优先展示当前仍可行动的机会，已结束赛事随后排列；官网没有统一精确日期时仅提示「见官网详情」。
 
 「学校网站有相关通知」只表示校内发布过通知，不代表南京邮电大学是赛事主办方。报名、组队和赛程最终以赛事原文为准。
 
-已核验且尚未开始的 `registration_start` 会显示为「即将开始报名」；不要用往届规律自动推算下届报名日，应写入新一届官方日期。
+已核验的 `registration_start` 在开报前 1–30 天显示为「即将开始报名」（国际赛不进该筛选）。校认定固定清单在缺少官方报名日时，可用往年已核验窗口写入 `registration_*_estimated`（`schedule_source: estimated`），卡片标「预计」并可进入状态芯片；一旦有官方 `registration_*` 则覆盖预计。
+
+**链接诚信（硬门禁，禁止虚假外链）**
+
+- 预计记录**禁止**写 `link`（含往届深链、`?estimate=` 等伪参数）；只允许 `link_kind: brand_home`，前端按钮为「赛事主页」，只打开品牌 `official_home`。
+- 共享规则：`scripts/link_integrity.py`；`validate_data.py` 与 `apply_registration_estimates.py` 写入前/落盘前都会审计，失败即中止。
+- 前端 `CompStatus.resolvePublicLink` 即便读到脏 `link` 也会忽略预计深链；含伪标记的 URL 宁可不展示。
+- `npm test` 含回归：伪 `estimate=` 深链不得通过校验/生成/前端解析。
+
+```bash
+python scripts/apply_registration_estimates.py
+python scripts/validate_data.py
+npm test
+```
 
 ## 当前状态
 

@@ -922,6 +922,23 @@ html[data-theme="dark"] .brand-badge {
   color: var(--source-njupt-text);
 }
 
+/* 南邮校认定固定清单档位 */
+.badge-njupt-tier {
+  background: var(--source-njupt);
+  color: var(--source-njupt-text);
+}
+
+/* 往年推算报名日（非官方） */
+.badge-estimated {
+  background: var(--status-upcoming);
+  color: var(--status-upcoming-text);
+  border: 1px solid rgba(180, 83, 9, 0.28);
+}
+
+html[data-theme="dark"] .badge-estimated {
+  border-color: rgba(252, 211, 77, 0.35);
+}
+
 .badge-status-open {
   background: var(--status-open);
   color: var(--status-open-text);

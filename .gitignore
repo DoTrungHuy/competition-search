@@ -14,6 +14,11 @@ reports/
 scripts/local/*.bat
 scripts/local/.env
 scripts/local/.env.*
+# Scratch audits, probes, plan dumps (keep README + *.example tracked)
+scripts/local/_*
+scripts/local/*.txt
+scripts/local/*.md
+!scripts/local/README.md
 .env
 .env.*
 

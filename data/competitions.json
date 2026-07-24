@@ -1829,7 +1829,10 @@
       "active": true,
       "needs_review": true,
       "last_checked": null,
-      "link": "https://cxcy.njupt.edu.cn/2026/0630/c11336a305576/page.htm"
+      "link": "https://cxcy.njupt.edu.cn/2026/0630/c11336a305576/page.htm",
+      "tags": [
+        "校认定"
+      ]
     },
     {
       "id": "campus-20260514-123ad6acb1ca",
@@ -1846,7 +1849,10 @@
       "active": true,
       "needs_review": true,
       "last_checked": null,
-      "link": "https://cxcy.njupt.edu.cn/2026/0514/c11336a301863/page.htm"
+      "link": "https://cxcy.njupt.edu.cn/2026/0514/c11336a301863/page.htm",
+      "tags": [
+        "校认定"
+      ]
     },
     {
       "id": "campus-20260506-be1fd4a127e0",
@@ -1863,7 +1869,10 @@
       "active": true,
       "needs_review": true,
       "last_checked": null,
-      "link": "https://cxcy.njupt.edu.cn/2026/0506/c11336a301334/page.htm"
+      "link": "https://cxcy.njupt.edu.cn/2026/0506/c11336a301334/page.htm",
+      "tags": [
+        "校认定"
+      ]
     },
     {
       "id": "campus-20260423-ce71ea70a2e7",
@@ -1880,7 +1889,10 @@
       "active": true,
       "needs_review": true,
       "last_checked": null,
-      "link": "https://cxcy.njupt.edu.cn/2026/0423/c11336a300638/page.htm"
+      "link": "https://cxcy.njupt.edu.cn/2026/0423/c11336a300638/page.htm",
+      "tags": [
+        "校认定"
+      ]
     },
     {
       "id": "mlh-unknown-105357d34033",
@@ -3110,6 +3122,766 @@
       "competition_end": "2026-07-29",
       "schedule_source": "model",
       "schedule_confidence": "high"
+    },
+    {
+      "id": "catalog-challengecup_startup",
+      "brand_id": "challengecup_startup",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "挑战杯中国大学生创业计划竞赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 A 类。创业计划赛道；具体届次与报名以官网及校内通知为准。",
+      "eligibility": "在校生；以项目组队，细则见官网",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-nuedc",
+      "brand_id": "nuedc",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "全国大学生电子设计竞赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 A 类。电赛主体；届次与报名以电赛官网及校内通知为准。",
+      "eligibility": "高校在校生；按赛区章程组队",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-smartcar",
+      "brand_id": "smartcar",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "全国大学生智能汽车竞赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 B 类。智能车竞赛；报名与赛制以官网为准。",
+      "eligibility": "高校在校生；按章程组队",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-gjjn",
+      "brand_id": "gjjn",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "中国大学生工程实践与创新能力大赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 B 类。工程实践与创新；细则见官网。",
+      "eligibility": "高校在校生；按赛道章程",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-siemens_cup",
+      "brand_id": "siemens_cup",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "西门子杯中国智能制造挑战赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 B 类。智能制造挑战；细则见官网。",
+      "eligibility": "高校在校生；按章程组队",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-service_outsourcing",
+      "brand_id": "service_outsourcing",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "中国大学生服务外包创新创业大赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 B 类。服务外包创新创业；细则见官网。",
+      "eligibility": "高校在校生；按赛道组队",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-nuedc_embedded",
+      "brand_id": "nuedc_embedded",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "全国大学生电子设计竞赛嵌入式系统专题邀请赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 B 类。电赛嵌入式专题；细则见官网。",
+      "eligibility": "高校在校生；按专题章程",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-nuedc_analog",
+      "brand_id": "nuedc_analog",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "全国大学生电子设计竞赛模拟电子系统设计邀请赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 B 类。电赛模电专题；细则见官网。",
+      "eligibility": "高校在校生；按专题章程",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-jieneng",
+      "brand_id": "jieneng",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "全国大学生节能减排社会实践与科技竞赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 B 类。节能减排科技竞赛；细则见官网。",
+      "eligibility": "高校在校生；按章程组队",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-optodesign",
+      "brand_id": "optodesign",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "全国大学生光电设计竞赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 C 类。光电设计；细则见官网。",
+      "eligibility": "高校在校生；按章程组队",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-ic_design",
+      "brand_id": "ic_design",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "全国大学生集成电路创新创业大赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 C 类。集成电路创新创业；细则见官网。",
+      "eligibility": "高校在校生；按赛道章程",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-robocup_cn",
+      "brand_id": "robocup_cn",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "中国机器人大赛暨 RoboCup 机器人世界杯中国赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 C 类。机器人综合赛事；细则见官网。",
+      "eligibility": "高校在校生；按项目组队",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-raicom",
+      "brand_id": "raicom",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "睿抗机器人开发者大赛（RAICOM）",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 C 类。机器人开发者赛；细则见官网。",
+      "eligibility": "高校在校生；按章程组队",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-datang_cup",
+      "brand_id": "datang_cup",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "大唐杯全国大学生新一代信息通信技术大赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 C 类。信息通信技术；细则见官网。",
+      "eligibility": "高校在校生；按赛道章程",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-embedded_chip",
+      "brand_id": "embedded_chip",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "全国大学生嵌入式芯片与系统设计竞赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 C 类。嵌入式芯片与系统；细则见官网。",
+      "eligibility": "高校在校生；按章程组队",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-smart_robot_idea",
+      "brand_id": "smart_robot_idea",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "中国高校智能机器人创意大赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 C 类。智能机器人创意；细则见官网。",
+      "eligibility": "高校在校生；按章程组队",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-cn_robot_ai",
+      "brand_id": "cn_robot_ai",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "中国机器人及人工智能大赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 C 类。机器人及人工智能；细则见官网。",
+      "eligibility": "高校在校生；按项目组队",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-isct",
+      "brand_id": "isct",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "全国大学生信息安全与对抗技术竞赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 C 类。信息安全与对抗；细则见官网。",
+      "eligibility": "高校在校生；按章程组队",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-digital_media",
+      "brand_id": "digital_media",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "全国大学生数字媒体科技作品及创意竞赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 C 类。数字媒体科技作品；细则见官网。",
+      "eligibility": "高校在校生；按章程组队",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-gaia_ai",
+      "brand_id": "gaia_ai",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "全球校园人工智能算法精英大赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 C 类。AI 算法精英赛；细则见官网。",
+      "eligibility": "高校在校生；按赛制组队",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-robocon",
+      "brand_id": "robocon",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "全国大学生机器人大赛 RoboCon",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 C 类（CURC 子项）。RoboCon；细则见官网。",
+      "eligibility": "高校在校生；按章程组队",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-3d_innovation",
+      "brand_id": "3d_innovation",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "全国三维数字化创新设计大赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 C 类。三维数字化创新设计；细则见官网。",
+      "eligibility": "高校在校生；按赛道章程",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-siyou_sidian",
+      "brand_id": "siyou_sidian",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "四邮四电高校系列学科竞赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 C 类。四邮四电系列学科竞赛；以主办与校内通知为准。",
+      "eligibility": "相关高校在校生；以当年通知为准",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-ccpc",
+      "brand_id": "ccpc",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "中国大学生程序设计竞赛",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 C 类。CCPC；细则见官网。",
+      "eligibility": "高校在校生；3 人一队",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-nuedc_renesas",
+      "brand_id": "nuedc_renesas",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "全国大学生电子设计竞赛信息科技前沿专题赛（瑞萨杯）",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 C 类。电赛信息科技前沿专题；细则见官网。",
+      "eligibility": "高校在校生；按专题章程",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-zte_holdingmoon",
+      "brand_id": "zte_holdingmoon",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "中兴捧月全球精英挑战赛",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 C2 类。中兴捧月；细则见官网。",
+      "eligibility": "高校学生；以赛题与官网为准",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-tianyiyun_ai",
+      "brand_id": "tianyiyun_ai",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "天翼云息壤杯高校 AI 大赛",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 C2 类。天翼云 AI 大赛；细则见官网。",
+      "eligibility": "高校学生；以赛题与官网为准",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "catalog-wutong_cup",
+      "brand_id": "wutong_cup",
+      "edition": "catalog",
+      "track_id": "catalog-main",
+      "name": "梧桐杯大数据创新大赛",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定 C2 类。梧桐杯大数据；细则见官网。",
+      "eligibility": "高校学生；以赛题与官网为准",
+      "active": true,
+      "needs_review": true,
+      "last_checked": null,
+      "tags": [
+        "校认定",
+        "固定清单"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "estimate-lanqiao-2027",
+      "brand_id": "lanqiao",
+      "edition": "2027",
+      "track_id": "estimate-main",
+      "name": "蓝桥杯（2027 预计报名）",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定固定清单。报名日为据往年已核验记录推算的预计时间，不构成官方通知；不提供本届报名深链（避免失效/伪造链接），请从赛事品牌官网与校内通知自行核对。",
+      "eligibility": "高校在校生；个人赛为主",
+      "active": true,
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "registration_start_estimated": "2027-10-20",
+      "registration_end_estimated": "2028-03-11",
+      "schedule_source": "estimated",
+      "estimate_note": "据 17 届报名窗口推算；入口为品牌官网，非本届报名页",
+      "estimate_basis_id": "lanqiao-17",
+      "link_kind": "brand_home",
+      "tags": [
+        "校认定",
+        "固定清单",
+        "预计"
+      ],
+      "category": [
+        "算法",
+        "软件开发"
+      ]
+    },
+    {
+      "id": "estimate-cnsoftbei-2027",
+      "brand_id": "cnsoftbei",
+      "edition": "2027",
+      "track_id": "estimate-main",
+      "name": "中国软件杯（2027 预计报名）",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定固定清单。报名日为据往年已核验记录推算的预计时间，不构成官方通知；不提供本届报名深链（避免失效/伪造链接），请从赛事品牌官网与校内通知自行核对。",
+      "eligibility": "高校在校生",
+      "active": true,
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "registration_start_estimated": "2027-03-24",
+      "registration_end_estimated": "2027-07-20",
+      "schedule_source": "estimated",
+      "estimate_note": "据 15 届报名窗口推算；入口为品牌官网，非本届报名页",
+      "estimate_basis_id": "cnsoftbei-15",
+      "link_kind": "brand_home",
+      "tags": [
+        "校认定",
+        "固定清单",
+        "预计"
+      ],
+      "category": [
+        "软件开发"
+      ]
+    },
+    {
+      "id": "estimate-c4-2026",
+      "brand_id": "c4",
+      "edition": "2026",
+      "track_id": "estimate-main",
+      "name": "中国高校计算机大赛（2026 预计报名）",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定固定清单。报名日为据往年已核验记录推算的预计时间，不构成官方通知；不提供本届报名深链（避免失效/伪造链接），请从赛事品牌官网与校内通知自行核对。",
+      "eligibility": "高校在校生；按简章组队",
+      "active": true,
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "registration_start_estimated": "2026-07-04",
+      "registration_end_estimated": "2026-07-25",
+      "schedule_source": "estimated",
+      "estimate_note": "据 2025 届报名窗口推算；入口为品牌官网，非本届报名页",
+      "estimate_basis_id": "c4-ai-2025",
+      "link_kind": "brand_home",
+      "tags": [
+        "校认定",
+        "固定清单",
+        "预计"
+      ],
+      "category": [
+        "AI"
+      ]
+    },
+    {
+      "id": "estimate-sys-2027",
+      "brand_id": "sys",
+      "edition": "2027",
+      "track_id": "estimate-main",
+      "name": "全国大学生计算机系统能力大赛（2027 预计报名）",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定固定清单。报名日为据往年已核验记录推算的预计时间，不构成官方通知；不提供本届报名深链（避免失效/伪造链接），请从赛事品牌官网与校内通知自行核对。",
+      "eligibility": "全国普通高等学校全日制在校本科生",
+      "active": true,
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "registration_start_estimated": "2027-03-09",
+      "registration_end_estimated": "2027-05-27",
+      "schedule_source": "estimated",
+      "estimate_note": "据 2026 届报名窗口推算；入口为品牌官网，非本届报名页",
+      "estimate_basis_id": "syscap-2026-intelligent-system",
+      "link_kind": "brand_home",
+      "tags": [
+        "校认定",
+        "固定清单",
+        "预计"
+      ],
+      "category": [
+        "系统",
+        "AI"
+      ]
+    },
+    {
+      "id": "estimate-mcm_us-2027",
+      "brand_id": "mcm_us",
+      "edition": "2027",
+      "track_id": "estimate-main",
+      "name": "MCM/ICM（2027 预计报名）",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定固定清单。报名日为据往年已核验记录推算的预计时间，不构成官方通知；不提供本届报名深链（避免失效/伪造链接），请从赛事品牌官网与校内通知自行核对。",
+      "eligibility": "同一学校在读学生；每队 1-3 人并由顾问完成注册",
+      "active": true,
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "registration_start_estimated": "2027-01-08",
+      "registration_end_estimated": "2027-01-29",
+      "schedule_source": "estimated",
+      "estimate_note": "据 2026 届报名窗口推算；入口为品牌官网，非本届报名页",
+      "estimate_basis_id": "mcm-icm-2026",
+      "link_kind": "brand_home",
+      "tags": [
+        "校认定",
+        "固定清单",
+        "预计"
+      ],
+      "category": [
+        "数模",
+        "综合"
+      ]
+    },
+    {
+      "id": "estimate-huawei_codecraft-2027",
+      "brand_id": "huawei_codecraft",
+      "edition": "2027",
+      "track_id": "estimate-main",
+      "name": "华为软件精英挑战赛（2027 预计报名）",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定固定清单。报名日为据往年已核验记录推算的预计时间，不构成官方通知；不提供本届报名深链（避免失效/伪造链接），请从赛事品牌官网与校内通知自行核对。",
+      "eligibility": "全球高校在校大学生，按赛区规则参赛",
+      "active": true,
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "registration_start_estimated": "2027-03-16",
+      "registration_end_estimated": "2027-04-09",
+      "schedule_source": "estimated",
+      "estimate_note": "据 2026 届报名窗口推算；入口为品牌官网，非本届报名页",
+      "estimate_basis_id": "huawei-codecraft-2026",
+      "link_kind": "brand_home",
+      "tags": [
+        "校认定",
+        "固定清单",
+        "预计"
+      ],
+      "category": [
+        "算法",
+        "软件开发"
+      ]
     }
   ]
 }

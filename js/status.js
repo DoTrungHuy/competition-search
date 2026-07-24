@@ -11,11 +11,15 @@
     即将开始报名: 2,
     即将开始: 2,
     进行中: 2,
+    报名未开始: 3,
     报名结束: 3,
     已结束: 4,
     已停办: 5,
     待复核: 6,
   };
+
+  /** 「即将开始报名」仅在开报前 30 天窗口内（不含开报当天）。 */
+  var UPCOMING_REGISTRATION_DAYS = 30;
 
   function parseDate(value) {
     if (!value || typeof value !== "string") return null;
@@ -74,12 +78,54 @@
     return anchor >= calendarYearCutoff(today);
   }
 
-  function statusResult(status, urgent, nextDate) {
-    return {
+  function statusResult(status, urgent, nextDate, extra) {
+    var result = {
       status: status,
       urgent: Boolean(urgent),
       nextDate: nextDate || null,
       rank: urgent ? 0 : STATUS_RANK[status] == null ? 6 : STATUS_RANK[status],
+      scheduleSource: "none",
+      estimated: false,
+    };
+    if (extra) {
+      if (extra.scheduleSource) result.scheduleSource = extra.scheduleSource;
+      if (extra.estimated) result.estimated = true;
+    }
+    return result;
+  }
+
+  /**
+   * 报名日：官方 registration_* 优先；否则可用往年推算字段（固定清单 P1）。
+   * 返回 { start, end, source: "official"|"estimated"|"none", estimated: bool }
+   */
+  function resolveRegistrationSchedule(item) {
+    var officialStart = parseDate(item && item.registration_start);
+    var officialEnd = parseDate(item && item.registration_end);
+    if (officialStart || officialEnd) {
+      return {
+        start: officialStart,
+        end: officialEnd,
+        source: "official",
+        estimated: false,
+      };
+    }
+    var estStart = parseDate(item && item.registration_start_estimated);
+    var estEnd = parseDate(item && item.registration_end_estimated);
+    if (estStart || estEnd) {
+      return {
+        start: estStart,
+        end: estEnd,
+        source: "estimated",
+        estimated: true,
+      };
+    }
+    return { start: null, end: null, source: "none", estimated: false };
+  }
+
+  function scheduleMeta(schedule) {
+    return {
+      scheduleSource: schedule.source,
+      estimated: Boolean(schedule.estimated),
     };
   }
 
@@ -88,26 +134,43 @@
     if (item.active === false) return statusResult("已停办", false);
     if (item.needs_review === true) return statusResult("待复核", false);
 
-    var registrationStart = parseDate(item.registration_start);
-    var registrationEnd = parseDate(item.registration_end);
+    var schedule = resolveRegistrationSchedule(item);
+    var registrationStart = schedule.start;
+    var registrationEnd = schedule.end;
     var competitionStart = parseDate(item.competition_start);
     var competitionEnd = parseDate(item.competition_end);
+    var meta = scheduleMeta(schedule);
 
-    // 官方状态覆盖默认优先；但若已写入「下届报名开始日」且尚未到日，
-    // 则不再被过期的「已结束/报名结束」挡住（早期「即将开始报名」能力）。
+    // 官方状态覆盖默认优先；但若已写入「下届报名开始日」且处于开报前 30 天窗口，
+    // 则不再被过期的「已结束/报名结束」挡住。
     if (item.status_override) {
       var override = String(item.status_override);
+      var daysToRegOverride = registrationStart
+        ? daysBetween(current, registrationStart)
+        : null;
+      var upcomingWindow =
+        daysToRegOverride != null &&
+        daysToRegOverride >= 1 &&
+        daysToRegOverride <= UPCOMING_REGISTRATION_DAYS;
       var staleEnded =
-        (override === "已结束" || override === "报名结束") &&
-        registrationStart &&
-        current < registrationStart;
+        (override === "已结束" || override === "报名结束") && upcomingWindow;
       if (!staleEnded) {
-        return statusResult(override, false);
+        // override 本身视为官方口径，不标预计
+        return statusResult(override, false, null, {
+          scheduleSource: "official",
+          estimated: false,
+        });
       }
     }
 
+    // 即将开始报名：today < registration_start 且距开报 1–30 天（开报当天起算报名中）
     if (registrationStart && current < registrationStart) {
-      return statusResult("即将开始报名", false, registrationStart);
+      var daysToReg = daysBetween(current, registrationStart);
+      if (daysToReg >= 1 && daysToReg <= UPCOMING_REGISTRATION_DAYS) {
+        return statusResult("即将开始报名", false, registrationStart, meta);
+      }
+      // 开报日仍在 30 天之外：不进「即将报名」芯片，也不落成待复核
+      return statusResult("报名未开始", false, registrationStart, meta);
     }
 
     if (registrationEnd && current <= registrationEnd) {
@@ -117,13 +180,17 @@
         return statusResult(
           "报名中",
           daysLeft >= 0 && daysLeft <= 7,
-          registrationEnd
+          registrationEnd,
+          meta
         );
       }
     }
 
     if (competitionStart && current < competitionStart) {
-      return statusResult("即将开始", false, competitionStart);
+      return statusResult("即将开始", false, competitionStart, {
+        scheduleSource: "official",
+        estimated: false,
+      });
     }
 
     if (
@@ -131,15 +198,26 @@
       current >= competitionStart &&
       (!competitionEnd || current <= competitionEnd)
     ) {
-      return statusResult("进行中", false, competitionEnd);
+      return statusResult("进行中", false, competitionEnd, {
+        scheduleSource: "official",
+        estimated: false,
+      });
     }
 
     if (competitionEnd && current > competitionEnd) {
-      return statusResult("已结束", false, competitionEnd);
+      return statusResult("已结束", false, competitionEnd, {
+        scheduleSource: "official",
+        estimated: false,
+      });
     }
 
     if (registrationEnd && current > registrationEnd) {
-      return statusResult("报名结束", false, competitionStart || competitionEnd);
+      return statusResult(
+        "报名结束",
+        false,
+        competitionStart || competitionEnd,
+        meta
+      );
     }
 
     return statusResult("待复核", false);
@@ -181,15 +259,104 @@
     return String(a.name || "").localeCompare(String(b.name || ""), "zh-CN");
   }
 
+  function isInternationalKind(item) {
+    return item && item.kind === "国际赛事";
+  }
+
+  /**
+   * 状态芯片（报名中 / 即将报名 / 进行中）只服务国内主栏。
+   * 国际赛仅在「国际赛」芯片或搜索中出现。
+   */
+  function inMainLane(item) {
+    return !isInternationalKind(item);
+  }
+
+/**
+   * 公开状态芯片契约：有核验日期且状态匹配时必须为 true。
+   * chip: "报名中" | "即将开始报名" | "进行中"
+   */
+  function matchesStatusChip(item, chip, today) {
+    if (!item || item.active === false) return false;
+    if (!inMainLane(item)) return false;
+    if (!withinTwoYears(item, today)) return false;
+    var status = computeStatus(item, today).status;
+    if (chip === "报名中") return status === "报名中";
+    if (chip === "即将开始报名") return status === "即将开始报名";
+    if (chip === "进行中") return status === "进行中";
+    return false;
+  }
+
+  /**
+   * 链接诚信：预计/品牌主页类记录不得使用赛事深链或伪参数。
+   * 用于前端展示与测试；生产数据由 validate_data + link_integrity 双闸。
+   */
+  function isBrandHomeOnly(item) {
+    if (!item) return false;
+    if (item.link_kind === "brand_home") return true;
+    if (item.schedule_source === "estimated") return true;
+    if (item.id && String(item.id).indexOf("estimate-") === 0) return true;
+    if (item.registration_start_estimated || item.registration_end_estimated) {
+      return true;
+    }
+    return false;
+  }
+
+  function urlHasFakeMarkers(url) {
+    if (!url || typeof url !== "string") return false;
+    var lower = url.toLowerCase();
+    if (lower.indexOf("estimate=") !== -1) return true;
+    if (lower.indexOf("estimated=") !== -1) return true;
+    if (lower.indexOf("/estimate/") !== -1) return true;
+    if (lower.indexOf("?estimate") !== -1) return true;
+    if (lower.indexOf("&estimate") !== -1) return true;
+    return false;
+  }
+
+  /**
+   * 解析用户应打开的外链与按钮文案。
+   * brand: { official_home } 可选。
+   * 返回 { href, label, brandHomeOnly }
+   * 若 href 含伪标记则降级为空（宁可不展示，不给假信息）。
+   */
+  function resolvePublicLink(item, brand) {
+    brand = brand || {};
+    var brandHomeOnly = isBrandHomeOnly(item);
+    var href = "";
+    var label = "赛事主页";
+    if (brandHomeOnly) {
+      href = (brand.official_home || "").trim();
+      label = "赛事主页";
+    } else if (item && item.link) {
+      href = String(item.link).trim();
+      label = "查看原文";
+    } else {
+      href = (brand.official_home || "").trim();
+      label = "赛事主页";
+    }
+    if (href && urlHasFakeMarkers(href)) {
+      href = "";
+    }
+    return { href: href, label: label, brandHomeOnly: brandHomeOnly };
+  }
+
   var api = {
     STATUS_RANK: STATUS_RANK,
+    UPCOMING_REGISTRATION_DAYS: UPCOMING_REGISTRATION_DAYS,
     parseDate: parseDate,
     startOfToday: startOfToday,
+    daysBetween: daysBetween,
     anchorDate: anchorDate,
     calendarYearCutoff: calendarYearCutoff,
     withinTwoYears: withinTwoYears,
+    resolveRegistrationSchedule: resolveRegistrationSchedule,
     computeStatus: computeStatus,
     compareCompetitions: compareCompetitions,
+    isInternationalKind: isInternationalKind,
+    inMainLane: inMainLane,
+    matchesStatusChip: matchesStatusChip,
+    isBrandHomeOnly: isBrandHomeOnly,
+    urlHasFakeMarkers: urlHasFakeMarkers,
+    resolvePublicLink: resolvePublicLink,
   };
 
   global.CompStatus = api;

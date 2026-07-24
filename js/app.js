@@ -24,10 +24,13 @@
     即将开始报名: "badge-status-upcoming",
     即将开始: "badge-status-upcoming",
     进行中: "badge-status-running",
+    报名未开始: "badge-status-closed",
     报名结束: "badge-status-closed",
     已结束: "badge-status-ended",
     已停办: "badge-status-ended",
   };
+
+  var TIER_RANK = { A: 0, B: 1, C: 2, C2: 3 };
 
   function $(id) {
     return document.getElementById(id);
@@ -58,28 +61,102 @@
     return state.brands[item.brand_id] || null;
   }
 
-  function sourceLink(item) {
+  function isNjuptFixed(item) {
     var brand = brandFor(item);
-    return item.link || (brand && brand.official_home) || "";
+    return !!(brand && brand.njupt_fixed);
+  }
+
+  function njuptTier(item) {
+    var brand = brandFor(item);
+    return (brand && brand.njupt_tier) || "";
+  }
+
+  function resolveItemLink(item) {
+    var brand = brandFor(item) || {};
+    if (
+      window.CompStatus &&
+      typeof window.CompStatus.resolvePublicLink === "function"
+    ) {
+      return window.CompStatus.resolvePublicLink(item, brand);
+    }
+    // 兜底须与 status.js 同严格：预计字段 / 伪参数均拦截
+    var brandHomeOnly =
+      item.link_kind === "brand_home" ||
+      item.schedule_source === "estimated" ||
+      (item.id && String(item.id).indexOf("estimate-") === 0) ||
+      Boolean(item.registration_start_estimated) ||
+      Boolean(item.registration_end_estimated);
+    function fakeUrl(url) {
+      if (!url || typeof url !== "string") return false;
+      var lower = url.toLowerCase();
+      return (
+        lower.indexOf("estimate=") !== -1 ||
+        lower.indexOf("estimated=") !== -1 ||
+        lower.indexOf("/estimate/") !== -1 ||
+        lower.indexOf("?estimate") !== -1 ||
+        lower.indexOf("&estimate") !== -1
+      );
+    }
+    var href = "";
+    var label = "赛事主页";
+    if (brandHomeOnly) {
+      href = brand.official_home || "";
+      label = "赛事主页";
+    } else if (item.link) {
+      href = item.link;
+      label = "查看原文";
+    } else {
+      href = brand.official_home || "";
+      label = "赛事主页";
+    }
+    if (href && fakeUrl(href)) href = "";
+    return { href: href, label: label, brandHomeOnly: brandHomeOnly };
+  }
+
+  function sourceLink(item) {
+    return resolveItemLink(item).href || "";
   }
 
   function sourceLabel(item) {
-    return item.link ? "查看原文" : "赛事主页";
+    return resolveItemLink(item).label || "赛事主页";
+  }
+
+  function formatDate(value) {
+    if (!value) return "";
+    if (typeof value === "string") return value;
+    if (value instanceof Date && !isNaN(value.getTime())) {
+      var y = value.getFullYear();
+      var m = String(value.getMonth() + 1).padStart
+        ? String(value.getMonth() + 1).padStart(2, "0")
+        : ("0" + (value.getMonth() + 1)).slice(-2);
+      var d = String(value.getDate()).padStart
+        ? String(value.getDate()).padStart(2, "0")
+        : ("0" + value.getDate()).slice(-2);
+      return y + "-" + m + "-" + d;
+    }
+    return String(value);
   }
 
   function timeLine(item) {
     if (item.needs_review === true) return "见官网详情";
-    var status = window.CompStatus.computeStatus(item).status;
-    if (status === "即将开始报名" && item.registration_start) {
-      if (item.registration_end) {
-        return (
-          "报名开始 " +
-          item.registration_start +
-          "，截止 " +
-          item.registration_end
-        );
+    var meta = window.CompStatus.computeStatus(item);
+    var status = meta.status;
+    var schedule = window.CompStatus.resolveRegistrationSchedule
+      ? window.CompStatus.resolveRegistrationSchedule(item)
+      : {
+          start: window.CompStatus.parseDate(item.registration_start),
+          end: window.CompStatus.parseDate(item.registration_end),
+          estimated: false,
+        };
+    var prefix = schedule.estimated ? "预计" : "";
+    var rs = formatDate(schedule.start || item.registration_start);
+    var re = formatDate(schedule.end || item.registration_end);
+
+    if ((status === "即将开始报名" || status === "报名未开始") && rs) {
+      if (re) {
+        return prefix + "报名开始 " + rs + "，截止 " + re;
       }
-      return "报名开始 " + item.registration_start;
+      return prefix + "报名开始 " + rs;
     }
     if (status === "即将开始" && item.competition_start) {
       if (item.competition_end) {
@@ -97,10 +174,10 @@
     if (status === "已结束" && item.competition_end) {
       return "比赛结束 " + item.competition_end;
     }
-    if (item.registration_start && item.registration_end) {
-      return "报名 " + item.registration_start + " 至 " + item.registration_end;
+    if (rs && re) {
+      return prefix + "报名 " + rs + " 至 " + re;
     }
-    if (item.registration_end) return "报名截止 " + item.registration_end;
+    if (re) return prefix + "报名截止 " + re;
     if (item.competition_start && item.competition_end) {
       return "比赛 " + item.competition_start + " 至 " + item.competition_end;
     }
@@ -166,6 +243,8 @@
       _status: statusMeta.status,
       _urgent: statusMeta.urgent,
       _statusMeta: statusMeta,
+      _estimated: Boolean(statusMeta.estimated),
+      _scheduleSource: statusMeta.scheduleSource || "none",
     });
   }
 
@@ -190,7 +269,9 @@
   }
 
   function isInternational(item) {
-    return item.kind === "国际赛事";
+    return window.CompStatus.isInternationalKind
+      ? window.CompStatus.isInternationalKind(item)
+      : item.kind === "国际赛事";
   }
 
   /**
@@ -198,7 +279,9 @@
    * 国际赛单独芯片；搜索有关键词时仍可命中国际赛事。
    */
   function inMainLane(item) {
-    return !isInternational(item);
+    return window.CompStatus.inMainLane
+      ? window.CompStatus.inMainLane(item)
+      : !isInternational(item);
   }
 
   function filterItems() {
@@ -219,12 +302,15 @@
       } else if (state.quick === "全国") {
         if (item.kind !== "全国赛事") return false;
       } else if (state.quick === "报名中") {
-        // 含即将截止：排序里紧急项仍靠前，不再单独设「快截止」芯片
-        if (!inMainLane(item) || item._status !== "报名中") return false;
+        // 与 CompStatus.matchesStatusChip 同源：有核验在报区间必出现
+        if (!window.CompStatus.matchesStatusChip(item, "报名中")) return false;
       } else if (state.quick === "即将开始报名") {
-        if (!inMainLane(item) || item._status !== "即将开始报名") return false;
+        // 开报前 30 天；国际不进；有核验 registration_start 进入窗口后必出现
+        if (!window.CompStatus.matchesStatusChip(item, "即将开始报名")) {
+          return false;
+        }
       } else if (state.quick === "进行中") {
-        if (!inMainLane(item) || item._status !== "进行中") return false;
+        if (!window.CompStatus.matchesStatusChip(item, "进行中")) return false;
       } else {
         // 全部：默认主栏不含国际赛；有搜索词时放行国际赛，便于检索
         if (!query && !inMainLane(item)) return false;
@@ -234,6 +320,29 @@
     });
 
     list.sort(function (a, b) {
+      // 1) 当前机会优先（状态 rank，与 status.js 一致）
+      // 2) 同状态下：校认定固定清单优先，再 A>B>C>C2
+      // 3) 其余走通用比较（截止日 / 届次 / 名称）
+      var aRank =
+        a._statusMeta && a._statusMeta.rank != null
+          ? a._statusMeta.rank
+          : 6;
+      var bRank =
+        b._statusMeta && b._statusMeta.rank != null
+          ? b._statusMeta.rank
+          : 6;
+      if (aRank !== bRank) return aRank - bRank;
+
+      var aFixed = isNjuptFixed(a) ? 0 : 1;
+      var bFixed = isNjuptFixed(b) ? 0 : 1;
+      if (aFixed !== bFixed) return aFixed - bFixed;
+
+      var aTier = TIER_RANK[njuptTier(a)];
+      var bTier = TIER_RANK[njuptTier(b)];
+      if (aTier == null) aTier = 9;
+      if (bTier == null) bTier = 9;
+      if (aTier !== bTier) return aTier - bTier;
+
       return window.CompStatus.compareCompetitions(a, b);
     });
     return list;
@@ -249,7 +358,7 @@
     if (!list.length) {
       var emptyHint =
         state.quick === "即将开始报名"
-          ? "当前没有已核验的「报名开始日」仍在未来的赛事；有官网日期后会自动显示"
+          ? "仅显示开报前 30 天内、已核验报名开始日的赛事（国际赛不计入）；有日期进入窗口后会自动出现"
           : state.quick === "国际"
             ? "当前没有符合条件的国际赛；可清空搜索或切回「全部」查看国内主栏"
             : "可以清空搜索、切换「国际赛」或回到「全部」";
@@ -267,15 +376,32 @@
       card.className = "card bloom-card liquid-glass";
       card.style.animationDelay = Math.min(index, 8) * 0.04 + "s";
 
-      var statusLabel = item._urgent ? "即将截止" : item._status;
+      var statusLabel = item._urgent
+        ? "即将截止"
+        : item._status === "报名未开始"
+          ? ""
+          : item._status === "待复核"
+            ? ""
+            : item._status;
       var statusBadge =
-        item._status === "待复核"
+        !statusLabel
           ? ""
           : '<span class="' +
             statusClass(item._status, item._urgent) +
             '">' +
             escapeHtml(statusLabel) +
             "</span>";
+      var tier = njuptTier(item);
+      var tierBadge = tier
+        ? '<span class="badge badge-njupt-tier" title="南邮校认定 ' +
+          escapeAttr(tier) +
+          ' 类">校认定' +
+          escapeHtml(tier) +
+          "</span>"
+        : "";
+      var estimatedBadge = item._estimated
+        ? '<span class="badge badge-estimated" title="报名日据往年推算，以官网为准">预计</span>'
+        : "";
       var requirement = requirementLine(item);
       var link = sourceLink(item);
       var linkLabel = sourceLabel(item);
@@ -290,6 +416,8 @@
         escapeHtml(item.name) +
         "</h3>" +
         '<div class="badges">' +
+        tierBadge +
+        estimatedBadge +
         '<span class="badge ' +
         kindClass(item.kind) +
         '">' +
@@ -346,12 +474,31 @@
   function openDrawer(item, trigger) {
     var enriched = enrich(item);
     var link = sourceLink(item);
-    var statusSection =
-      enriched._status === "待复核"
-        ? ""
-        : '<div class="drawer-section"><strong>状态</strong>' +
-          escapeHtml(enriched._urgent ? "即将截止" : enriched._status) +
-          "</div>";
+    var drawerStatus =
+      enriched._urgent
+        ? "即将截止"
+        : enriched._status === "待复核" || enriched._status === "报名未开始"
+          ? ""
+          : enriched._status;
+    var statusSection = drawerStatus
+      ? '<div class="drawer-section"><strong>状态</strong>' +
+        escapeHtml(drawerStatus) +
+        "</div>"
+      : "";
+    var tier = njuptTier(item);
+    var tierSection = tier
+      ? '<div class="drawer-section"><strong>校认定</strong>' +
+        escapeHtml(tier) +
+        " 类（南邮创新创业竞赛项目认定目录）</div>"
+      : "";
+    var estimateSection = enriched._estimated
+      ? '<div class="drawer-notice">报名日为据往年推算的<strong>预计</strong>时间，不构成官方通知。' +
+        "下方按钮仅打开赛事<strong>品牌官网</strong>，不是本届报名页；请以官网与校内通知为准。" +
+        (item.estimate_note
+          ? " " + escapeHtml(item.estimate_note)
+          : "") +
+        "</div>"
+      : "";
     lastFocused = trigger || document.activeElement;
 
     $("drawer-title").textContent = item.name;
@@ -359,7 +506,9 @@
       '<div class="drawer-section"><strong>类型</strong>' +
       escapeHtml(item.kind) +
       "</div>" +
+      tierSection +
       statusSection +
+      estimateSection +
       '<div class="drawer-section"><strong>时间</strong>' +
       escapeHtml(timeLine(item)) +
       "</div>" +

@@ -1,5 +1,7 @@
 {
-  "schema_version": 1,
+  "meta": {
+    "schema_version": 3
+  },
   "brands": [
     {
       "brand_id": "lanqiao",
@@ -11,7 +13,11 @@
         "蓝桥杯大赛"
       ],
       "priority_tier": "P0",
-      "active": true
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 28,
+      "njupt_catalog_name": "蓝桥杯"
     },
     {
       "brand_id": "gplt",
@@ -23,7 +29,11 @@
         "GPLT"
       ],
       "priority_tier": "P0",
-      "active": true
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 27,
+      "njupt_catalog_name": "团体程序设计天梯赛"
     },
     {
       "brand_id": "ciscn",
@@ -35,7 +45,11 @@
         "信息安全竞赛"
       ],
       "priority_tier": "P0",
-      "active": true
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "B",
+      "njupt_seq": 24,
+      "njupt_catalog_name": "全国大学生信息安全竞赛"
     },
     {
       "brand_id": "cnsoftbei",
@@ -46,7 +60,11 @@
         "软件杯"
       ],
       "priority_tier": "P0",
-      "active": true
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 38,
+      "njupt_catalog_name": "中国软件杯"
     },
     {
       "brand_id": "jssj",
@@ -57,7 +75,11 @@
         "计算机设计大赛"
       ],
       "priority_tier": "P0",
-      "active": true
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "B",
+      "njupt_seq": 18,
+      "njupt_catalog_name": "中国大学生计算机设计大赛"
     },
     {
       "brand_id": "c4",
@@ -69,7 +91,11 @@
         "高校计算机大赛"
       ],
       "priority_tier": "P0",
-      "active": true
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "B",
+      "njupt_seq": 27,
+      "njupt_catalog_name": "中国高校计算机大赛"
     },
     {
       "brand_id": "sys",
@@ -80,7 +106,11 @@
         "系统能力大赛"
       ],
       "priority_tier": "P0",
-      "active": true
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 58,
+      "njupt_catalog_name": "全国大学生计算机系统能力大赛"
     },
     {
       "brand_id": "mcm_cn",
@@ -92,19 +122,27 @@
         "高教社杯"
       ],
       "priority_tier": "P0",
-      "active": true
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "A",
+      "njupt_seq": 4,
+      "njupt_catalog_name": "全国大学生数学建模竞赛"
     },
     {
       "brand_id": "mcm_us",
       "name": "MCM/ICM",
-      "kind": "国际赛事",
+      "kind": "全国赛事",
       "official_home": "https://www.contest.comap.com/",
       "aliases": [
         "美赛",
         "美国大学生数学建模竞赛"
       ],
       "priority_tier": "P1",
-      "active": true
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 72,
+      "njupt_catalog_name": "MCM/ICM"
     },
     {
       "brand_id": "internetplus",
@@ -116,7 +154,11 @@
         "创新大赛"
       ],
       "priority_tier": "P0",
-      "active": true
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "A",
+      "njupt_seq": 1,
+      "njupt_catalog_name": "中国国际大学生创新大赛"
     },
     {
       "brand_id": "challengecup",
@@ -124,21 +166,31 @@
       "kind": "全国赛事",
       "official_home": "https://www.tiaozhanbei.net/",
       "aliases": [
-        "挑战杯竞赛"
+        "挑战杯竞赛",
+        "挑战杯课外学术科技作品竞赛"
       ],
       "priority_tier": "P1",
-      "active": true
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "A",
+      "njupt_seq": 2,
+      "njupt_catalog_name": "挑战杯"
     },
     {
       "brand_id": "icpc",
       "name": "ICPC",
-      "kind": "国际赛事",
+      "kind": "全国赛事",
       "official_home": "https://icpc.global/",
       "aliases": [
-        "国际大学生程序设计竞赛"
+        "国际大学生程序设计竞赛",
+        "ACM-ICPC"
       ],
       "priority_tier": "P0",
-      "active": true
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "B",
+      "njupt_seq": 6,
+      "njupt_catalog_name": "ICPC"
     },
     {
       "brand_id": "matiji",
@@ -172,7 +224,11 @@
         "Huawei ICT Competition"
       ],
       "priority_tier": "P0",
-      "active": true
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 42,
+      "njupt_catalog_name": "华为 ICT 大赛"
     },
     {
       "brand_id": "huawei_codecraft",
@@ -184,7 +240,11 @@
         "软件精英挑战赛"
       ],
       "priority_tier": "P0",
-      "active": true
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C2",
+      "njupt_seq": 89,
+      "njupt_catalog_name": "华为软件精英挑战赛"
     },
     {
       "brand_id": "baidu_star",
@@ -195,7 +255,11 @@
         "百度之星程序设计大赛"
       ],
       "priority_tier": "P1",
-      "active": true
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 55,
+      "njupt_catalog_name": "百度之星"
     },
     {
       "brand_id": "bytedance",
@@ -228,7 +292,11 @@
         "物联网设计竞赛"
       ],
       "priority_tier": "P1",
-      "active": true
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 59,
+      "njupt_catalog_name": "全国大学生物联网设计竞赛"
     },
     {
       "brand_id": "robomaster",
@@ -236,10 +304,15 @@
       "kind": "全国赛事",
       "official_home": "https://www.robomaster.com/",
       "aliases": [
-        "机甲大师赛"
+        "机甲大师赛",
+        "RoboMaster"
       ],
       "priority_tier": "P1",
-      "active": true
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 76,
+      "njupt_catalog_name": "RoboMaster 机甲大师赛"
     },
     {
       "brand_id": "devpost",
@@ -280,30 +353,48 @@
       "name": "全国高校大学生数学竞赛",
       "kind": "全国赛事",
       "official_home": "http://www.cmathc.cn/",
-      "aliases": [],
+      "aliases": [
+        "全国大学生数学竞赛"
+      ],
       "priority_tier": "P3",
       "active": true,
-      "auto_added": true
+      "auto_added": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 88,
+      "njupt_catalog_name": "全国高校大学生数学竞赛"
     },
     {
       "brand_id": "xuechuangbei",
       "name": "学创杯全国大学生创业综合模拟大赛",
       "kind": "全国赛事",
       "official_home": "http://www.xcbds.com",
-      "aliases": [],
+      "aliases": [
+        "学创杯"
+      ],
       "priority_tier": "P3",
       "active": true,
-      "auto_added": true
+      "auto_added": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 46,
+      "njupt_catalog_name": "学创杯全国大学生创业综合模拟大赛"
     },
     {
       "brand_id": "ican",
       "name": "iCAN创新大赛",
       "kind": "全国赛事",
       "official_home": "https://www.ican-contest.org",
-      "aliases": [],
+      "aliases": [
+        "iCAN"
+      ],
       "priority_tier": "P3",
       "active": true,
-      "auto_added": true
+      "auto_added": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 51,
+      "njupt_catalog_name": "iCAN大学生创新创业大赛"
     },
     {
       "brand_id": "njupt_engineering_practice",
@@ -319,11 +410,430 @@
       "brand_id": "siemens_cup",
       "name": "西门子杯中国智能制造挑战赛",
       "kind": "全国赛事",
-      "official_home": "http://www.siemenscup-cimc.org.cn",
-      "aliases": [],
-      "priority_tier": "P3",
+      "official_home": "https://www.siemenscup.org.cn/",
+      "aliases": [
+        "西门子杯"
+      ],
+      "priority_tier": "P0",
       "active": true,
-      "auto_added": true
+      "auto_added": true,
+      "njupt_fixed": true,
+      "njupt_tier": "B",
+      "njupt_seq": 16,
+      "njupt_catalog_name": "西门子杯中国智能制造挑战赛"
+    },
+    {
+      "brand_id": "challengecup_startup",
+      "name": "挑战杯中国大学生创业计划竞赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.tiaozhanbei.net/",
+      "aliases": [
+        "挑战杯创赛",
+        "创业计划竞赛"
+      ],
+      "priority_tier": "P0",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "A",
+      "njupt_seq": 3,
+      "njupt_catalog_name": "挑战杯中国大学生创业计划竞赛"
+    },
+    {
+      "brand_id": "nuedc",
+      "name": "全国大学生电子设计竞赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.nuedc-training.com.cn/",
+      "aliases": [
+        "电赛",
+        "电子设计竞赛"
+      ],
+      "priority_tier": "P0",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "A",
+      "njupt_seq": 5,
+      "njupt_catalog_name": "全国大学生电子设计竞赛"
+    },
+    {
+      "brand_id": "smartcar",
+      "name": "全国大学生智能汽车竞赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.smartcar.au.tsinghua.edu.cn/",
+      "aliases": [
+        "智能车",
+        "飞思卡尔智能车"
+      ],
+      "priority_tier": "P0",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "B",
+      "njupt_seq": 8,
+      "njupt_catalog_name": "全国大学生智能汽车竞赛"
+    },
+    {
+      "brand_id": "gjjn",
+      "name": "中国大学生工程实践与创新能力大赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.cumcm.com.cn/",
+      "aliases": [
+        "工程实践与创新能力大赛"
+      ],
+      "priority_tier": "P0",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "B",
+      "njupt_seq": 10,
+      "njupt_catalog_name": "中国大学生工程实践与创新能力大赛"
+    },
+    {
+      "brand_id": "service_outsourcing",
+      "name": "中国大学生服务外包创新创业大赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.fwwb.org.cn/",
+      "aliases": [
+        "服务外包大赛"
+      ],
+      "priority_tier": "P0",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "B",
+      "njupt_seq": 17,
+      "njupt_catalog_name": "中国大学生服务外包创新创业大赛"
+    },
+    {
+      "brand_id": "nuedc_embedded",
+      "name": "全国大学生电子设计竞赛嵌入式系统专题邀请赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.nuedc-training.com.cn/",
+      "aliases": [
+        "电赛嵌入式"
+      ],
+      "priority_tier": "P0",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "B",
+      "njupt_seq": 22,
+      "njupt_catalog_name": "全国大学生电子设计竞赛嵌入式系统专题邀请赛"
+    },
+    {
+      "brand_id": "nuedc_analog",
+      "name": "全国大学生电子设计竞赛模拟电子系统设计邀请赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.nuedc-training.com.cn/",
+      "aliases": [
+        "电赛模电"
+      ],
+      "priority_tier": "P0",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "B",
+      "njupt_seq": 23,
+      "njupt_catalog_name": "全国大学生电子设计竞赛模拟电子系统设计邀请赛"
+    },
+    {
+      "brand_id": "jieneng",
+      "name": "全国大学生节能减排社会实践与科技竞赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.jienengjianpai.org/",
+      "aliases": [
+        "节能减排竞赛"
+      ],
+      "priority_tier": "P0",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "B",
+      "njupt_seq": 25,
+      "njupt_catalog_name": "全国大学生节能减排社会实践与科技竞赛"
+    },
+    {
+      "brand_id": "optodesign",
+      "name": "全国大学生光电设计竞赛",
+      "kind": "全国赛事",
+      "official_home": "https://gdjs.chinaopticsvalley.com/",
+      "aliases": [
+        "光电设计竞赛"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 31,
+      "njupt_catalog_name": "全国大学生光电设计竞赛"
+    },
+    {
+      "brand_id": "ic_design",
+      "name": "全国大学生集成电路创新创业大赛",
+      "kind": "全国赛事",
+      "official_home": "https://univ.ciciec.com/",
+      "aliases": [
+        "集成电路大赛"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 32,
+      "njupt_catalog_name": "全国大学生集成电路创新创业大赛"
+    },
+    {
+      "brand_id": "robocup_cn",
+      "name": "中国机器人大赛暨RoboCup机器人世界杯中国赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.rcc.ai-force.com/",
+      "aliases": [
+        "中国机器人大赛",
+        "RoboCup中国赛"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 37,
+      "njupt_catalog_name": "中国机器人大赛暨RoboCup机器人世界杯中国赛"
+    },
+    {
+      "brand_id": "raicom",
+      "name": "睿抗机器人开发者大赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.raicoms.cn/",
+      "aliases": [
+        "RAICOM",
+        "睿抗"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 40,
+      "njupt_catalog_name": "睿抗机器人开发者大赛"
+    },
+    {
+      "brand_id": "datang_cup",
+      "name": "大唐杯全国大学生新一代信息通信技术大赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.dtxl.org.cn/",
+      "aliases": [
+        "大唐杯"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 41,
+      "njupt_catalog_name": "大唐杯全国大学生新一代信息通信技术大赛"
+    },
+    {
+      "brand_id": "embedded_chip",
+      "name": "全国大学生嵌入式芯片与系统设计竞赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.socchina.net/",
+      "aliases": [
+        "嵌入式芯片竞赛"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 43,
+      "njupt_catalog_name": "全国大学生嵌入式芯片与系统设计竞赛"
+    },
+    {
+      "brand_id": "smart_robot_idea",
+      "name": "中国高校智能机器人创意大赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.robotcontest.cn/",
+      "aliases": [
+        "智能机器人创意大赛"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 47,
+      "njupt_catalog_name": "中国高校智能机器人创意大赛"
+    },
+    {
+      "brand_id": "cn_robot_ai",
+      "name": "中国机器人及人工智能大赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.cnrobot.org/",
+      "aliases": [
+        "机器人及人工智能大赛"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 49,
+      "njupt_catalog_name": "中国机器人及人工智能大赛"
+    },
+    {
+      "brand_id": "isct",
+      "name": "全国大学生信息安全与对抗技术竞赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.isct.org.cn/",
+      "aliases": [
+        "信息安全与对抗",
+        "ISCT"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 60,
+      "njupt_catalog_name": "全国大学生信息安全与对抗技术竞赛"
+    },
+    {
+      "brand_id": "digital_media",
+      "name": "全国大学生数字媒体科技作品及创意竞赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.dmtc.net.cn/",
+      "aliases": [
+        "数字媒体科技作品竞赛"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 64,
+      "njupt_catalog_name": "全国大学生数字媒体科技作品及创意竞赛"
+    },
+    {
+      "brand_id": "gaia_ai",
+      "name": "全球校园人工智能算法精英大赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.gaia-ai.com/",
+      "aliases": [
+        "校园AI算法精英大赛"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 68,
+      "njupt_catalog_name": "全球校园人工智能算法精英大赛"
+    },
+    {
+      "brand_id": "robocon",
+      "name": "RoboCon",
+      "kind": "全国赛事",
+      "official_home": "https://www.robomaster.com/",
+      "aliases": [
+        "全国大学生机器人大赛RoboCon"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 76,
+      "njupt_catalog_name": "RoboCon"
+    },
+    {
+      "brand_id": "3d_innovation",
+      "name": "全国三维数字化创新设计大赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.3dds.org.cn/",
+      "aliases": [
+        "三维数字化创新设计大赛"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 79,
+      "njupt_catalog_name": "全国三维数字化创新设计大赛"
+    },
+    {
+      "brand_id": "siyou_sidian",
+      "name": "四邮四电高校系列学科竞赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.njupt.edu.cn/",
+      "aliases": [
+        "四邮四电"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 80,
+      "njupt_catalog_name": "四邮四电高校系列学科竞赛"
+    },
+    {
+      "brand_id": "ccpc",
+      "name": "中国大学生程序设计竞赛",
+      "kind": "全国赛事",
+      "official_home": "https://ccpc.io/",
+      "aliases": [
+        "CCPC"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 82,
+      "njupt_catalog_name": "中国大学生程序设计竞赛"
+    },
+    {
+      "brand_id": "nuedc_renesas",
+      "name": "全国大学生电子设计竞赛信息科技前沿专题赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.nuedc-training.com.cn/",
+      "aliases": [
+        "瑞萨杯",
+        "电赛信息科技前沿"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_seq": 83,
+      "njupt_catalog_name": "全国大学生电子设计竞赛信息科技前沿专题赛"
+    },
+    {
+      "brand_id": "zte_holdingmoon",
+      "name": "中兴捧月全球精英挑战赛",
+      "kind": "大厂赛事",
+      "official_home": "https://www.zte.com.cn/",
+      "aliases": [
+        "中兴捧月"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C2",
+      "njupt_seq": 90,
+      "njupt_catalog_name": "中兴捧月全球精英挑战赛"
+    },
+    {
+      "brand_id": "tianyiyun_ai",
+      "name": "天翼云息壤杯高校AI大赛",
+      "kind": "大厂赛事",
+      "official_home": "https://www.ctyun.cn/",
+      "aliases": [
+        "息壤杯",
+        "天翼云AI大赛"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C2",
+      "njupt_seq": 91,
+      "njupt_catalog_name": "天翼云息壤杯高校AI大赛"
+    },
+    {
+      "brand_id": "wutong_cup",
+      "name": "梧桐杯大数据创新大赛",
+      "kind": "大厂赛事",
+      "official_home": "https://www.chinatelecom.com.cn/",
+      "aliases": [
+        "梧桐杯"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C2",
+      "njupt_seq": 92,
+      "njupt_catalog_name": "梧桐杯大数据创新大赛"
     }
   ]
 }
