@@ -304,6 +304,26 @@
       "priority_tier": "P3",
       "active": true,
       "auto_added": true
+    },
+    {
+      "brand_id": "njupt_engineering_practice",
+      "name": "江苏省大学生工程实践与创新能力大赛",
+      "kind": "全国赛事",
+      "official_home": "https://cxcy.njupt.edu.cn",
+      "aliases": [],
+      "priority_tier": "P3",
+      "active": true,
+      "auto_added": true
+    },
+    {
+      "brand_id": "siemens_cup",
+      "name": "西门子杯中国智能制造挑战赛",
+      "kind": "全国赛事",
+      "official_home": "http://www.siemenscup-cimc.org.cn",
+      "aliases": [],
+      "priority_tier": "P3",
+      "active": true,
+      "auto_added": true
     }
   ]
 }
