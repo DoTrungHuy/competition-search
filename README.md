@@ -1,12 +1,39 @@
 # 竞赛查询（南邮 · 计算机相关）
 
+<p align="center">
+  <img src="assets/images/njupt-badge.png" alt="南京邮电大学校徽" width="88" />
+</p>
+
+<p align="center">
+  <a href="https://njupt.cs-contest.cn"><img src="https://img.shields.io/badge/线上站点-njupt.cs--contest.cn-7c5cff?style=for-the-badge&logo=googlechrome&logoColor=white" alt="线上站点" /></a>
+  &nbsp;
+  <a href="https://njupt.cs-contest.cn"><img src="https://img.shields.io/badge/面向-南邮学生-0ea5e9?style=for-the-badge" alt="面向南邮学生" /></a>
+  &nbsp;
+  <img src="https://img.shields.io/badge/形态-静态站-64748b?style=for-the-badge&logo=cloudflare&logoColor=white" alt="静态站" />
+</p>
+
+<p align="center">
+  <a href="https://github.com/DoTrungHuy/competition-search/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/DoTrungHuy/competition-search/ci.yml?branch=main&style=flat-square&label=CI" alt="CI" /></a>
+  <a href="https://github.com/DoTrungHuy/competition-search/actions/workflows/weekly-sync.yml"><img src="https://img.shields.io/github/actions/workflow/status/DoTrungHuy/competition-search/weekly-sync.yml?branch=main&style=flat-square&label=weekly%20sync" alt="Weekly sync" /></a>
+  <img src="https://img.shields.io/badge/license-private-lightgrey?style=flat-square" alt="private" />
+  <img src="https://img.shields.io/badge/stack-HTML%20%7C%20CSS%20%7C%20JS%20%7C%20JSON-informational?style=flat-square" alt="stack" />
+</p>
+
 面向 **南京邮电大学学生** 的竞赛信息查询站：快速查找还能报名、即将开报、正在进行或即将开赛的比赛，并跳到官网或品牌入口核对原文。
 
 **线上地址：<https://njupt.cs-contest.cn>**
 
+### 首页预览
+
+<p align="center">
+  <img src="assets/images/readme/home.png" alt="竞赛查询首页截图：搜索、筛选芯片与赛事卡片" width="920" />
+</p>
+
+<p align="center"><sub>本地验收截图（暗色主题）；线上见 <a href="https://njupt.cs-contest.cn">njupt.cs-contest.cn</a></sub></p>
+
 ---
 
-## 给谁用
+## 面向对象
 
 | 对象 | 能帮什么 |
 |------|----------|
@@ -49,6 +76,11 @@
 
 打开 **[https://njupt.cs-contest.cn](https://njupt.cs-contest.cn)** 即可，无需安装。
 
+| | |
+|:--|:--|
+| 官网 | https://njupt.cs-contest.cn |
+| 关于 | https://njupt.cs-contest.cn/about.html |
+
 建议用手机或电脑现代浏览器；若刚更新后内容异常，可强制刷新（Ctrl+F5 / 清缓存）。
 
 ---
@@ -60,7 +92,7 @@ npm run serve
 ```
 
 浏览器打开 <http://localhost:4173>。  
-**不要**用 `file://` 打开，页面需要通过 HTTP 加载 JSON。
+页面需要通过 HTTP 加载 JSON。
 
 ```bash
 npm test                          # JS 语法 + 单元测试 + 生产数据校验
@@ -92,6 +124,7 @@ python -m pip install -r requirements-scripts.txt
 | `scripts/validate_data.py` | 数据闸门（含链接诚信） |
 | `scripts/link_integrity.py` | 禁止预计假深链、`?estimate=` 等 |
 | `scripts/apply_registration_estimates.py` | 固定清单「预计报名」维护 |
+| `assets/images/readme/home.png` | README 首页预览图 |
 | `.github/workflows/ci.yml` | push/PR：`npm test` |
 | `.github/workflows/weekly-sync.yml` | 周更：采集 → 审核 → 合并 → **刷新预计** → 校验 → 通过才提交 |
 
@@ -127,8 +160,6 @@ python scripts/apply_registration_estimates.py
 
 ### 发布
 
-静态资源部署示例：
-
 ```bash
 npx wrangler deploy
 ```
@@ -138,6 +169,12 @@ npx wrangler deploy
 ### 视觉
 
 多风格组合（liquidGlassAgency 玻璃底、openDoor 芯片、bloom 卡片、flower 粒子等）；字体本地 WOFF2，不请求 Google Fonts；左上角南邮校徽；页面不展示本站维护日期。
+
+更新 README 首页截图（本机已起 `npm run serve` 时）：
+
+```text
+Edge/Chrome headless → assets/images/readme/home.png（建议 1440×900）
+```
 
 ---
 
