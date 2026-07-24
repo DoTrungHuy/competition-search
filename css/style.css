@@ -514,6 +514,26 @@ html[data-theme="dark"] .brand-badge {
   -webkit-tap-highlight-color: transparent;
 }
 
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: var(--radius-pill);
+  color: var(--text);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.github-link svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  display: block;
+  flex-shrink: 0;
+}
+
 .theme-toggle-icon {
   font-size: 0.95rem;
   line-height: 1;
