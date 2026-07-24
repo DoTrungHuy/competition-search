@@ -55,6 +55,18 @@ python scripts/apply_reviewed.py      # 合并进生产数据；对不上品牌�
 2. 没有源日期时，DeepSeek 仅从线索提取；**仅 `schedule_confidence=high` 才写入**。
 3. `apply`：有合法赛程且有深链接 → `needs_review=false`；否则待核验且不写公开赛程字段。
 
+### 补审已入库的旧待核验
+
+hybrid 策略上线前 push 的 `needs_review` 条目，用：
+
+```bash
+python scripts/upgrade_pending.py              # 源重抓 + 页面轻量抓取 + DeepSeek
+python scripts/upgrade_pending.py --skip-model # 不调模型
+python scripts/upgrade_pending.py --dry-run
+```
+
+只升级已有 id，不新增赛事。MLH 等纯 SPA/无明确日期的仍会保持待核验。
+
 ## 本机一键全流程
 
 ```bash

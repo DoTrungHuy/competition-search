@@ -1172,9 +1172,13 @@
       "brand_id": "devpost",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hacknomicshack.devpost.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "link": "https://hacknomicshack.devpost.com/",
+      "registration_start": "2026-05-24",
+      "registration_end": "2026-07-24",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "devpost-unknown-b5fef91a4799",
@@ -1187,9 +1191,13 @@
       "brand_id": "devpost",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://dsoc-summer-edition.devpost.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "link": "https://dsoc-summer-edition.devpost.com/",
+      "registration_start": "2026-06-03",
+      "registration_end": "2026-07-24",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "devpost-unknown-c52d1b960ca7",
@@ -1202,9 +1210,13 @@
       "brand_id": "devpost",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://global-tech-challenge.devpost.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "link": "https://global-tech-challenge.devpost.com/",
+      "registration_start": "2026-06-27",
+      "registration_end": "2026-07-24",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "devpost-unknown-9b4b63f49054",
@@ -1217,9 +1229,13 @@
       "brand_id": "devpost",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://measureme-up.devpost.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "link": "https://measureme-up.devpost.com/",
+      "registration_start": "2026-07-11",
+      "registration_end": "2026-07-27",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "devpost-unknown-c4f5de4711ab",
@@ -1232,9 +1248,13 @@
       "brand_id": "devpost",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://impact-creation.devpost.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "link": "https://impact-creation.devpost.com/",
+      "registration_start": "2026-06-13",
+      "registration_end": "2026-07-28",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "devpost-unknown-42acf41909ed",
@@ -1247,9 +1267,13 @@
       "brand_id": "devpost",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://ventura-challenge.devpost.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "link": "https://ventura-challenge.devpost.com/",
+      "registration_start": "2026-06-01",
+      "registration_end": "2026-07-29",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "devpost-unknown-ff8d266f1f4f",
@@ -1262,9 +1286,13 @@
       "brand_id": "devpost",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://ztq.devpost.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "link": "https://ztq.devpost.com/",
+      "registration_start": "2026-05-29",
+      "registration_end": "2026-07-29",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "devpost-unknown-4e11dd7288ad",
@@ -1277,9 +1305,13 @@
       "brand_id": "devpost",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://next-byte-hacks-v3.devpost.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "link": "https://next-byte-hacks-v3.devpost.com/",
+      "registration_start": "2026-06-15",
+      "registration_end": "2026-07-30",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "devpost-unknown-796fae738037",
@@ -1292,9 +1324,13 @@
       "brand_id": "devpost",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://prometheus-july-ai-challenge.devpost.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "link": "https://prometheus-july-ai-challenge.devpost.com/",
+      "registration_start": "2026-06-18",
+      "registration_end": "2026-07-30",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "devpost-unknown-23bedc7c493f",
@@ -1307,9 +1343,13 @@
       "brand_id": "devpost",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://vitalitics26.devpost.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "link": "https://vitalitics26.devpost.com/",
+      "registration_start": "2026-06-20",
+      "registration_end": "2026-07-31",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "devpost-unknown-0c5a601e5a97",
@@ -1322,9 +1362,13 @@
       "brand_id": "devpost",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://dti-hackathon-2026-30476.devpost.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "link": "https://dti-hackathon-2026-30476.devpost.com/",
+      "registration_start": "2026-06-18",
+      "registration_end": "2026-07-31",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "devpost-unknown-ee4da66c899e",
@@ -1337,9 +1381,13 @@
       "brand_id": "devpost",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://celesta-exoplanet-challenge.devpost.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "link": "https://celesta-exoplanet-challenge.devpost.com/",
+      "registration_start": "2026-06-15",
+      "registration_end": "2026-07-31",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "devpost-unknown-8c4ef943cd61",
@@ -1352,9 +1400,13 @@
       "brand_id": "devpost",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://sound-for-all.devpost.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "link": "https://sound-for-all.devpost.com/",
+      "registration_start": "2026-06-26",
+      "registration_end": "2026-07-31",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "devpost-unknown-20e0e6bdc113",
@@ -1367,9 +1419,13 @@
       "brand_id": "devpost",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://the-blueprint-hackathon.devpost.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "link": "https://the-blueprint-hackathon.devpost.com/",
+      "competition_start": "2026-07-17",
+      "competition_end": "2026-07-31",
+      "schedule_source": "model",
+      "schedule_confidence": "high"
     },
     {
       "id": "devpost-unknown-6dd8867775d2",
@@ -1382,9 +1438,13 @@
       "brand_id": "devpost",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://3d-websites-hackathon.devpost.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "link": "https://3d-websites-hackathon.devpost.com/",
+      "registration_start": "2026-06-22",
+      "registration_end": "2026-07-31",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "devpost-unknown-17ab2f717482",
@@ -1397,9 +1457,13 @@
       "brand_id": "devpost",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://305summercodexjul2026.devpost.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "link": "https://305summercodexjul2026.devpost.com/",
+      "registration_start": "2026-07-05",
+      "registration_end": "2026-07-31",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "devpost-unknown-ad3a932426c4",
@@ -1412,9 +1476,13 @@
       "brand_id": "devpost",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://baskchallenge.devpost.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-24",
+      "link": "https://baskchallenge.devpost.com/",
+      "registration_start": "2026-05-31",
+      "registration_end": "2026-07-31",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-9c75a8fd9319",
