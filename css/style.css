@@ -542,16 +542,54 @@ html[data-theme="dark"] .brand-badge {
 @media (max-width: 520px) {
   .brand-badge {
     height: 40px;
-    max-width: 39vw;
+    /* 给中间导航 + 右侧三控件留空（含 GitHub） */
+    max-width: min(132px, 34vw);
   }
+
+  .topbar-tools {
+    gap: 0.28rem;
+  }
+
+  /* 窄屏只保留数字，完整含义仍在 title */
+  .visit-label {
+    display: none;
+  }
+
+  .visit-pill {
+    padding: 0.4rem 0.55rem;
+    min-height: 44px;
+    align-items: center;
+  }
+
   .nav-pill .fluid-link.is-active {
     display: none;
   }
+
   .theme-toggle-label {
     display: none;
   }
+
   .theme-toggle {
-    padding: 0.45rem 0.65rem;
+    padding: 0.45rem 0.55rem;
+  }
+
+  .github-link {
+    padding: 0.4rem;
+  }
+}
+
+/* 极窄屏再收一点校徽，保证「关于」可点 */
+@media (max-width: 390px) {
+  .brand-badge {
+    max-width: min(118px, 32vw);
+  }
+
+  .topbar-tools {
+    gap: 0.22rem;
+  }
+
+  .visit-pill {
+    padding: 0.35rem 0.45rem;
   }
 }
 
@@ -561,6 +599,9 @@ html[data-theme="dark"] .brand-badge {
   gap: 0.15rem;
   padding: 0.3rem;
   border-radius: var(--radius-pill);
+  /* 不要被两侧校徽/工具区挤成一条缝 */
+  flex: 0 0 auto;
+  min-width: 0;
 }
 
 /* openDoor 流体链接 */
