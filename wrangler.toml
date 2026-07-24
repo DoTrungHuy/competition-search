@@ -1,0 +1,10 @@
+# Cloudflare Workers + Static Assets
+# 纯静态站：无需 Build command，由 `npx wrangler deploy` 发布根目录资源
+name = "competition-search"
+compatibility_date = "2025-07-01"
+
+[assets]
+directory = "."
+# 目录浏览关闭；缺页时尽量回到站点（静态查询站无 SPA 路由）
+html_handling = "auto-trailing-slash"
+not_found_handling = "404-page"

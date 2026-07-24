@@ -1,0 +1,23 @@
+# 不要把采集脚本、测试、内部文档当静态资源发布
+.git
+.github
+.claude
+.grok
+.venv
+node_modules
+scripts
+tests
+docs
+reports
+__pycache__
+*.pyc
+.env
+.env.*
+AGENTS.md
+.gitignore
+package.json
+package-lock.json
+requirements-scripts.txt
+requirements-playwright.txt
+wrangler.toml
+.assetsignore
