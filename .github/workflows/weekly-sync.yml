@@ -41,6 +41,18 @@ jobs:
         continue-on-error: true
         run: python scripts/fetch_devpost.py
 
+      - name: Collect MLH drafts
+        continue-on-error: true
+        run: python scripts/fetch_mlh.py
+
+      # Kaggle 可选：未配置 KAGGLE_USERNAME/KAGGLE_KEY 时脚本自动跳过。
+      - name: Collect Kaggle drafts
+        continue-on-error: true
+        env:
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: python scripts/fetch_kaggle.py
+
       - name: Review drafts with DeepSeek
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
