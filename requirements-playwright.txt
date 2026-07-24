@@ -1,0 +1,3 @@
+# 天池等需渲染的源在本机采集时使用；GitHub Actions 不装。
+# 安装后还需下载浏览器内核： python -m playwright install chromium
+playwright>=1.40,<2

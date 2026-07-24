@@ -23,6 +23,42 @@ python scripts/fetch_campus_cxcy.py
 
 输出位于 `scripts/out/draft_campus.json`，该目录不进入 Git。草稿必须人工补全品牌、赛程和资格后才能合并。
 
+## 多源采集
+
+各源都产出同结构草稿 `scripts/out/draft_*.json`，共用 `draft_common.py`：
+
+```bash
+python scripts/fetch_campus_cxcy.py   # 校内 cxcy（HTML）
+python scripts/fetch_devpost.py       # Devpost（JSON API）
+python scripts/fetch_mlh.py           # MLH 黑客松（SSR HTML）
+python scripts/fetch_kaggle.py        # Kaggle（API，需 KAGGLE_USERNAME/KAGGLE_KEY）
+python scripts/fetch_tianchi.py       # 天池（Playwright 渲染，建议本机跑）
+```
+
+天池源需先装 Playwright：
+
+```bash
+python -m pip install -r requirements-playwright.txt
+python -m playwright install chromium
+```
+
+## DeepSeek 审核与合并
+
+```bash
+python scripts/review_drafts.py       # 审核所有 draft_*.json -> reviewed.json（需 DEEPSEEK_API_KEY）
+python scripts/apply_reviewed.py      # 通过的写成 needs_review 合并；对不上品牌时按提议自动建品牌
+```
+
+## 本机一键全流程
+
+```bash
+python scripts/run_local_sync.py                 # 拉取→采集→审核→合并→校验/测试→提交推送
+python scripts/run_local_sync.py --skip tianchi  # 跳过某些源
+python scripts/run_local_sync.py --no-push       # 只提交不推送
+```
+
+天池等国内/反爬源建议用它在**本机**跑（国内 IP + 真实浏览器更易通过）；国际 API 源（Devpost/MLH/Kaggle）也可交给 GitHub Actions 的每周工作流。配合 Windows 任务计划程序调用 `run_local_sync.py` 即可每周自动运行。
+
 ## 入口清单
 
 ```bash
