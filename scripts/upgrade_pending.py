@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
-"""补审已入库的 needs_review 条目：源日期优先，否则 DeepSeek 补充，仍无则保持待核验。
+"""【维护工具 / 手动】补审已入库的 needs_review 条目。
 
-用于 hybrid 赛程策略上线前已经 push 的旧数据。不新增赛事，只升级已有记录。
+- 性质：维护者本机（或需要时）手动运行，不接入 GitHub Actions 周更。
+- 作用：源日期优先，否则 DeepSeek 补充；仍无明确日期则保持待核验。
+- 范围：只升级已有记录，不新增赛事；也不替代 weekly-sync / run_local_sync。
+
+用法：
 
     python scripts/upgrade_pending.py
     python scripts/upgrade_pending.py --dry-run

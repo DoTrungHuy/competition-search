@@ -55,9 +55,12 @@ python scripts/apply_reviewed.py      # 合并进生产数据；对不上品牌�
 2. 没有源日期时，DeepSeek 仅从线索提取；**仅 `schedule_confidence=high` 才写入**。
 3. `apply`：有合法赛程且有深链接 → `needs_review=false`；否则待核验且不写公开赛程字段。
 
-### 补审已入库的旧待核验
+### 补审已入库的旧待核验（维护工具，非自动流）
 
-hybrid 策略上线前 push 的 `needs_review` 条目，用：
+`upgrade_pending.py` 是**维护工具**：手动运行，**不**接入 `weekly-sync` / 本机定时任务。
+
+- 用途：把 hybrid 赛程策略上线前已 push 的 `needs_review` 条目尽量补上日期并升级为已核验。
+- 放进仓库是为了可复现、可再跑，不是为了 GitHub 自动执行。
 
 ```bash
 python scripts/upgrade_pending.py              # 源重抓 + 页面轻量抓取 + DeepSeek

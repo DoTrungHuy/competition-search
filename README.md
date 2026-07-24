@@ -84,6 +84,7 @@ python scripts/fetch_campus_cxcy.py
 - 自动合并的记录一律 `needs_review=true`：只显示「见官网详情」，不含推断日期，排在列表末尾。
 - 数据校验或测试不通过则中断，绝不提交坏数据。
 - 天池等需国内 IP 的源走本机 `scripts/run_local_sync.py` / Windows 任务，不进 GitHub 美国 runner。
+- `scripts/upgrade_pending.py` 是**维护工具**（手动补审旧待核验），不接入上述自动周更；详见 `scripts/README.md`。
 
 ## 视觉来源
 
