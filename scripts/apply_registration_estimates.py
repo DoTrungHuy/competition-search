@@ -26,7 +26,8 @@ import link_integrity  # noqa: E402
 
 BRANDS_PATH = os.path.join(ROOT, "data", "brands.json")
 COMPS_PATH = os.path.join(ROOT, "data", "competitions.json")
-TODAY = date(2026, 7, 24)
+# 周更 / 本机默认识「今天」；单测与复现可传 --today YYYY-MM-DD
+DEFAULT_TODAY = date.today()
 
 
 def parse(s):
@@ -196,12 +197,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--today",
-        default=TODAY.isoformat(),
-        help="Anchor date YYYY-MM-DD (default product baseline)",
+        default=DEFAULT_TODAY.isoformat(),
+        help="Anchor date YYYY-MM-DD (default: local today; weekly-sync uses runner date)",
     )
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
-    today = parse(args.today) or TODAY
+    today = parse(args.today) or DEFAULT_TODAY
 
     brands_doc = load(BRANDS_PATH)
     comps_doc = load(COMPS_PATH)

@@ -34,13 +34,16 @@ def run(cmd, check=False):
 
 
 def data_changed():
-    result = subprocess.run(
+    # 兼容较旧 Python（无 capture_output / text=）
+    result = subprocess.Popen(
         ["git", "status", "--porcelain", "data/"],
         cwd=ROOT,
-        capture_output=True,
-        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
     )
-    return bool(result.stdout.strip())
+    out, _err = result.communicate()
+    text = out.decode("utf-8", "replace") if isinstance(out, bytes) else (out or "")
+    return bool(text.strip())
 
 
 def main():
@@ -70,6 +73,11 @@ def main():
         return 2
 
     run([PY, "scripts/apply_reviewed.py"])
+
+    # 与 weekly-sync 一致：维护固定清单「预计报名」（无历史不臆造；禁假深链）
+    if run([PY, "scripts/apply_registration_estimates.py"]) != 0:
+        print("预计报名维护失败，已中止，不提交。", file=sys.stderr)
+        return 1
 
     # 闸门：不合规不提交
     if run([PY, "scripts/validate_data.py"]) != 0:

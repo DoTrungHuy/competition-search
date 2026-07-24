@@ -150,6 +150,14 @@ jobs:
         if: steps.weekly_guard.outputs.should_run == 'true'
         run: python scripts/apply_reviewed.py
 
+      # 固定清单预计报名：官方窗口优先；仅用已核验历史推算；禁止假深链。
+      # 放在 apply_reviewed 之后、validate 之前，使本周新官方日期能抑制过期预计。
+      - name: Refresh registration estimates (fixed catalog)
+        if: steps.weekly_guard.outputs.should_run == 'true'
+        env:
+          TZ: Asia/Shanghai
+        run: python scripts/apply_registration_estimates.py
+
       # 闸门：数据不合规或测试不过则中断，不会提交。
       - name: Validate data (gate)
         if: steps.weekly_guard.outputs.should_run == 'true'

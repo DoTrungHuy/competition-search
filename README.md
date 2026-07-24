@@ -80,7 +80,11 @@ python scripts/fetch_campus_cxcy.py
 合并  apply_reviewed.py
       · 有合法赛程 + 深链接 → needs_review=false（可参与状态排序）
       · 否则 → needs_review=true（仅「见官网详情」）
-闸门  validate_data.py + npm test 通过后才自动提交
+预计  apply_registration_estimates.py（固定清单维护）
+      · 有官方在报/将报窗口 → 不写预计
+      · 仅有往年已核验报名日 → 写入预计（标「预计」，无假深链）
+      · 无历史 → 跳过，不臆造日期
+闸门  validate_data.py + npm test（含链接诚信）通过后才自动提交
 状态  data/sync_state.json（本周是否已成功，供备用时段跳过）
 ```
 
@@ -96,7 +100,8 @@ python scripts/fetch_campus_cxcy.py
 - 审核用 DeepSeek，需在仓库 Settings → Secrets 配置 `DEEPSEEK_API_KEY`。
 - 自动合并的记录一律 `needs_review=true`：只显示「见官网详情」，不含推断日期，排在列表末尾。
 - 数据校验或测试不通过则中断，绝不提交坏数据。
-- 天池等需国内 IP 的源走本机 `scripts/run_local_sync.py` / Windows 任务，不进 GitHub 美国 runner。
+- 预计报名由周更自动刷新；也可手动：`python scripts/apply_registration_estimates.py`（可加 `--today YYYY-MM-DD` 复现）。
+- 天池等需国内 IP 的源走本机 `scripts/run_local_sync.py` / Windows 任务，不进 GitHub 美国 runner（本机流程同样会跑预计维护）。
 - `scripts/upgrade_pending.py` 是**维护工具**（手动补审旧待核验），不接入上述自动周更；详见 `scripts/README.md`。
 
 ## 视觉来源
