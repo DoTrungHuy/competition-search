@@ -96,8 +96,17 @@ npm run serve
 
 ```bash
 npm test                          # JS 语法 + 单元测试 + 生产数据校验
+npm run test:e2e                  # 浏览器冒烟测试（需 playwright + chromium）
 python scripts/validate_data.py   # 仅数据校验
 python scripts/check_links.py     # 外链巡检（生成 reports/，不入库）
+```
+
+`test:e2e` 刻意不并入 `npm test`：它需要额外装 chromium 且要起浏览器，
+日常跑 `npm test` 不该被拖慢。CI 里作为独立 job 并行执行。
+
+```bash
+python -m pip install -r requirements-playwright.txt
+python -m playwright install chromium
 ```
 
 脚本依赖：
@@ -126,7 +135,8 @@ python -m pip install -r requirements-scripts.txt
 | `scripts/apply_registration_estimates.py` | 固定清单「预计报名」维护 |
 | `assets/images/readme/home.png` | README 首页预览图 |
 | `404.html` / `assets/favicon.svg` | 404 页（`wrangler.toml` 的 `not_found_handling`）/ 站点图标 |
-| `.github/workflows/ci.yml` | push/PR：`npm test` |
+| `tests/e2e/test_smoke.py` | 浏览器冒烟测试（Playwright，覆盖无法单测的 `app.js`） |
+| `.github/workflows/ci.yml` | push/PR：`npm test` + 独立的 E2E job |
 | `.github/workflows/weekly-sync.yml` | 周更：采集 → **健康汇总** → 审核 → 合并 → **刷新预计** → 校验 → 通过才提交 |
 
 ### 数据原则
@@ -189,8 +199,12 @@ Edge/Chrome headless → assets/images/readme/home.png（建议 1440×900）
 ## 验证与诚信
 
 - `npm test`：语法检查、状态/访问量单测、Python 单测、**生产数据校验**。  
+- `npm run test:e2e`：真实浏览器冒烟（首页渲染 / 搜索 / 状态筛选 / 抽屉与焦点 / 移动端布局 / 主题持久化）。
+  `js/app.js` 是封闭 IIFE、结构上无法单测，E2E 是它唯一的覆盖方式；更关键的是单测只能证明
+  「函数算得对」，证不了「结果真的显示到屏幕上」——例如 JS 设了 `hidden`、CSS 的 `display` 却把它抵消。
 - 预计卡片与任何 `estimate=` / 往届冒充本届深链会被 **生成脚本 + validate + 前端** 拦截。  
-- 外链 HTTP 存活巡检：`python scripts/check_links.py`（默认不进 CI，避免外网抖动挡合并）。
+- 外链存活巡检：`python scripts/check_links.py`。周更里作为**只报告不阻断**的步骤执行，
+  结果写进 job summary；不进 `npm test`，避免外网抖动挡合并。
 
 ---
 

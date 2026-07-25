@@ -20,3 +20,19 @@ jobs:
         run: python -m pip install -r requirements-scripts.txt
       - name: Run tests and data validation
         run: npm test
+
+  # 单独一个 job：E2E 要装 chromium（约 1 分钟），不该拖慢上面的快速闸门，
+  # 两者也没有依赖关系，并行跑更快拿到反馈。
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install Playwright
+        run: |
+          python -m pip install -r requirements-playwright.txt
+          python -m playwright install --with-deps chromium
+      - name: Run browser smoke tests
+        run: python -m unittest discover -s tests/e2e -p "test_*.py" -v

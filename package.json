@@ -9,6 +9,7 @@
     "test:js": "node --test tests/js/*.test.js",
     "test:python": "python -m unittest discover -s tests/python -p \"test_*.py\"",
     "test:data": "python scripts/validate_data.py",
+    "test:e2e": "python -m unittest discover -s tests/e2e -p \"test_*.py\" -v",
     "check:links": "python scripts/check_links.py",
     "test": "npm run check:js && npm run test:js && npm run test:python && npm run test:data"
   }
