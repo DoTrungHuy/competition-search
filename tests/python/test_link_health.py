@@ -33,7 +33,9 @@ class BudgetTests(unittest.TestCase):
 
 class EnforceTests(unittest.TestCase):
     def test_under_budget_unchanged(self):
-        comps = [
+        # floor(34*0.03)=1, so 1 degraded is within budget
+        comps = [{"id": "n%02d" % i} for i in range(33)]
+        comps.append(
             {
                 "id": "keep",
                 "link_status": "degraded",
@@ -41,10 +43,30 @@ class EnforceTests(unittest.TestCase):
                 "link_status_checked_at": "2026-07-25",
                 "has_campus_notice": True,
             }
-        ]
+        )
         out, dropped = link_health.enforce_degraded_budget(comps)
         self.assertEqual(dropped, [])
-        self.assertEqual(out[0]["link_status"], "degraded")
+        keep = next(c for c in out if c["id"] == "keep")
+        self.assertEqual(keep["link_status"], "degraded")
+
+    def test_zero_allowed_demotes_all_degraded(self):
+        # floor(1*0.03)=0; single degraded must be demoted
+        comps = [
+            {
+                "id": "only",
+                "link_status": "degraded",
+                "link_status_reason": "bad",
+                "link_status_checked_at": "2026-07-25",
+                "link": "https://example.com/dead",
+                "has_campus_notice": True,
+            }
+        ]
+        out, dropped = link_health.enforce_degraded_budget(comps)
+        self.assertEqual(len(dropped), 1)
+        self.assertNotIn("link_status", out[0])
+        self.assertNotIn("link_status_reason", out[0])
+        self.assertNotIn("link_status_checked_at", out[0])
+        self.assertFalse(out[0].get("link"))
 
     def test_over_budget_keeps_higher_priority_and_clears_rest(self):
         # max_allowed for 100 items = 3
@@ -106,8 +128,17 @@ class EnforceTests(unittest.TestCase):
         # 被挤掉的应清除字段并清空 link
         mlh = next(c for c in out if c["id"] == "mlh-low")
         self.assertIsNone(mlh.get("link_status"))
+        self.assertNotIn("link_status", mlh)
         self.assertFalse(mlh.get("link"))
         self.assertTrue(any(d["id"] == "mlh-low" for d in dropped))
+
+    def test_budget_errors_reports_over_cap(self):
+        # floor(1*0.03)=0; one degraded is over cap
+        comps = [{"id": "a", "link_status": "degraded"}]
+        errors = link_health.budget_errors(comps)
+        self.assertEqual(len(errors), 1)
+        self.assertIn("超预算", errors[0])
+        self.assertIn("1/1", errors[0])
 
     def test_validate_degraded_fields_helper(self):
         errors = link_health.degraded_field_errors(

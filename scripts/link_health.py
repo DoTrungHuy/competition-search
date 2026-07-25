@@ -92,10 +92,7 @@ def degraded_priority_key(item):
 def _clear_degraded_fields(item):
     """就地清除 degraded 字段并清空 link；返回被改动的副本引用。"""
     for key in _STATUS_FIELDS:
-        if key in item:
-            item[key] = None
-        else:
-            item[key] = None
+        item.pop(key, None)
     item["link"] = None
     return item
 
@@ -103,7 +100,8 @@ def _clear_degraded_fields(item):
 def enforce_degraded_budget(competitions):
     """
     若 degraded 超预算，保留高优先级条目，其余清除 status 字段与 link。
-    不删除赛事。返回 (comps, dropped_list)。
+    当 allowed=0 时，所有 degraded 均 demote。不删除赛事。
+    返回 (comps, dropped_list)。
     """
     if not competitions:
         return list(competitions or []), []
@@ -117,12 +115,10 @@ def enforce_degraded_budget(competitions):
         for i, c in enumerate(comps)
         if isinstance(c, dict) and c.get("link_status") == DEGRADED
     ]
-    # floor(n*0.03)==0 时无法表达“至少保留”的阈值，不强制挤掉
-    # （与 test_under_budget_unchanged 一致：小样本不 demote）
-    if allowed <= 0 or len(degraded_idxs) <= allowed:
+    if len(degraded_idxs) <= allowed:
         return comps, []
 
-    # 高优先级在前；保留前 allowed 个，其余清除
+    # 高优先级在前；保留前 allowed 个（allowed=0 时全部 demote），其余清除
     ranked = sorted(degraded_idxs, key=lambda i: degraded_priority_key(comps[i]))
     keep_set = set(ranked[:allowed])
     drop_idxs = [i for i in ranked if i not in keep_set]
