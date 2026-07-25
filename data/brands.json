@@ -39,7 +39,7 @@
       "brand_id": "ciscn",
       "name": "全国大学生信息安全竞赛",
       "kind": "全国赛事",
-      "official_home": "https://www.ciscn.cn/",
+      "official_home": "http://www.ciscn.cn/",
       "aliases": [
         "CISCN",
         "信息安全竞赛"
@@ -384,7 +384,7 @@
       "brand_id": "ican",
       "name": "iCAN创新大赛",
       "kind": "全国赛事",
-      "official_home": "https://www.ican-contest.org",
+      "official_home": "http://www.ican-contest.org/",
       "aliases": [
         "iCAN"
       ],
@@ -579,7 +579,7 @@
       "brand_id": "robocup_cn",
       "name": "中国机器人大赛暨RoboCup机器人世界杯中国赛",
       "kind": "全国赛事",
-      "official_home": "https://www.rcc.ai-force.com/",
+      "official_home": "http://www.rcc.ai-force.com/",
       "aliases": [
         "中国机器人大赛",
         "RoboCup中国赛"
@@ -824,7 +824,7 @@
       "brand_id": "wutong_cup",
       "name": "梧桐杯大数据创新大赛",
       "kind": "大厂赛事",
-      "official_home": "https://www.chinatelecom.com.cn/",
+      "official_home": "https://www.ctyun.cn/activity/wutong",
       "aliases": [
         "梧桐杯"
       ],
