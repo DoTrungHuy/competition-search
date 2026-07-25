@@ -12,6 +12,7 @@ SCRIPTS = os.path.join(ROOT, "scripts")
 if SCRIPTS not in sys.path:
     sys.path.insert(0, SCRIPTS)
 
+import link_health
 import validate_data
 
 
@@ -59,6 +60,51 @@ class OverrideExpiryTests(unittest.TestCase):
         for override in ("已结束", "已停办", "报名结束"):
             self.assertIn(override, validate_data.TERMINAL_STATUS_OVERRIDES)
             self.assertIn(override, validate_data.STATUS_OVERRIDES)
+
+
+class LinkStatusValidationTests(unittest.TestCase):
+    """link_status / degraded 字段与 3% 预算门禁。"""
+
+    def test_budget_helper_over_cap(self):
+        # floor(1*0.03)=0; one degraded is over cap
+        comps = [{"id": "a", "link_status": "degraded"}]
+        errors = link_health.budget_errors(comps)
+        self.assertEqual(len(errors), 1)
+        self.assertIn("超预算", errors[0])
+
+    def test_budget_helper_under_cap(self):
+        # floor(34*0.03)=1
+        comps = [{"id": "n%02d" % i} for i in range(33)]
+        comps.append({"id": "d", "link_status": "degraded"})
+        self.assertEqual(link_health.budget_errors(comps), [])
+
+    def test_degraded_requires_reason_and_date(self):
+        errors = link_health.degraded_field_errors(
+            {"id": "x", "link_status": "degraded"}, prefix="c[0]"
+        )
+        self.assertTrue(any("reason" in e for e in errors))
+        self.assertTrue(any("checked_at" in e for e in errors))
+
+    def test_degraded_with_reason_and_date_ok(self):
+        errors = link_health.degraded_field_errors(
+            {
+                "id": "x",
+                "link_status": "degraded",
+                "link_status_reason": "timeout",
+                "link_status_checked_at": "2026-07-25",
+            },
+            prefix="c[0]",
+        )
+        self.assertEqual(errors, [])
+
+    def test_ok_or_missing_link_status_no_field_errors(self):
+        self.assertEqual(link_health.degraded_field_errors({"id": "a"}), [])
+        self.assertEqual(
+            link_health.degraded_field_errors(
+                {"id": "b", "link_status": "ok"}
+            ),
+            [],
+        )
 
 
 if __name__ == "__main__":
