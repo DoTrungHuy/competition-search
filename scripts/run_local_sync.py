@@ -91,6 +91,11 @@ def main():
         print("预计报名维护失败，已中止，不提交。", file=sys.stderr)
         return 1
 
+    # degraded 外链预算（3%）：超预算先 demote，再进 validate
+    if run([PY, "scripts/enforce_degraded_budget.py"]) != 0:
+        print("degraded 预算强制失败，已中止，不提交。", file=sys.stderr)
+        return 1
+
     # 闸门：不合规不提交
     if run([PY, "scripts/validate_data.py"]) != 0:
         print("数据校验未通过，已中止，不提交。", file=sys.stderr)

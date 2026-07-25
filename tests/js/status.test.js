@@ -591,3 +591,34 @@ test("resolvePublicLink drops unsafe-scheme links instead of rendering them", ()
   const safe = status.resolvePublicLink({ link: "https://ciscn.cn/x" }, {});
   assert.equal(safe.href, "https://ciscn.cn/x");
 });
+
+test("resolvePublicLink exposes degraded flag for UI notice", () => {
+  const normal = status.resolvePublicLink(
+    { link: "https://ok.example/a" },
+    { official_home: "https://brand.example/" }
+  );
+  assert.equal(normal.degraded, false);
+  assert.equal(normal.href, "https://ok.example/a");
+
+  const deg = status.resolvePublicLink(
+    {
+      link: "https://flaky.example/a",
+      link_status: "degraded",
+    },
+    { official_home: "https://brand.example/" }
+  );
+  assert.equal(deg.degraded, true);
+  assert.equal(deg.href, "https://flaky.example/a");
+
+  const degNoLink = status.resolvePublicLink(
+    {
+      link_status: "degraded",
+      link_kind: "brand_home",
+      schedule_source: "estimated",
+      id: "estimate-x",
+    },
+    { official_home: "" }
+  );
+  assert.equal(degNoLink.degraded, true);
+  assert.equal(degNoLink.href, "");
+});

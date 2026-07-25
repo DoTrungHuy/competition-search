@@ -15,6 +15,7 @@ if SCRIPTS_DIR not in sys.path:
     sys.path.insert(0, SCRIPTS_DIR)
 
 import link_integrity  # noqa: E402
+import link_health  # noqa: E402
 
 DATA_DIR = os.path.join(ROOT, "data")
 DATE_FIELDS = (
@@ -260,6 +261,7 @@ def validate(today=None):
                 item, brand, prefix=prefix
             )
         )
+        errors.extend(link_health.degraded_field_errors(item, prefix=prefix))
         if link and not is_estimate:
             if not valid_url(link):
                 errors.append("%s link 非法" % prefix)
@@ -359,6 +361,8 @@ def validate(today=None):
         errors.append("至少需要一条已核验且启用的赛事")
     if review_count:
         warnings.append("%d 条记录仍标记为 needs_review" % review_count)
+
+    errors.extend(link_health.budget_errors(competitions.get("competitions", [])))
 
     return errors, warnings
 
