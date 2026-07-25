@@ -94,10 +94,27 @@ python scripts/list_portals.py
 
 ```bash
 python scripts/validate_data.py
+python scripts/enforce_degraded_budget.py
 python scripts/check_links.py
 ```
 
-链接巡检区分正常、重定向、疑似反爬、证书错误、超时、网络错误和明确失效。证书或超时默认只进入报告，404/410 会使命令失败。
+### 校验与 degraded 预算
+
+- `validate_data.py`：校验生产 JSON schema/业务约束，并检查 `link_status` 字段合法性与 **degraded 预算**。
+- `enforce_degraded_budget.py`：对 `data/competitions.json` 强制执行预算；超预算时按优先级 demote 多余 degraded（清除 `link_status*` 并清空 `link`，不删赛事），再写回 JSON。
+- **硬上限**：`floor(n * 0.03)`，其中 `n` 为赛事总数。`allowed=0` 时不允许任何 degraded。
+- 本地一键同步（`run_local_sync.py`）在提交前会先跑 `enforce_degraded_budget.py`，再跑 `validate_data.py`。
+
+### `link_status=degraded` 含义
+
+- 表示该条**赛事深链不稳定/不可靠**（例如历史失效、反爬或临时不可达后人工/维护标记），但仍希望保留记录并提示用户。
+- 前端卡片与抽屉会显示提示：**「官网暂不稳定，请以校内或官方最新通知为准」**（`resolvePublicLink` / `resolveItemLink` 暴露 `degraded` 标志，不改变 href 解析）。
+- 维护策略：**优先替换为可用 URL**，而不是长期挂 `degraded`。degraded 仅作有限公告额度下的兜底。
+
+### apply / 入库闸门与巡检边界
+
+- `apply_reviewed.py` / `gate_new_links.py`：**只剥离 404/410** 深链（清空 `link`）；403/429/超时/网络错误**不**自动剥离，也**不**自动写入 `link_status=degraded`。
+- `check_links.py`：**报告-only** 巡检（正常、重定向、疑似反爬、证书错误、超时、网络错误、明确失效）。默认不改生产数据、不自动标记 degraded。证书或超时默认只进入报告；404/410 会使命令失败（可用 `--strict` 扩大失败范围）。
 
 ## 重要边界
 
