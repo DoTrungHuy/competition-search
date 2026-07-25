@@ -11,6 +11,9 @@
     quick: "",
   };
   var lastFocused = null;
+  // 打开抽屉时用 setTimeout 异步聚焦关闭按钮；若在它触发前就关闭了抽屉，
+  // 这个待执行的回调会把焦点抢回已隐藏的抽屉里，故需在 closeDrawer 中取消。
+  var openFocusTimer = null;
 
   var KIND_CLASSES = {
     全国赛事: "badge-kind-national",
@@ -542,13 +545,20 @@
     $("drawer-backdrop").setAttribute("aria-hidden", "false");
     setBackgroundInert(true);
     document.body.style.overflow = "hidden";
-    window.setTimeout(function () {
+    openFocusTimer = window.setTimeout(function () {
+      openFocusTimer = null;
       $("drawer-close").focus();
     }, 0);
   }
 
   function closeDrawer() {
     if (!$("drawer").classList.contains("is-open")) return;
+    // 先撤销尚未执行的「聚焦关闭按钮」，否则它会在恢复焦点之后再抢一次，
+    // 把键盘用户留在已隐藏的抽屉上（快速按 Esc 时必现）。
+    if (openFocusTimer !== null) {
+      window.clearTimeout(openFocusTimer);
+      openFocusTimer = null;
+    }
     $("drawer").classList.remove("is-open");
     $("drawer").setAttribute("aria-hidden", "true");
     $("drawer-backdrop").classList.remove("is-open");
