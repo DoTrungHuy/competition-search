@@ -200,13 +200,14 @@ test("future registration_start recovers ended override only inside 30-day windo
   assert.equal(near.rank, 2);
 });
 
-test("active override still wins when registration has not been renewed", () => {
+test("fresh active override still wins when registration has not been renewed", () => {
   const today = new Date(2026, 6, 24);
   assert.equal(
     status.computeStatus(
       {
         needs_review: false,
         status_override: "进行中",
+        last_checked: "2026-07-24",
         registration_start: "2026-01-01",
         registration_end: "2026-03-01",
       },
@@ -224,6 +225,101 @@ test("active override still wins when registration has not been renewed", () => 
       today
     ).status,
     "已结束"
+  );
+});
+
+test("terminal override never expires, however stale last_checked is", () => {
+  const today = new Date(2026, 6, 24);
+  for (const override of ["已结束", "已停办", "报名结束"]) {
+    assert.equal(
+      status.computeStatus(
+        { needs_review: false, status_override: override, last_checked: "2020-01-01" },
+        today
+      ).status,
+      override
+    );
+  }
+});
+
+test("stale active override expires and falls through to date logic", () => {
+  const today = new Date(2026, 6, 24);
+  // last_checked 超过 90 天：覆盖失效，回落到日期推导。
+  assert.equal(
+    status.computeStatus(
+      {
+        needs_review: false,
+        status_override: "进行中",
+        last_checked: "2026-01-01",
+        competition_start: "2026-02-01",
+        competition_end: "2026-03-01",
+      },
+      today
+    ).status,
+    "已结束"
+  );
+  // 无任何日期时诚实降级为「待复核」，而不是永久谎报「进行中」。
+  assert.equal(
+    status.computeStatus(
+      { needs_review: false, status_override: "进行中", last_checked: "2026-01-01" },
+      today
+    ).status,
+    "待复核"
+  );
+});
+
+test("explicit status_override_until takes precedence over last_checked", () => {
+  const today = new Date(2026, 6, 24);
+  // last_checked 很旧，但显式有效期未到：覆盖仍然生效。
+  assert.equal(
+    status.computeStatus(
+      {
+        needs_review: false,
+        status_override: "报名中",
+        last_checked: "2025-01-01",
+        status_override_until: "2026-08-31",
+      },
+      today
+    ).status,
+    "报名中"
+  );
+  // last_checked 很新，但显式有效期已过：覆盖失效。
+  assert.equal(
+    status.computeStatus(
+      {
+        needs_review: false,
+        status_override: "报名中",
+        last_checked: "2026-07-24",
+        status_override_until: "2026-07-23",
+      },
+      today
+    ).status,
+    "待复核"
+  );
+});
+
+test("active override without any freshness signal is treated as expired", () => {
+  const today = new Date(2026, 6, 24);
+  assert.equal(
+    status.computeStatus({ needs_review: false, status_override: "进行中" }, today).status,
+    "待复核"
+  );
+});
+
+test("override expiry boundary is inclusive on the last valid day", () => {
+  // last_checked 2026-04-25 + 90 天 = 2026-07-24，当天仍有效，次日失效。
+  assert.equal(
+    status.computeStatus(
+      { needs_review: false, status_override: "进行中", last_checked: "2026-04-25" },
+      new Date(2026, 6, 24)
+    ).status,
+    "进行中"
+  );
+  assert.equal(
+    status.computeStatus(
+      { needs_review: false, status_override: "进行中", last_checked: "2026-04-25" },
+      new Date(2026, 6, 25)
+    ).status,
+    "待复核"
   );
 });
 

@@ -21,6 +21,20 @@
   /** 「即将开始报名」仅在开报前 30 天窗口内（不含开报当天）。 */
   var UPCOMING_REGISTRATION_DAYS = 30;
 
+  /**
+   * 终态覆盖：稳定事实，长期有效，不设过期。
+   * 其余（报名中/即将开始报名/即将开始/进行中）属动态状态，必须有有效期，
+   * 否则一条旧的人工覆盖会永久谎报「现在能报名」。
+   */
+  var TERMINAL_OVERRIDES = {
+    已结束: true,
+    已停办: true,
+    报名结束: true,
+  };
+
+  /** 动态状态覆盖在缺少显式 status_override_until 时，自 last_checked 起的最长有效天数。 */
+  var STATUS_OVERRIDE_MAX_DAYS = 90;
+
   function parseDate(value) {
     if (!value || typeof value !== "string") return null;
     var match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value.trim());
@@ -46,6 +60,31 @@
 
   function daysBetween(from, to) {
     return Math.round((to - from) / 86400000);
+  }
+
+  /** 覆盖状态的有效截止日：显式 status_override_until 优先，否则 last_checked + 90 天。 */
+  function overrideExpiry(item) {
+    var explicit = parseDate(item.status_override_until);
+    if (explicit) return explicit;
+    var checked = parseDate(item.last_checked);
+    if (!checked) return null;
+    return new Date(
+      checked.getFullYear(),
+      checked.getMonth(),
+      checked.getDate() + STATUS_OVERRIDE_MAX_DAYS
+    );
+  }
+
+  /**
+   * 动态状态覆盖是否已过期。终态覆盖永不过期。
+   * 动态覆盖若既无 status_override_until 也无 last_checked，则无从判断新鲜度，
+   * 按过期处理——宁可回落到日期推导或「待复核」，也不长期谎报。
+   */
+  function overrideExpired(item, today) {
+    if (TERMINAL_OVERRIDES[item.status_override]) return false;
+    var until = overrideExpiry(item);
+    if (!until) return true;
+    return startOfToday(today) > until;
   }
 
   /** 两年窗口锚点：结束日 > 截止日 > 开始日 > 发布日。 */
@@ -154,7 +193,8 @@
         daysToRegOverride <= UPCOMING_REGISTRATION_DAYS;
       var staleEnded =
         (override === "已结束" || override === "报名结束") && upcomingWindow;
-      if (!staleEnded) {
+      // 动态覆盖过期后不再 return，落到下方日期推导；无日期时最终为「待复核」。
+      if (!staleEnded && !overrideExpired(item, current)) {
         // override 本身视为官方口径，不标预计
         return statusResult(override, false, null, {
           scheduleSource: "official",
@@ -342,9 +382,12 @@
   var api = {
     STATUS_RANK: STATUS_RANK,
     UPCOMING_REGISTRATION_DAYS: UPCOMING_REGISTRATION_DAYS,
+    STATUS_OVERRIDE_MAX_DAYS: STATUS_OVERRIDE_MAX_DAYS,
     parseDate: parseDate,
     startOfToday: startOfToday,
     daysBetween: daysBetween,
+    overrideExpiry: overrideExpiry,
+    overrideExpired: overrideExpired,
     anchorDate: anchorDate,
     calendarYearCutoff: calendarYearCutoff,
     withinTwoYears: withinTwoYears,

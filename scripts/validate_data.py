@@ -5,7 +5,7 @@ from __future__ import print_function
 import json
 import os
 import sys
-from datetime import datetime
+from datetime import date, datetime, timedelta
 from urllib.parse import urlparse
 
 
@@ -26,6 +26,7 @@ DATE_FIELDS = (
     "competition_end",
     "published_at",
     "last_checked",
+    "status_override_until",
 )
 REQUIRED_EVENT_FIELDS = (
     "id",
@@ -50,6 +51,10 @@ STATUS_OVERRIDES = {
     "已结束",
     "已停办",
 }
+# 终态覆盖是稳定事实，长期有效；其余为动态状态，必须能判断新鲜度。
+TERMINAL_STATUS_OVERRIDES = {"已结束", "已停办", "报名结束"}
+# 与 js/status.js 的 STATUS_OVERRIDE_MAX_DAYS 保持一致。
+STATUS_OVERRIDE_MAX_DAYS = 90
 
 # 采集/合并时禁止再写入的纯套话（列表「要求」不得全站同一句）
 GENERIC_ELIGIBILITY = {
@@ -87,6 +92,29 @@ def valid_date(value):
         return False
 
 
+def parse_date(value):
+    if not isinstance(value, str):
+        return None
+    try:
+        return datetime.strptime(value, "%Y-%m-%d").date()
+    except ValueError:
+        return None
+
+
+def override_expiry(item):
+    """覆盖状态的有效截止日：显式 status_override_until 优先，否则 last_checked + 90 天。
+
+    与 js/status.js 的 overrideExpiry 保持一致。
+    """
+    explicit = parse_date(item.get("status_override_until"))
+    if explicit:
+        return explicit
+    checked = parse_date(item.get("last_checked"))
+    if not checked:
+        return None
+    return checked + timedelta(days=STATUS_OVERRIDE_MAX_DAYS)
+
+
 def valid_url(value):
     if not isinstance(value, str) or not value:
         return False
@@ -98,7 +126,8 @@ def normalized_url(value):
     return str(value or "").rstrip("/")
 
 
-def validate():
+def validate(today=None):
+    TODAY = today or date.today()
     errors = []
     warnings = []
     competitions = load_json("competitions.json")
@@ -240,8 +269,35 @@ def validate():
                 errors.append("赛事深链接重复: %s" % link)
             event_links.add(link)
 
-        if item.get("status_override") and item.get("status_override") not in STATUS_OVERRIDES:
+        override = item.get("status_override")
+        if override and override not in STATUS_OVERRIDES:
             errors.append("%s status_override 非法" % prefix)
+
+        # 动态状态覆盖必须能判断新鲜度，否则会永久谎报「现在能报名」。
+        # 前端已能自愈（过期即回落到日期推导或待复核），故这里只在数据自相矛盾时报错，
+        # 单纯「已过期」只告警——避免一条陈旧数据让周一无人值守的流水线整体中断。
+        until_raw = item.get("status_override_until")
+        if until_raw and not override:
+            errors.append("%s 有 status_override_until 却没有 status_override" % prefix)
+        until = parse_date(until_raw)
+        checked = parse_date(item.get("last_checked"))
+        if until and checked and until < checked:
+            errors.append(
+                "%s status_override_until (%s) 早于 last_checked (%s)"
+                % (prefix, until_raw, item.get("last_checked"))
+            )
+        if override and override not in TERMINAL_STATUS_OVERRIDES:
+            expiry = override_expiry(item)
+            if expiry is None:
+                errors.append(
+                    "%s status_override「%s」是动态状态，须有 last_checked 或 status_override_until"
+                    % (prefix, override)
+                )
+            elif expiry < TODAY:
+                warnings.append(
+                    "%s status_override「%s」已于 %s 过期，前端将回落为待复核，请复核后更新"
+                    % (prefix, override, expiry.isoformat())
+                )
 
         eligibility = item.get("eligibility")
         if isinstance(eligibility, str) and eligibility.strip() in GENERIC_ELIGIBILITY:
