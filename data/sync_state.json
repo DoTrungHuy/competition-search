@@ -1,7 +1,14 @@
 {
   "last_success_week": "2026-W30",
-  "last_success_at": "2026-07-24T23:43:59+08:00",
+  "last_success_at": "2026-07-25T11:14:22+08:00",
   "source": "github-actions",
-  "run_url": "https://github.com/DoTrungHuy/competition-search/actions/runs/30106485332",
-  "event": "workflow_dispatch"
+  "run_url": "https://github.com/DoTrungHuy/competition-search/actions/runs/30141856011",
+  "event": "workflow_dispatch",
+  "sources": {
+    "campus": "success",
+    "devpost": "success",
+    "mlh": "success",
+    "kaggle": "skipped"
+  },
+  "sync_quality": "ok"
 }
