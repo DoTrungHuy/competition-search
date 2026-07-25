@@ -62,11 +62,23 @@ def main():
     if not args.no_pull:
         run(["git", "pull", "--rebase"])
 
+    # 单源失败不中断，但要记账：与 weekly-sync 一致，全部源都失败时不写入成功状态。
+    results = {}
     for name, script in FETCHERS:
         if name in skip:
             print("跳过源: %s" % name)
+            results[name] = "skipped"
             continue
-        run([PY, script])  # 单源失败不中断
+        results[name] = "success" if run([PY, script]) == 0 else "failed"
+
+    attempted = [r for r in results.values() if r != "skipped"]
+    succeeded = [r for r in attempted if r == "success"]
+    print("\n采集源结果: %s" % ", ".join("%s=%s" % kv for kv in results.items()))
+    if attempted and not succeeded:
+        print("全部 %d 个采集源均失败，已中止，不提交。" % len(attempted), file=sys.stderr)
+        return 1
+    if len(succeeded) < len(attempted):
+        print("注意：%d 个源失败，本次同步质量为 partial。" % (len(attempted) - len(succeeded)))
 
     if run([PY, "scripts/review_drafts.py"]) == 2:
         print("审核无法进行（缺 key），中止。", file=sys.stderr)
@@ -89,6 +101,8 @@ def main():
 
     # 与 GitHub weekly-sync 共用：标记本周已成功，备用 cron 可跳过
     os.environ.setdefault("SYNC_SOURCE", "local")
+    for name, result in results.items():
+        os.environ["SOURCE_%s" % name.upper()] = result
     run([PY, "scripts/write_sync_state.py"])
 
     if not data_changed():

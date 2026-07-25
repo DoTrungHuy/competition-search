@@ -115,29 +115,101 @@ jobs:
           }
 
       # 采集可能因单个列表反爬/超时报错，但仍会写出部分草稿，故不因此中断。
+      # 单源失败可容忍，但「全部源都失败」必须拦截——否则旧数据照样过闸门，
+      # 会把没有任何新采集的一周记成成功。汇总判定见下方 collector_health。
       - name: Collect campus drafts
+        id: collect_campus
         if: steps.weekly_guard.outputs.should_run == 'true'
         continue-on-error: true
         run: python scripts/fetch_campus_cxcy.py
 
       - name: Collect Devpost drafts
+        id: collect_devpost
         if: steps.weekly_guard.outputs.should_run == 'true'
         continue-on-error: true
         run: python scripts/fetch_devpost.py
 
       - name: Collect MLH drafts
+        id: collect_mlh
         if: steps.weekly_guard.outputs.should_run == 'true'
         continue-on-error: true
         run: python scripts/fetch_mlh.py
 
       # Kaggle 可选：未配置 KAGGLE_USERNAME/KAGGLE_KEY 时脚本自动跳过。
       - name: Collect Kaggle drafts
+        id: collect_kaggle
         if: steps.weekly_guard.outputs.should_run == 'true'
         continue-on-error: true
         env:
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         run: python scripts/fetch_kaggle.py
+
+      # 采集源健康汇总：未配置凭据的 Kaggle 记为 skipped，不计入分母。
+      # 所有真正尝试过的源都失败时直接让 job 失败，从而跳过 write_sync_state，
+      # last_success_week 保持上周，下一个 cron 槽位会重试。
+      - name: Summarize collector health
+        id: collector_health
+        if: steps.weekly_guard.outputs.should_run == 'true'
+        env:
+          CAMPUS: ${{ steps.collect_campus.outcome }}
+          DEVPOST: ${{ steps.collect_devpost.outcome }}
+          MLH: ${{ steps.collect_mlh.outcome }}
+          KAGGLE: ${{ steps.collect_kaggle.outcome }}
+          KAGGLE_CONFIGURED: ${{ secrets.KAGGLE_USERNAME != '' && secrets.KAGGLE_KEY != '' }}
+        run: |
+          normalize() {
+            case "$1" in
+              success) echo "success" ;;
+              skipped) echo "skipped" ;;
+              *)       echo "failed" ;;
+            esac
+          }
+
+          CAMPUS_R="$(normalize "$CAMPUS")"
+          DEVPOST_R="$(normalize "$DEVPOST")"
+          MLH_R="$(normalize "$MLH")"
+          if [[ "$KAGGLE_CONFIGURED" == "true" ]]; then
+            KAGGLE_R="$(normalize "$KAGGLE")"
+          else
+            KAGGLE_R="skipped"
+          fi
+
+          attempted=0
+          succeeded=0
+          for r in "$CAMPUS_R" "$DEVPOST_R" "$MLH_R" "$KAGGLE_R"; do
+            [[ "$r" == "skipped" ]] && continue
+            attempted=$((attempted + 1))
+            [[ "$r" == "success" ]] && succeeded=$((succeeded + 1))
+          done
+
+          {
+            echo "### 采集源健康"
+            echo ""
+            echo "| 源 | 结果 |"
+            echo "| --- | --- |"
+            echo "| campus | $CAMPUS_R |"
+            echo "| devpost | $DEVPOST_R |"
+            echo "| mlh | $MLH_R |"
+            echo "| kaggle | $KAGGLE_R |"
+            echo ""
+            echo "尝试 $attempted 个源，成功 $succeeded 个。"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          {
+            echo "source_campus=$CAMPUS_R"
+            echo "source_devpost=$DEVPOST_R"
+            echo "source_mlh=$MLH_R"
+            echo "source_kaggle=$KAGGLE_R"
+          } >> "$GITHUB_OUTPUT"
+
+          if [[ "$attempted" -gt 0 && "$succeeded" -eq 0 ]]; then
+            echo "::error::全部 $attempted 个采集源均失败，本周不写入成功状态。"
+            exit 1
+          fi
+          if [[ "$succeeded" -lt "$attempted" ]]; then
+            echo "::warning::$attempted 个采集源中有 $((attempted - succeeded)) 个失败，本周同步质量为 partial。"
+          fi
 
       - name: Review drafts with DeepSeek
         if: steps.weekly_guard.outputs.should_run == 'true'
@@ -173,6 +245,10 @@ jobs:
           THIS_WEEK: ${{ steps.weekly_guard.outputs.this_week }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           SYNC_SOURCE: github-actions
+          SOURCE_CAMPUS: ${{ steps.collector_health.outputs.source_campus }}
+          SOURCE_DEVPOST: ${{ steps.collector_health.outputs.source_devpost }}
+          SOURCE_MLH: ${{ steps.collector_health.outputs.source_mlh }}
+          SOURCE_KAGGLE: ${{ steps.collector_health.outputs.source_kaggle }}
         run: python scripts/write_sync_state.py
 
       - name: Commit and push if data changed
