@@ -457,6 +457,11 @@ input:focus-visible,
   min-width: 0;
 }
 
+/* 作者样式的 display 会盖掉 hidden 属性自带的 display:none，取不到计数时需显式隐藏。 */
+.visit-pill[hidden] {
+  display: none;
+}
+
 .visit-pill {
   grid-column: 3;
   grid-row: 1;

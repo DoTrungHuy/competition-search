@@ -1,5 +1,8 @@
 /**
- * 访问次数。每次页面加载只向远端计数服务发起一次加一请求。
+ * 页面浏览次数。每次页面加载只向远端计数服务发起一次加一请求。
+ *
+ * 注意这是「页面浏览次数」而非独立访客数：刷新与爬虫都会计入，
+ * 且 CounterAPI v1 是公开无鉴权计数器。真实站点统计以 Cloudflare Web Analytics 为准。
  */
 (function (global) {
   "use strict";
@@ -18,13 +21,21 @@
     element.setAttribute("aria-label", label || String(value));
   }
 
+  /** 取不到数就整块隐藏：为数字排版的位置塞不下「暂不可用」，也没有展示价值。 */
+  function hidePill() {
+    var element = $("visit-count");
+    if (!element) return;
+    var pill = element.closest ? element.closest(".visit-pill") : null;
+    (pill || element).hidden = true;
+  }
+
   function showCount(value) {
     var number = Number(value);
     if (!isFinite(number)) {
-      show("暂不可用", "访问次数暂不可用");
+      hidePill();
       return;
     }
-    show(number.toLocaleString("zh-CN"), "访问次数 " + number);
+    show(number.toLocaleString("zh-CN"), "页面浏览 " + number);
   }
 
   function extractCount(data) {
@@ -68,12 +79,8 @@
 
   function init() {
     if (!$("visit-count")) return;
-    show("…", "正在读取访问次数");
-    remoteCount()
-      .then(showCount)
-      .catch(function () {
-        show("暂不可用", "访问次数暂不可用");
-      });
+    show("…", "正在读取页面浏览次数");
+    remoteCount().then(showCount).catch(hidePill);
   }
 
   global.CompVisits = {
