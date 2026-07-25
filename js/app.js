@@ -113,7 +113,12 @@
       label = "赛事主页";
     }
     if (href && fakeUrl(href)) href = "";
-    return { href: href, label: label, brandHomeOnly: brandHomeOnly };
+    return {
+      href: href,
+      label: label,
+      brandHomeOnly: brandHomeOnly,
+      degraded: !!(item && item.link_status === "degraded"),
+    };
   }
 
   function sourceLink(item) {
@@ -406,8 +411,12 @@
         ? '<span class="badge badge-estimated" title="报名日据往年推算，以官网为准">预计</span>'
         : "";
       var requirement = requirementLine(item);
-      var link = sourceLink(item);
-      var linkLabel = sourceLabel(item);
+      var resolvedLink = resolveItemLink(item);
+      var link = resolvedLink.href || "";
+      var linkLabel = resolvedLink.label || "赛事主页";
+      var degradedLinkNote = resolvedLink.degraded
+        ? '<p class="card-link-note">官网暂不稳定，请以校内或官方最新通知为准</p>'
+        : "";
       var channelNote =
         item.info_channel === "校内官网"
           ? '<p class="card-line card-line--muted">学校网站有相关通知</p>'
@@ -440,6 +449,7 @@
         channelNote +
         "</div>" +
         '<div class="card-actions">' +
+        degradedLinkNote +
         (link
           ? '<a class="btn-white" href="' +
             escapeAttr(link) +
@@ -476,7 +486,12 @@
 
   function openDrawer(item, trigger) {
     var enriched = enrich(item);
-    var link = sourceLink(item);
+    var resolvedLink = resolveItemLink(item);
+    var link = resolvedLink.href || "";
+    var linkLabel = resolvedLink.label || "赛事主页";
+    var degradedLinkNote = resolvedLink.degraded
+      ? '<p class="drawer-link-note">官网暂不稳定，请以校内或官方最新通知为准</p>'
+      : "";
     var drawerStatus =
       enriched._urgent
         ? "即将截止"
@@ -531,11 +546,12 @@
       (item.info_channel === "校内官网"
         ? '<div class="drawer-notice">学校网站发布过相关通知，不代表学校是赛事主办方。</div>'
         : "") +
+      degradedLinkNote +
       (link
         ? '<div class="drawer-section"><a class="btn-white" href="' +
           escapeAttr(link) +
           '" target="_blank" rel="noopener noreferrer">' +
-          escapeHtml(sourceLabel(item)) +
+          escapeHtml(linkLabel) +
           "</a></div>"
         : "");
 
