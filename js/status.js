@@ -341,6 +341,19 @@
     return false;
   }
 
+  /**
+   * 只放行 http/https 外链。
+   * 数据侧 validate_data.valid_url 已是硬闸门，这里是纵深防御的第二层：
+   * 卡片与抽屉把 href 直接拼进 innerHTML，escapeAttr 挡得住属性逃逸，
+   * 但挡不住 javascript: / data: 这类协议本身。
+   */
+  function hasSafeScheme(url) {
+    if (!url || typeof url !== "string") return false;
+    // 浏览器解析协议时会忽略前导空白与内嵌控制字符，先剔除再比对
+    var cleaned = url.replace(/[\u0000-\u0020]/g, "").toLowerCase();
+    return cleaned.indexOf("http://") === 0 || cleaned.indexOf("https://") === 0;
+  }
+
   function urlHasFakeMarkers(url) {
     if (!url || typeof url !== "string") return false;
     var lower = url.toLowerCase();
@@ -373,7 +386,7 @@
       href = (brand.official_home || "").trim();
       label = "赛事主页";
     }
-    if (href && urlHasFakeMarkers(href)) {
+    if (href && (urlHasFakeMarkers(href) || !hasSafeScheme(href))) {
       href = "";
     }
     return { href: href, label: label, brandHomeOnly: brandHomeOnly };
@@ -398,6 +411,7 @@
     inMainLane: inMainLane,
     matchesStatusChip: matchesStatusChip,
     isBrandHomeOnly: isBrandHomeOnly,
+    hasSafeScheme: hasSafeScheme,
     urlHasFakeMarkers: urlHasFakeMarkers,
     resolvePublicLink: resolvePublicLink,
   };

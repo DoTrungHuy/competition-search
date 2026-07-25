@@ -553,3 +553,41 @@ test("resolvePublicLink never surfaces fake estimate deep links", () => {
   assert.equal(onlyFakeHome.href, "");
   assert.ok(poisonedHome);
 });
+
+test("only http/https schemes are allowed through to href", () => {
+  // 数据侧 validate_data.valid_url 已拦截，这里是前端的第二道防线：
+  // href 直接拼进 innerHTML，escapeAttr 挡属性逃逸，挡不住协议本身。
+  for (const url of [
+    "https://ok.com/x",
+    "http://ok.com",
+    "HTTPS://OK.COM",
+    "  https://ok.com",
+  ]) {
+    assert.equal(status.hasSafeScheme(url), true, url);
+  }
+  for (const url of [
+    "javascript:alert(1)",
+    "JaVaScRiPt:alert(1)",
+    "java\tscript:alert(1)", // 浏览器解析协议时忽略内嵌控制字符
+    "java\nscript:alert(1)",
+    "\u0000javascript:alert(1)",
+    "data:text/html,<script>alert(1)</script>",
+    "vbscript:msgbox(1)",
+    "//evil.com",
+    "/relative/path",
+    "",
+  ]) {
+    assert.equal(status.hasSafeScheme(url), false, url);
+  }
+});
+
+test("resolvePublicLink drops unsafe-scheme links instead of rendering them", () => {
+  const resolved = status.resolvePublicLink(
+    { link: "javascript:alert(document.cookie)" },
+    { official_home: "" }
+  );
+  assert.equal(resolved.href, "");
+
+  const safe = status.resolvePublicLink({ link: "https://ciscn.cn/x" }, {});
+  assert.equal(safe.href, "https://ciscn.cn/x");
+});
