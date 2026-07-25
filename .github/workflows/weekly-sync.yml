@@ -230,6 +230,10 @@ jobs:
           TZ: Asia/Shanghai
         run: python scripts/apply_registration_estimates.py
 
+      - name: Enforce degraded link budget (≤3%)
+        if: steps.weekly_guard.outputs.should_run == 'true'
+        run: python scripts/enforce_degraded_budget.py
+
       # 闸门：数据不合规或测试不过则中断，不会提交。
       - name: Validate data (gate)
         if: steps.weekly_guard.outputs.should_run == 'true'
