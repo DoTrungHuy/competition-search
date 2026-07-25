@@ -111,7 +111,7 @@ python -m pip install -r requirements-scripts.txt
 ## 项目如何实现（维护者）
 
 技术形态：**纯静态站**（HTML / CSS / JS + `data/*.json`），无前端构建。  
-线上通过 **Cloudflare Workers 静态资源** 发布根目录（见 `wrangler.toml`）；域名 **njupt.cs-contest.cn**。
+线上通过 **Cloudflare Workers 静态资源** 发布根目录（见 `wrangler.toml`）；域名 **cs-contest.cn**（**njupt.cs-contest.cn** 同样可用）。
 
 ### 目录要点
 
@@ -125,15 +125,17 @@ python -m pip install -r requirements-scripts.txt
 | `scripts/link_integrity.py` | 禁止预计假深链、`?estimate=` 等 |
 | `scripts/apply_registration_estimates.py` | 固定清单「预计报名」维护 |
 | `assets/images/readme/home.png` | README 首页预览图 |
+| `404.html` / `assets/favicon.svg` | 404 页（`wrangler.toml` 的 `not_found_handling`）/ 站点图标 |
 | `.github/workflows/ci.yml` | push/PR：`npm test` |
-| `.github/workflows/weekly-sync.yml` | 周更：采集 → 审核 → 合并 → **刷新预计** → 校验 → 通过才提交 |
+| `.github/workflows/weekly-sync.yml` | 周更：采集 → **健康汇总** → 审核 → 合并 → **刷新预计** → 校验 → 通过才提交 |
 
 ### 数据原则
 
 1. **已核验**记录：需要 `last_checked`、可用赛程或官方状态；赛事深链不得与品牌首页简单重复，也不得带伪参数。  
 2. **待复核**（`needs_review`）：不写公开精确报名/比赛日进状态计算。  
 3. **预计报名**：仅 `njupt_fixed` 且存在往年已核验 `registration_*` 时生成；**不写** `link`（`link_kind: brand_home`）；前端只打开品牌 `official_home`。  
-4. 官方 `registration_*` **优先于**预计字段。
+4. 官方 `registration_*` **优先于**预计字段。  
+5. **人工状态覆盖有有效期**：`已结束 / 已停办 / 报名结束` 是稳定终态，长期有效；`报名中 / 即将开始报名 / 即将开始 / 进行中` 属动态状态，自 `last_checked` 起 90 天有效，可用 `status_override_until` 显式指定。过期后前端回落到日期推导，无日期则显示「待复核」——宁可承认不知道，也不长期谎报「现在能报名」。校验器对过期只告警不报错，避免一条陈旧数据中断无人值守的周更。
 
 手动刷新预计（一般不必，周更会跑）：
 
@@ -145,26 +147,32 @@ python scripts/apply_registration_estimates.py
 ### 自动化管线（周更）
 
 ```text
-采集  fetch_*.py → draft_*.json
+采集  fetch_*.py → draft_*.json         ← 单源失败可容忍
+健康  汇总各源结果                       ← 全部源都失败则中止，不记本周成功
 审核  review_drafts.py（DeepSeek；禁止臆造日期）
 合并  apply_reviewed.py
 预计  apply_registration_estimates.py   ← 固定清单维护
 闸门  validate_data.py + npm test       ← 含链接诚信，失败不提交
-状态  data/sync_state.json              ← 本周成功标记（备用 cron 防重跑）
+状态  data/sync_state.json              ← 本周成功标记 + sources / sync_quality
 ```
 
 - 定时：周一北京时间约 10:17 / 22:47（UTC `02:17` / `14:47`），双槽 + 本周成功守卫。  
+- 采集源健康：单源失败只记 `partial` 并继续；**所有实际尝试的源都失败时工作流直接失败**，`last_success_week` 保持上周，下一个槽位重试。未配置凭据的 Kaggle 记 `skipped`，不计入分母。  
 - Secrets：`DEEPSEEK_API_KEY`（必填）；Kaggle 可选。  
 - 天池等需国内网络的源：本机 `scripts/run_local_sync.py` / Windows 任务（同样会跑预计维护）。  
 - `scripts/upgrade_pending.py` 为**手动**补审工具，不进自动周更。
 
 ### 发布
 
+Cloudflare 已连接本仓库：**推送到 `main` 即自动构建发布**，周更工作流提交的数据同样会自动上线，无需手动操作。
+
+应急/本地直发（跳过 Git 流程时才用）：
+
 ```bash
 npx wrangler deploy
 ```
 
-仅 `git push` 更新仓库**不等于**线上一定已刷新；改完前端或数据后需按你的 Cloudflare 流程发布，用户侧建议强刷。
+发布后如果内容看着没变，多半是浏览器或边缘缓存；用户侧强刷（Ctrl+F5），核验时给 URL 加 `?cachebust=<时间戳>` 绕开 `cf-cache-status: HIT`。
 
 ### 视觉
 

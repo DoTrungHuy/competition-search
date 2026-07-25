@@ -1,6 +1,8 @@
 # 不要把采集脚本、测试、内部文档当静态资源发布
 .git
 .github
+README.md
+assets/images/readme
 .claude
 .grok
 .venv
