@@ -180,8 +180,20 @@ def call_deepseek(messages, api_key, model, base_url, timeout, retries=2):
             response.raise_for_status()
             content = response.json()["choices"][0]["message"]["content"]
             return json.loads(content)
+        except requests.HTTPError as error:
+            # 带上响应体：DeepSeek 的 401/402/429 会在 body 里说明是 key 失效、
+            # 余额不足还是限流，只有状态码看不出区别。
+            body = ""
+            if error.response is not None:
+                body = (error.response.text or "").strip()[:300]
+            last_error = "%s | %s" % (error, body) if body else error
+            if attempt < retries:
+                time.sleep(2 * (attempt + 1))
+                continue
         except (requests.RequestException, KeyError, ValueError) as error:
-            last_error = error
+            # 带上异常类型：ConnectionError（网络不通）、JSONDecodeError（返回不是
+            # JSON）、KeyError（响应结构不对）光看消息文本区分不出来。
+            last_error = "%s: %s" % (type(error).__name__, error)
             if attempt < retries:
                 time.sleep(2 * (attempt + 1))
                 continue
@@ -319,7 +331,11 @@ def main():
             decision = normalize_decision(raw, brand_ids, source_schedule)
         except ReviewError as error:
             errors.append({"name": name, "link": record.get("link"), "error": str(error)})
-            print("  [%d/%d] 失败: %s" % (index, len(candidates), name), file=sys.stderr)
+            # 原因要打进日志：只印名字的话，CI 里看不出是 key 失效、余额不足还是限流。
+            print(
+                "  [%d/%d] 失败: %s -> %s" % (index, len(candidates), name, error),
+                file=sys.stderr,
+            )
             continue
 
         if decision.get("schedule_source") == "source":
