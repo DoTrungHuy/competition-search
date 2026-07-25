@@ -40,7 +40,8 @@ from schedule_utils import (
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COMPETITIONS_PATH = os.path.join(ROOT, "data", "competitions.json")
 DEFAULT_BASE_URL = "https://api.deepseek.com"
-DEFAULT_MODEL = "deepseek-chat"
+# 与 review_drafts.py 保持一致：deepseek-chat 已下线。
+DEFAULT_MODEL = "deepseek-v4-pro"
 USER_AGENT = "Mozilla/5.0 (compatible; CompetitionSearchMaintainer/0.1)"
 
 

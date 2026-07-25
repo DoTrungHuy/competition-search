@@ -10,7 +10,8 @@
 2. 没有源日期 → 请 DeepSeek 仅从给定线索提取（禁止臆造）
 3. 仍无合法日期 → 留给 apply 标 needs_review
 
-依赖环境变量 DEEPSEEK_API_KEY。默认模型 deepseek-chat。
+依赖环境变量 DEEPSEEK_API_KEY。默认模型 deepseek-v4-pro，
+可用 DEEPSEEK_MODEL 换成 deepseek-v4-flash（更快更便宜）。
 """
 from __future__ import print_function
 
@@ -40,7 +41,10 @@ DEFAULT_OUT = os.path.join(ROOT, "scripts", "out", "reviewed.json")
 BRANDS_PATH = os.path.join(ROOT, "data", "brands.json")
 
 DEFAULT_BASE_URL = "https://api.deepseek.com"
-DEFAULT_MODEL = "deepseek-chat"
+# deepseek-chat 已下线，接口只认 deepseek-v4-pro / deepseek-v4-flash。
+# 审核要判定赛事真伪且严禁臆造日期，默认取 pro；量小（每周几条到几十条），
+# 精度比省钱重要。用 DEEPSEEK_MODEL 可切到 flash。
+DEFAULT_MODEL = "deepseek-v4-pro"
 KINDS = ("全国赛事", "大厂赛事", "国际赛事", "校级赛事")
 
 SYSTEM_PROMPT = (
