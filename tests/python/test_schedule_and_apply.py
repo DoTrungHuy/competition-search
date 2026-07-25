@@ -4,6 +4,7 @@ from __future__ import print_function
 import os
 import sys
 import unittest
+from unittest import mock
 
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -13,6 +14,11 @@ if SCRIPTS not in sys.path:
 
 import apply_reviewed
 import schedule_utils
+
+
+def _passthrough_gate(records, timeout=15, get=None):
+    """测试默认不打真网：保留 link。"""
+    return records, []
 
 
 class ScheduleUtilsTests(unittest.TestCase):
@@ -91,9 +97,10 @@ class ApplyReviewedTests(unittest.TestCase):
                 }
             ]
         }
-        added, created, skipped, verified, pending = apply_reviewed.apply(
-            reviewed, competitions_doc, brands_doc
-        )
+        with mock.patch("apply_reviewed.filter_broken_links", side_effect=_passthrough_gate):
+            added, created, skipped, verified, pending = apply_reviewed.apply(
+                reviewed, competitions_doc, brands_doc
+            )
         self.assertEqual(len(added), 1)
         self.assertEqual(verified, 1)
         self.assertEqual(pending, 0)
@@ -143,13 +150,83 @@ class ApplyReviewedTests(unittest.TestCase):
                 }
             ]
         }
-        added, created, skipped, verified, pending = apply_reviewed.apply(
-            reviewed, competitions_doc, brands_doc
-        )
+        with mock.patch("apply_reviewed.filter_broken_links", side_effect=_passthrough_gate):
+            added, created, skipped, verified, pending = apply_reviewed.apply(
+                reviewed, competitions_doc, brands_doc
+            )
         self.assertEqual(verified, 0)
         self.assertEqual(pending, 1)
         item = competitions_doc["competitions"][0]
         self.assertTrue(item["needs_review"])
+        self.assertIsNone(item.get("registration_end"))
+        self.assertIsNone(item.get("last_checked"))
+
+    def test_broken_link_demotes_before_append(self):
+        reviewed = {
+            "accepted": [
+                {
+                    "record": {
+                        "id": "test-3",
+                        "edition": "2026",
+                        "track_id": "t3",
+                        "name": "Dead Link Hack",
+                        "kind": "国际赛事",
+                        "info_channel": "官方渠道",
+                        "eligibility": "open",
+                        "link": "https://example.com/gone",
+                    },
+                    "decision": {
+                        "verdict": "accept",
+                        "kind": "国际赛事",
+                        "brand_id": "devpost",
+                        "new_brand": None,
+                        "registration_start": "2026-07-01",
+                        "registration_end": "2026-07-31",
+                        "competition_start": None,
+                        "competition_end": None,
+                        "schedule_source": "source",
+                        "schedule_confidence": "high",
+                    },
+                }
+            ]
+        }
+        competitions_doc = {"meta": {"schema_version": 3}, "competitions": []}
+        brands_doc = {
+            "brands": [
+                {
+                    "brand_id": "devpost",
+                    "name": "Devpost",
+                    "kind": "国际赛事",
+                    "official_home": "https://devpost.com/hackathons",
+                }
+            ]
+        }
+
+        def fake_filter(records, timeout=15, get=None):
+            for item in records or []:
+                if item.get("link"):
+                    item.pop("link", None)
+                    if item.get("needs_review") is False:
+                        item["needs_review"] = True
+                        item["last_checked"] = None
+                        for field in (
+                            "registration_start",
+                            "registration_end",
+                            "competition_start",
+                            "competition_end",
+                        ):
+                            item.pop(field, None)
+            return records, [{"id": "test-3"}]
+
+        with mock.patch("apply_reviewed.filter_broken_links", side_effect=fake_filter):
+            added, created, skipped, verified, pending = apply_reviewed.apply(
+                reviewed, competitions_doc, brands_doc
+            )
+        self.assertEqual(verified, 0)
+        self.assertEqual(pending, 1)
+        item = competitions_doc["competitions"][0]
+        self.assertTrue(item["needs_review"])
+        self.assertFalse(item.get("link"))
         self.assertIsNone(item.get("registration_end"))
         self.assertIsNone(item.get("last_checked"))
 

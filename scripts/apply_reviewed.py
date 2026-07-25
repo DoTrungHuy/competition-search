@@ -20,6 +20,7 @@ import os
 import sys
 from urllib.parse import urlparse
 
+from gate_new_links import filter_broken_links
 from platform_text import enrich_platform_text, is_generic_eligibility
 from schedule_utils import (
     SCHEDULE_FIELDS,
@@ -212,6 +213,9 @@ def apply(reviewed, competitions_doc, brands_doc):
         if record.get("link") and link_norm in existing_links:
             skipped.append({"name": name, "reason": "深链接已存在"})
             continue
+
+        # 入库前拦截本轮新增深链的 404/410（403/429/网络不剥）
+        filter_broken_links([record])
 
         competitions.append(record)
         existing_ids.add(record["id"])
