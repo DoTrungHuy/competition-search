@@ -368,8 +368,9 @@
   /**
    * 解析用户应打开的外链与按钮文案。
    * brand: { official_home } 可选。
-   * 返回 { href, label, brandHomeOnly }
+   * 返回 { href, label, brandHomeOnly, degraded }
    * 若 href 含伪标记则降级为空（宁可不展示，不给假信息）。
+   * degraded 供 UI 展示链路不稳提示，不改变 href 解析逻辑。
    */
   function resolvePublicLink(item, brand) {
     brand = brand || {};
@@ -389,7 +390,12 @@
     if (href && (urlHasFakeMarkers(href) || !hasSafeScheme(href))) {
       href = "";
     }
-    return { href: href, label: label, brandHomeOnly: brandHomeOnly };
+    return {
+      href: href,
+      label: label,
+      brandHomeOnly: brandHomeOnly,
+      degraded: !!(item && item.link_status === "degraded"),
+    };
   }
 
   var api = {
