@@ -1495,9 +1495,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://s3.hackprix.tech/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://s3.hackprix.tech/",
+      "competition_start": "2026-06-13",
+      "competition_end": "2026-06-14",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-761fac686768",
@@ -1510,9 +1514,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://jamhacks.ca/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://jamhacks.ca/",
+      "competition_start": "2026-06-12",
+      "competition_end": "2026-06-14",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-8ad3cb48ef68",
@@ -1525,9 +1533,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://events.mlh.io/events/14302-global-hack-week-hacking-for-good"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://events.mlh.io/events/14302-global-hack-week-hacking-for-good",
+      "competition_start": "2026-06-12",
+      "competition_end": "2026-06-18",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-7cb06782cd17",
@@ -1540,9 +1552,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.hack4her.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.hack4her.com/",
+      "competition_start": "2026-06-06",
+      "competition_end": "2026-06-07",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-ee28eab7490b",
@@ -1555,9 +1571,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://mpchacks.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://mpchacks.com/",
+      "competition_start": "2026-05-30",
+      "competition_end": "2026-05-31",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-f8de9f26c81a",
@@ -1570,9 +1590,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.quackhacks.org/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.quackhacks.org/",
+      "competition_start": "2026-05-30",
+      "competition_end": "2026-05-31",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-b65312233f56",
@@ -1585,9 +1609,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hackhcc.org/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hackhcc.org/",
+      "competition_start": "2026-05-22",
+      "competition_end": "2026-05-23",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-a3ebeb8af62a",
@@ -1600,9 +1628,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.designverseucr.org/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.designverseucr.org/",
+      "competition_start": "2026-05-16",
+      "competition_end": "2026-05-17",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-b54f7421b84d",
@@ -1615,9 +1647,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://events.mlh.io/events/14061-midnight-hackathon-may-2026"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://events.mlh.io/events/14061-midnight-hackathon-may-2026",
+      "competition_start": "2026-05-15",
+      "competition_end": "2026-05-17",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-ad49108ab2bd",
@@ -1630,9 +1666,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.kenthackit.co.uk/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.kenthackit.co.uk/",
+      "competition_start": "2026-05-09",
+      "competition_end": "2026-05-10",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-10466bf8eaef",
@@ -1645,9 +1685,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://masseyhacks.ca/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://masseyhacks.ca/",
+      "competition_start": "2026-05-09",
+      "competition_end": "2026-05-10",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-dc73b0fef342",
@@ -1660,9 +1704,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.interhackbcn.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.interhackbcn.com/",
+      "competition_start": "2026-05-09",
+      "competition_end": "2026-05-10",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "tianchi-unknown-9995f0c11a5c",
@@ -1905,9 +1953,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hackdavis.io/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hackdavis.io/",
+      "competition_start": "2026-05-09",
+      "competition_end": "2026-05-10",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-cee57b4d952e",
@@ -1920,9 +1972,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://nmithacks.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://nmithacks.com/",
+      "competition_start": "2026-05-08",
+      "competition_end": "2026-05-10",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-d03c0d98aebe",
@@ -1935,9 +1991,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://events.mlh.io/events/13816-global-hack-week-genai"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://events.mlh.io/events/13816-global-hack-week-genai",
+      "competition_start": "2026-05-08",
+      "competition_end": "2026-05-14",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-1c3736a299f7",
@@ -1950,9 +2010,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://conhacks.io/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://conhacks.io/",
+      "competition_start": "2026-04-28",
+      "competition_end": "2026-04-30",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-823d8d994d5f",
@@ -1965,9 +2029,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.hackabull.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.hackabull.com/",
+      "competition_start": "2026-04-25",
+      "competition_end": "2026-04-26",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-4499ad979d85",
@@ -1980,9 +2048,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.broncohacks.org/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.broncohacks.org/",
+      "competition_start": "2026-04-25",
+      "competition_end": "2026-04-26",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-7b7430384f73",
@@ -1995,9 +2067,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.keanuhackthis.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.keanuhackthis.com/",
+      "competition_start": "2026-04-25",
+      "competition_end": "2026-04-26",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-822dd997f332",
@@ -2010,9 +2086,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hack.arizona.edu/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hack.arizona.edu/",
+      "competition_start": "2026-04-25",
+      "competition_end": "2026-04-26",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-2879a51edc1f",
@@ -2025,9 +2105,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.bearhacks.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.bearhacks.com/",
+      "competition_start": "2026-04-24",
+      "competition_end": "2026-04-26",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-58f6abb0da57",
@@ -2040,9 +2124,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hackupc.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hackupc.com/",
+      "competition_start": "2026-04-24",
+      "competition_end": "2026-04-26",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-dcbddb759def",
@@ -2055,9 +2143,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hack.caltech.edu/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hack.caltech.edu/",
+      "competition_start": "2026-04-24",
+      "competition_end": "2026-04-26",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-b7a4333c97ba",
@@ -2070,9 +2162,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://lahacks.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://lahacks.com/",
+      "competition_start": "2027-04-16",
+      "competition_end": "2027-04-18",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-a30281ff8391",
@@ -2085,9 +2181,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hexafalls.org/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hexafalls.org/",
+      "competition_start": "2026-07-24",
+      "competition_end": "2026-07-26",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-11c48550d048",
@@ -2100,9 +2200,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://events.mlh.io/events/14312-global-hack-week-agents"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://events.mlh.io/events/14312-global-hack-week-agents",
+      "competition_start": "2026-08-07",
+      "competition_end": "2026-08-13",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-c8c3be3e7cfa",
@@ -2115,9 +2219,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://pechacks.org/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://pechacks.org/",
+      "competition_start": "2026-08-29",
+      "competition_end": "2026-08-30",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-4d1be6d4e316",
@@ -2130,9 +2238,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hackmty.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hackmty.com/",
+      "competition_start": "2026-09-11",
+      "competition_end": "2026-09-13",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-48bf8a46dacc",
@@ -2145,9 +2257,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://events.mlh.io/events/14416-global-hack-week-data"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://events.mlh.io/events/14416-global-hack-week-data",
+      "competition_start": "2026-09-11",
+      "competition_end": "2026-09-17",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-3488f05e7d34",
@@ -2160,9 +2276,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hackrice.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hackrice.com/",
+      "competition_start": "2026-09-11",
+      "competition_end": "2026-09-13",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-53a2b5f5d70f",
@@ -2175,9 +2295,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://vthacks.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://vthacks.com/",
+      "competition_start": "2026-09-18",
+      "competition_end": "2026-09-20",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-aad667bcaeda",
@@ -2190,9 +2314,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hackhers.club/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hackhers.club/",
+      "competition_start": "2026-09-18",
+      "competition_end": "2026-09-19",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-076ee0f9e2a7",
@@ -2205,9 +2333,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hackthenorth.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hackthenorth.com/",
+      "competition_start": "2026-09-18",
+      "competition_end": "2026-09-20",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-1753918428c6",
@@ -2220,9 +2352,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.hophacks.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.hophacks.com/",
+      "competition_start": "2026-09-18",
+      "competition_end": "2026-09-20",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-aa330231dcb2",
@@ -2235,9 +2371,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://steelhacks.org/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://steelhacks.org/",
+      "competition_start": "2026-09-19",
+      "competition_end": "2026-09-20",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-3baea48b2e75",
@@ -2250,9 +2390,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "http://hack.gt/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "http://hack.gt/",
+      "competition_start": "2026-09-25",
+      "competition_end": "2026-09-27",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-c5ca0e64de2d",
@@ -2265,9 +2409,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://shellhacks.net/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://shellhacks.net/",
+      "competition_start": "2026-09-25",
+      "competition_end": "2026-09-27",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-a35dd1d05390",
@@ -2280,9 +2428,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hackumbc.tech/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hackumbc.tech/",
+      "competition_start": "2026-09-26",
+      "competition_end": "2026-09-27",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-7edc4dcbc69d",
@@ -2295,9 +2447,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.columbiadivhacks.org/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.columbiadivhacks.org/",
+      "competition_start": "2026-09-26",
+      "competition_end": "2026-09-27",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-351b143b1bcb",
@@ -2310,9 +2466,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.bigredhacks.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.bigredhacks.com/",
+      "competition_start": "2026-10-02",
+      "competition_end": "2026-10-04",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-19e99ad6421a",
@@ -2325,9 +2485,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://rowdyhacks.org/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://rowdyhacks.org/",
+      "competition_start": "2026-10-03",
+      "competition_end": "2026-10-04",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-4fcbcdb1ee1b",
@@ -2340,9 +2504,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.hackdearborn.org/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.hackdearborn.org/",
+      "competition_start": "2026-10-03",
+      "competition_end": "2026-10-04",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-0c7fc1d97c8a",
@@ -2355,9 +2523,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.mhacks.org/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.mhacks.org/",
+      "competition_start": "2026-10-03",
+      "competition_end": "2026-10-04",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-f2b96bde8286",
@@ -2370,9 +2542,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.njitgirlhacks.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.njitgirlhacks.com/",
+      "competition_start": "2026-10-03",
+      "competition_end": "2026-10-04",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-2e44070df51e",
@@ -2385,9 +2561,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hack.sbcs.io/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hack.sbcs.io/",
+      "competition_start": "2026-10-09",
+      "competition_end": "2026-10-11",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-5ed1727d1896",
@@ -2400,9 +2580,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hacknc.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hacknc.com/",
+      "competition_start": "2026-10-09",
+      "competition_end": "2026-10-11",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-1db2ef29ff73",
@@ -2415,9 +2599,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://2026.knighthacks.org/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://2026.knighthacks.org/",
+      "competition_start": "2026-10-09",
+      "competition_end": "2026-10-11",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-c6754ae79653",
@@ -2430,9 +2618,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://uhcode.red/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://uhcode.red/",
+      "competition_start": "2026-10-10",
+      "competition_end": "2026-10-11",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-5a5920360ce3",
@@ -2445,9 +2637,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://swamphacks.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://swamphacks.com/",
+      "competition_start": "2026-10-16",
+      "competition_end": "2026-10-18",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-a7ed4beae09b",
@@ -2460,9 +2656,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hackthevalley.io/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hackthevalley.io/",
+      "competition_start": "2026-10-16",
+      "competition_end": "2026-10-18",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-02778bcfa646",
@@ -2475,9 +2675,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hacktx.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hacktx.com/",
+      "competition_start": "2026-10-17",
+      "competition_end": "2026-10-18",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-8ab62c8138db",
@@ -2490,9 +2694,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hackcbs.tech/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hackcbs.tech/",
+      "competition_start": "2026-10-31",
+      "competition_end": "2026-11-01",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-10bce956a933",
@@ -2505,9 +2713,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hackutd.co/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hackutd.co/",
+      "competition_start": "2026-11-07",
+      "competition_end": "2026-11-08",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-c05a51788beb",
@@ -2520,9 +2732,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://v0-curc-makecu.vercel.app/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://v0-curc-makecu.vercel.app/",
+      "competition_start": "2026-11-07",
+      "competition_end": "2026-11-08",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-a0d6c3ed1589",
@@ -2535,9 +2751,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hackrpi.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hackrpi.com/",
+      "competition_start": "2026-11-07",
+      "competition_end": "2026-11-08",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-88ff1ce5a16b",
@@ -2550,9 +2770,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.hackumass.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.hackumass.com/",
+      "competition_start": "2026-11-13",
+      "competition_end": "2026-11-15",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-ce0474e80e84",
@@ -2565,9 +2789,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://durhack.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://durhack.com/",
+      "competition_start": "2026-11-14",
+      "competition_end": "2026-11-15",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-b957d7da9aa2",
@@ -2580,9 +2808,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.deltahacks.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.deltahacks.com/",
+      "competition_start": "2027-01-09",
+      "competition_end": "2027-01-10",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-1ec9eaa65442",
@@ -2595,9 +2827,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://2027.uottahack.ca/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://2027.uottahack.ca/",
+      "competition_start": "2027-01-15",
+      "competition_end": "2027-01-17",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-3b8b78b57a09",
@@ -2610,9 +2846,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://uofthacks.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://uofthacks.com/",
+      "competition_start": "2027-01-15",
+      "competition_end": "2027-01-17",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-82c6ddb415d8",
@@ -2625,9 +2865,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://nwhacks.io/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://nwhacks.io/",
+      "competition_start": "2027-01-16",
+      "competition_end": "2027-01-17",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-2b08e1d123f5",
@@ -2640,9 +2884,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hackville.io/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hackville.io/",
+      "competition_start": "2027-01-22",
+      "competition_end": "2027-01-24",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-b0cea638e9ff",
@@ -2655,9 +2903,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.hoyahacks.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.hoyahacks.com/",
+      "competition_start": "2027-01-22",
+      "competition_end": "2027-01-24",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-1251a79b7cba",
@@ -2670,9 +2922,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://ellehacks.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://ellehacks.com/",
+      "competition_start": "2027-01-29",
+      "competition_end": "2027-01-31",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-f95a6705bbf4",
@@ -2685,9 +2941,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://ugahacks.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://ugahacks.com/",
+      "competition_start": "2027-02-05",
+      "competition_end": "2027-02-07",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-fb3041a1621c",
@@ -2700,9 +2960,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hackatbrown.org/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hackatbrown.org/",
+      "competition_start": "2027-02-05",
+      "competition_end": "2027-02-07",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-e758b1113bff",
@@ -2715,9 +2979,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hackncstate.org/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hackncstate.org/",
+      "competition_start": "2027-02-06",
+      "competition_end": "2027-02-07",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-04ea432e5da4",
@@ -2730,9 +2998,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://events.mlh.com/events/14442-spartahack-12"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://events.mlh.com/events/14442-spartahack-12",
+      "competition_start": "2027-02-06",
+      "competition_end": "2027-02-07",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-34e8a7822555",
@@ -2745,9 +3017,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://innovateherhacks.org/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://innovateherhacks.org/",
+      "competition_start": "2027-02-06",
+      "competition_end": "2027-02-07",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-a87dae673a90",
@@ -2760,9 +3036,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://events.mlh.io/events/14442-spartahack-12"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://events.mlh.io/events/14442-spartahack-12",
+      "competition_start": "2027-02-06",
+      "competition_end": "2027-02-07",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-3cfffb2369ad",
@@ -2775,9 +3055,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "http://makeuoft.ca/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "http://makeuoft.ca/",
+      "competition_start": "2027-02-13",
+      "competition_end": "2027-02-14",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-399e26c9a5e7",
@@ -2790,9 +3074,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://sfhacks.io/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://sfhacks.io/",
+      "competition_start": "2027-02-19",
+      "competition_end": "2027-02-21",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-e12b8343ccb0",
@@ -2805,9 +3093,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://cuhack.it/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://cuhack.it/",
+      "competition_start": "2027-02-20",
+      "competition_end": "2027-02-21",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-c5a0c75ce7a4",
@@ -2820,9 +3112,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.hackillinois.org/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.hackillinois.org/",
+      "competition_start": "2027-02-26",
+      "competition_end": "2027-02-28",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-d1ee1bed7250",
@@ -2835,9 +3131,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hacklytics2027.web.app/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hacklytics2027.web.app/",
+      "competition_start": "2027-02-26",
+      "competition_end": "2027-02-28",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-9eb6e1c4f79c",
@@ -2850,9 +3150,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://ruhackhers.org/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://ruhackhers.org/",
+      "competition_start": "2027-02-27",
+      "competition_end": "2027-02-28",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-fca8e529f74f",
@@ -2865,9 +3169,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.revolutionuc.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.revolutionuc.com/",
+      "competition_start": "2027-02-27",
+      "competition_end": "2027-02-28",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-fadbfe0b1480",
@@ -2880,9 +3188,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://wichacks.io/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://wichacks.io/",
+      "competition_start": "2027-02-27",
+      "competition_end": "2027-02-28",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-d788073ab814",
@@ -2895,9 +3207,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.henhackshackathon.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.henhackshackathon.com/",
+      "competition_start": "2027-03-06",
+      "competition_end": "2027-03-07",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-c79fe62bd67d",
@@ -2910,9 +3226,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://khe.io/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://khe.io/",
+      "competition_start": "2027-03-06",
+      "competition_end": "2027-03-07",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-ea08a261ebc8",
@@ -2925,9 +3245,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://diamondhacks.acmucsd.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://diamondhacks.acmucsd.com/",
+      "competition_start": "2027-04-04",
+      "competition_end": "2027-04-05",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-ad603c41c74e",
@@ -2940,9 +3264,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.marihacks.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.marihacks.com/",
+      "competition_start": "2027-04-09",
+      "competition_end": "2027-04-10",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-9eac88de6c62",
@@ -2955,9 +3283,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.hackku.org/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.hackku.org/",
+      "competition_start": "2027-04-09",
+      "competition_end": "2027-04-11",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-efa795eb77f8",
@@ -2970,9 +3302,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.wehackutd.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.wehackutd.com/",
+      "competition_start": "2027-04-10",
+      "competition_end": "2027-04-11",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-0d5b8c3b757e",
@@ -2985,9 +3321,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://hackthe6ix.com/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://hackthe6ix.com/",
+      "competition_start": "2026-07-17",
+      "competition_end": "2026-07-19",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-c44f9a84ed82",
@@ -3000,9 +3340,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://events.mlh.com/events/14413-midnight-hackathon"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://events.mlh.com/events/14413-midnight-hackathon",
+      "competition_start": "2026-07-17",
+      "competition_end": "2026-07-19",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-30d115bf5ac9",
@@ -3015,9 +3359,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://www.cuhacking.ca/"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://www.cuhacking.ca/",
+      "competition_start": "2026-07-10",
+      "competition_end": "2026-07-12",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-d5cd6e70e013",
@@ -3030,9 +3378,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://events.mlh.io/events/14284-global-hack-week-season-launch"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://events.mlh.io/events/14284-global-hack-week-season-launch",
+      "competition_start": "2026-07-10",
+      "competition_end": "2026-07-16",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "mlh-unknown-044e6bc80633",
@@ -3045,9 +3397,13 @@
       "brand_id": "mlh",
       "kind": "国际赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
-      "link": "https://luma.com/MLHandDO"
+      "needs_review": false,
+      "last_checked": "2026-07-25",
+      "link": "https://luma.com/MLHandDO",
+      "competition_start": "2026-07-10",
+      "competition_end": "2026-07-11",
+      "schedule_source": "source",
+      "schedule_confidence": "high"
     },
     {
       "id": "campus-20260626-32c482603e7f",
