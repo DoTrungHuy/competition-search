@@ -42,7 +42,7 @@ jobs:
           echo "iso_week=$(TZ=Asia/Shanghai date +%G-W%V)"
 
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.ref_name }}
           fetch-depth: 0
@@ -86,7 +86,7 @@ jobs:
 
       - name: Setup Python
         if: steps.weekly_guard.outputs.should_run == 'true'
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -94,9 +94,9 @@ jobs:
 
       - name: Setup Node.js
         if: steps.weekly_guard.outputs.should_run == 'true'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: "20"
+          node-version: "22"
 
       - name: Install script deps
         if: steps.weekly_guard.outputs.should_run == 'true'
@@ -266,6 +266,19 @@ jobs:
             git commit -m "chore(data): weekly auto-sync reviewed competitions (${WEEK})"
             git push origin "HEAD:${{ github.ref_name }}"
           fi
+
+      # 外链巡检：只报告、不阻断。链接腐烂是长期数据质量问题，不该让某个官网改版
+      # 或一次网络抖动中断本周的数据同步，故放在提交之后且 continue-on-error。
+      # reports/ 是 gitignore 的本地产物，这里只把统计摘要留在运行记录里。
+      - name: Check external links (report only)
+        if: steps.weekly_guard.outputs.should_run == 'true'
+        continue-on-error: true
+        run: python scripts/check_links.py
+
+      - name: Report link health
+        if: steps.weekly_guard.outputs.should_run == 'true'
+        continue-on-error: true
+        run: python scripts/summarize_link_check.py >> "$GITHUB_STEP_SUMMARY"
 
       - name: Skip notice
         if: steps.weekly_guard.outputs.should_run != 'true'
