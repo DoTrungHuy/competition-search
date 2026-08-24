@@ -834,6 +834,16 @@
       "njupt_tier": "C2",
       "njupt_seq": 92,
       "njupt_catalog_name": "梧桐杯大数据创新大赛"
+    },
+    {
+      "brand_id": "ai_yes",
+      "name": "AI YES :International Youth AI Competition",
+      "kind": "国际赛事",
+      "official_home": "https://ai-yes-competition-30441.devpost.com/",
+      "aliases": [],
+      "priority_tier": "P3",
+      "active": true,
+      "auto_added": true
     }
   ]
 }
