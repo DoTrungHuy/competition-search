@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
-"""用 DeepSeek 审核采集草稿，判断是否为真实学生竞赛，并按需补充赛程。
+"""审核采集草稿，判断是否为真实学生竞赛，并按需补充赛程。
 
 流程定位（自动化管线的第二步）：
 
-    采集脚本 -> draft_*.json -> [本脚本审核] -> reviewed.json -> apply 合并
+    采集脚本 -> draft_*.json -> review_queue.json -> [可选 AI 审核]
+             -> reviewed.json -> apply 合并
 
 赛程策略（源优先 + 模型补充）：
 1. 草稿/API 已带可解析日期 → 直接采用，不让模型编日期
 2. 没有源日期 → 请 DeepSeek 仅从给定线索提取（禁止臆造）
 3. 仍无合法日期 → 留给 apply 标 needs_review
 
-依赖环境变量 DEEPSEEK_API_KEY。默认模型 deepseek-v4-pro，
-可用 DEEPSEEK_MODEL 换成 deepseek-v4-flash（更快更便宜）。
+AI_REVIEW_ENABLED=true 时启用 DeepSeek；没有 key 或服务暂不可用时，
+候选会保留在 data/review_queue.json，不阻断整个采集流水线。
 """
 from __future__ import print_function
 
@@ -24,8 +25,7 @@ import sys
 import time
 from urllib.parse import urlparse
 
-import requests
-
+from reviewers.deepseek import DeepSeekReviewer, ReviewError
 from schedule_utils import (
     SCHEDULE_FIELDS,
     clean_schedule,
@@ -39,6 +39,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_GLOB = os.path.join(ROOT, "scripts", "out", "draft_*.json")
 DEFAULT_OUT = os.path.join(ROOT, "scripts", "out", "reviewed.json")
 BRANDS_PATH = os.path.join(ROOT, "data", "brands.json")
+DEFAULT_QUEUE = os.path.join(ROOT, "data", "review_queue.json")
 
 DEFAULT_BASE_URL = "https://api.deepseek.com"
 # deepseek-chat 已下线，接口只认 deepseek-v4-pro / deepseek-v4-flash。
@@ -53,10 +54,6 @@ SYSTEM_PROMPT = (
     "日期只能从用户提供的线索中提取或规范化，严禁臆造、推算、用往届规律填日期。"
     "严格只输出一个 JSON 对象，不要输出多余文字。"
 )
-
-
-class ReviewError(RuntimeError):
-    pass
 
 
 def valid_url(value):
@@ -159,51 +156,6 @@ def build_messages(record, brands, source_schedule, need_model_schedule):
     ]
 
 
-def call_deepseek(messages, api_key, model, base_url, timeout, retries=2):
-    url = base_url.rstrip("/") + "/chat/completions"
-    headers = {
-        "Authorization": "Bearer " + api_key,
-        "Content-Type": "application/json",
-    }
-    payload = {
-        "model": model,
-        "messages": messages,
-        "response_format": {"type": "json_object"},
-        "temperature": 0,
-        "stream": False,
-    }
-    last_error = None
-    for attempt in range(retries + 1):
-        try:
-            response = requests.post(
-                url, headers=headers, json=payload, timeout=timeout
-            )
-            if response.status_code in (429, 500, 502, 503) and attempt < retries:
-                time.sleep(2 * (attempt + 1))
-                continue
-            response.raise_for_status()
-            content = response.json()["choices"][0]["message"]["content"]
-            return json.loads(content)
-        except requests.HTTPError as error:
-            # 带上响应体：DeepSeek 的 401/402/429 会在 body 里说明是 key 失效、
-            # 余额不足还是限流，只有状态码看不出区别。
-            body = ""
-            if error.response is not None:
-                body = (error.response.text or "").strip()[:300]
-            last_error = "%s | %s" % (error, body) if body else error
-            if attempt < retries:
-                time.sleep(2 * (attempt + 1))
-                continue
-        except (requests.RequestException, KeyError, ValueError) as error:
-            # 带上异常类型：ConnectionError（网络不通）、JSONDecodeError（返回不是
-            # JSON）、KeyError（响应结构不对）光看消息文本区分不出来。
-            last_error = "%s: %s" % (type(error).__name__, error)
-            if attempt < retries:
-                time.sleep(2 * (attempt + 1))
-                continue
-    raise ReviewError("DeepSeek 调用失败: %s" % last_error)
-
-
 def normalize_new_brand(proposal, existing_ids):
     """校验 DeepSeek 提议的新品牌；不合法返回 None。"""
     if not isinstance(proposal, dict):
@@ -282,8 +234,102 @@ def iter_candidates(draft):
         yield record
 
 
+def env_enabled(name, default=False):
+    value = os.environ.get(name)
+    if value is None:
+        return default
+    return str(value).strip().lower() in ("1", "true", "yes", "on")
+
+
+def candidate_key(record):
+    record_id = str(record.get("id") or "").strip()
+    if record_id:
+        return "id:" + record_id
+    link = str(record.get("link") or "").strip()
+    if link:
+        return "link:" + link
+    name = str(record.get("name") or "").strip()
+    source = str(record.get("source_list_name") or record.get("source") or "").strip()
+    return "name:%s|source:%s" % (name, source)
+
+
+def load_queue(path):
+    if not os.path.isfile(path):
+        return []
+    try:
+        with open(path, "r", encoding="utf-8") as handle:
+            document = json.load(handle)
+        pending = document.get("pending", [])
+        return pending if isinstance(pending, list) else []
+    except (ValueError, OSError):
+        return []
+
+
+def merge_candidates(*groups):
+    merged = []
+    seen = set()
+    for group in groups:
+        for record in group:
+            key = candidate_key(record)
+            if key in seen:
+                continue
+            seen.add(key)
+            merged.append(record)
+    return merged
+
+
+def save_queue(path, pending):
+    directory = os.path.dirname(os.path.abspath(path))
+    if not os.path.isdir(directory):
+        os.makedirs(directory)
+    document = {
+        "meta": {
+            "version": 1,
+            "count": len(pending),
+            "note": "AI 审核待处理队列；AI 不可用时保留，恢复后优先处理。",
+        },
+        "pending": pending,
+    }
+    with open(path, "w", encoding="utf-8") as handle:
+        json.dump(document, handle, ensure_ascii=False, indent=2)
+        handle.write("\n")
+
+
+def write_review_output(path, model, files, accepted, rejected, errors, queued, mode,
+                        source_schedule_hits=0, model_schedule_hits=0):
+    output = {
+        "meta": {
+            "reviewer": "deepseek",
+            "mode": mode,
+            "model": model,
+            "source_drafts": [os.path.basename(item) for item in files],
+            "counts": {
+                "accepted": len(accepted),
+                "rejected": len(rejected),
+                "errors": len(errors),
+                "queued": queued,
+                "schedule_from_source": source_schedule_hits,
+                "schedule_from_model": model_schedule_hits,
+            },
+            "note": (
+                "审核结论；赛程源优先、模型仅 high 置信补充；"
+                "AI 不可用时候选保留在 review_queue。"
+            ),
+        },
+        "accepted": accepted,
+        "rejected": rejected,
+        "errors": errors,
+    }
+    out_dir = os.path.dirname(os.path.abspath(path))
+    if not os.path.isdir(out_dir):
+        os.makedirs(out_dir)
+    with open(path, "w", encoding="utf-8") as handle:
+        json.dump(output, handle, ensure_ascii=False, indent=2)
+        handle.write("\n")
+
+
 def main():
-    parser = argparse.ArgumentParser(description="用 DeepSeek 审核采集草稿")
+    parser = argparse.ArgumentParser(description="审核采集草稿（DeepSeek 可选）")
     parser.add_argument(
         "--in",
         dest="infiles",
@@ -292,16 +338,12 @@ def main():
         help="草稿 JSON 路径（默认扫描 scripts/out/draft_*.json）",
     )
     parser.add_argument("--out", default=DEFAULT_OUT, help="审核结果 JSON 路径")
+    parser.add_argument("--queue", default=DEFAULT_QUEUE, help="待审核队列 JSON 路径")
     parser.add_argument("--model", default=os.environ.get("DEEPSEEK_MODEL", DEFAULT_MODEL))
     parser.add_argument("--base-url", default=os.environ.get("DEEPSEEK_BASE_URL", DEFAULT_BASE_URL))
     parser.add_argument("--timeout", type=int, default=60, help="单次请求超时秒数")
     parser.add_argument("--delay", type=float, default=0.5, help="请求间隔秒")
     args = parser.parse_args()
-
-    api_key = os.environ.get("DEEPSEEK_API_KEY")
-    if not api_key:
-        print("缺少环境变量 DEEPSEEK_API_KEY", file=sys.stderr)
-        return 2
 
     files = args.infiles if args.infiles else sorted(glob.glob(DEFAULT_GLOB))
     files = [path for path in files if os.path.isfile(path)]
@@ -312,29 +354,58 @@ def main():
     accepted = []
     rejected = []
     errors = []
-    candidates = []
+    fresh_candidates = []
     source_schedule_hits = 0
     model_schedule_hits = 0
     for path in files:
         with open(path, "r", encoding="utf-8") as handle:
-            candidates.extend(iter_candidates(json.load(handle)))
-    print("草稿文件: %d 个，待审核候选: %d 条" % (len(files), len(candidates)))
+            fresh_candidates.extend(iter_candidates(json.load(handle)))
+
+    queued_candidates = load_queue(args.queue)
+    candidates = merge_candidates(queued_candidates, fresh_candidates)
+    print(
+        "草稿文件: %d 个，新候选: %d 条，历史积压: %d 条，合计待审核: %d 条"
+        % (len(files), len(fresh_candidates), len(queued_candidates), len(candidates))
+    )
+
+    ai_enabled = env_enabled("AI_REVIEW_ENABLED", default=False)
+    api_key = os.environ.get("DEEPSEEK_API_KEY")
+    if not ai_enabled or not api_key:
+        save_queue(args.queue, candidates)
+        mode = "disabled" if not ai_enabled else "unavailable"
+        if not ai_enabled:
+            print("AI_REVIEW_ENABLED=false：跳过 DeepSeek，候选已进入审核队列。")
+        else:
+            print(
+                "AI_REVIEW_ENABLED=true 但缺少 DEEPSEEK_API_KEY：候选保留队列，本轮不中断。",
+                file=sys.stderr,
+            )
+        write_review_output(
+            args.out, args.model, files, [], [], [], len(candidates), mode
+        )
+        print("待审核队列: %s（%d 条）" % (args.queue, len(candidates)))
+        return 0
+
+    reviewer = DeepSeekReviewer(
+        api_key=api_key,
+        model=args.model,
+        base_url=args.base_url,
+        timeout=args.timeout,
+    )
+    remaining_queue = []
 
     for index, record in enumerate(candidates, 1):
         name = record.get("name")
         source_schedule = schedule_from_source_record(record)
         need_model_schedule = not has_usable_schedule(source_schedule)
         try:
-            raw = call_deepseek(
-                build_messages(record, brands, source_schedule, need_model_schedule),
-                api_key,
-                args.model,
-                args.base_url,
-                args.timeout,
+            raw = reviewer.review(
+                build_messages(record, brands, source_schedule, need_model_schedule)
             )
             decision = normalize_decision(raw, brand_ids, source_schedule)
         except ReviewError as error:
             errors.append({"name": name, "link": record.get("link"), "error": str(error)})
+            remaining_queue.append(record)
             # 原因要打进日志：只印名字的话，CI 里看不出是 key 失效、余额不足还是限流。
             print(
                 "  [%d/%d] 失败: %s -> %s" % (index, len(candidates), name, error),
@@ -363,46 +434,34 @@ def main():
         )
         time.sleep(max(0.0, args.delay))
 
-    output = {
-        "meta": {
-            "model": args.model,
-            "source_drafts": [os.path.basename(path) for path in files],
-            "counts": {
-                "accepted": len(accepted),
-                "rejected": len(rejected),
-                "errors": len(errors),
-                "schedule_from_source": source_schedule_hits,
-                "schedule_from_model": model_schedule_hits,
-            },
-            "note": (
-                "审核结论；赛程源优先、模型仅 high 置信补充；"
-                "apply 时有合法赛程+深链接可自动 needs_review=false。"
-            ),
-        },
-        "accepted": accepted,
-        "rejected": rejected,
-        "errors": errors,
-    }
-
-    out_dir = os.path.dirname(os.path.abspath(args.out))
-    if not os.path.isdir(out_dir):
-        os.makedirs(out_dir)
-    with open(args.out, "w", encoding="utf-8") as handle:
-        json.dump(output, handle, ensure_ascii=False, indent=2)
-        handle.write("\n")
+    save_queue(args.queue, remaining_queue)
+    write_review_output(
+        args.out,
+        args.model,
+        files,
+        accepted,
+        rejected,
+        errors,
+        len(remaining_queue),
+        "enabled",
+        source_schedule_hits,
+        model_schedule_hits,
+    )
 
     print(
-        "完成: 通过 %d / 拒绝 %d / 失败 %d | 源日期 %d / 模型日期 %d"
+        "完成: 通过 %d / 拒绝 %d / 失败 %d / 留队 %d | 源日期 %d / 模型日期 %d"
         % (
             len(accepted),
             len(rejected),
             len(errors),
+            len(remaining_queue),
             source_schedule_hits,
             model_schedule_hits,
         )
     )
     print("结果: %s" % args.out)
-    return 1 if errors else 0
+    print("待审核队列: %s" % args.queue)
+    return 0
 
 
 if __name__ == "__main__":

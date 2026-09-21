@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 """在维护者本机执行完整自动化流程（适合国内 IP + 天池等需渲染的源）。
 
-顺序：git pull → 各源采集 → DeepSeek 审核 → 合并 → 校验/测试闸门 → 自动提交推送。
+顺序：git pull → 各源采集 → 可选 AI 审核 → 合并 → 校验/测试闸门 → 自动提交推送。
 
 单个采集源失败不中断整体；但数据校验或测试不通过则中断、绝不提交。
-配合 Windows 任务计划程序即可每周自动运行。需环境变量 DEEPSEEK_API_KEY，
+配合 Windows 任务计划程序即可每周自动运行。AI_REVIEW_ENABLED=true 时使用
+DEEPSEEK_API_KEY；AI 关闭/不可用时候选进入 data/review_queue.json，
 天池源需先安装 Playwright（见 requirements-playwright.txt）。
 """
 from __future__ import print_function
@@ -53,10 +54,6 @@ def main():
     parser.add_argument("--no-push", action="store_true", help="只提交不推送")
     args = parser.parse_args()
 
-    if not os.environ.get("DEEPSEEK_API_KEY"):
-        print("缺少环境变量 DEEPSEEK_API_KEY", file=sys.stderr)
-        return 2
-
     skip = {s.strip() for s in args.skip.split(",") if s.strip()}
 
     if not args.no_pull:
@@ -80,9 +77,9 @@ def main():
     if len(succeeded) < len(attempted):
         print("注意：%d 个源失败，本次同步质量为 partial。" % (len(attempted) - len(succeeded)))
 
-    if run([PY, "scripts/review_drafts.py"]) == 2:
-        print("审核无法进行（缺 key），中止。", file=sys.stderr)
-        return 2
+    if run([PY, "scripts/review_drafts.py"]) != 0:
+        print("审核脚本自身执行失败，已中止。", file=sys.stderr)
+        return 1
 
     run([PY, "scripts/apply_reviewed.py"])
 

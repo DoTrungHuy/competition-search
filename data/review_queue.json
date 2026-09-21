@@ -1,0 +1,8 @@
+{
+  "meta": {
+    "version": 1,
+    "count": 0,
+    "note": "AI 审核待处理队列；AI 不可用时保留，恢复后优先处理。"
+  },
+  "pending": []
+}
