@@ -86,7 +86,7 @@ public class InternalSyncController {
             );
         }
 
-        int synced = competitionSyncService.replaceAll(body);
+        int synced = competitionSyncService.sync(body);
         return Map.of(
                 "status", "ok",
                 "synced", synced
