@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import tools.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
 
@@ -26,6 +27,9 @@ class AdminReviewServiceTests {
     @Autowired
     private CompetitionRepository competitionRepository;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @BeforeEach
     void cleanUp() {
         reviewCandidateRepository.deleteAll();
@@ -33,7 +37,7 @@ class AdminReviewServiceTests {
     }
 
     @Test
-    void approveCreatesCompetitionAndMarksCandidateApproved() {
+    void approveCreatesCompetitionAndAppliesManualEdits() throws Exception {
         saveCandidate(
                 "approve-me",
                 "测试通过竞赛",
@@ -49,15 +53,25 @@ class AdminReviewServiceTests {
                 """
         );
 
-        ReviewCandidateResponse response = adminReviewService.approve("approve-me", "人工确认有效");
+        ReviewCandidateResponse response = adminReviewService.approve(
+                "approve-me",
+                "人工确认有效",
+                objectMapper.readTree("""
+                        {
+                          "name": "人工修改后的名称",
+                          "level": "国家级"
+                        }
+                        """)
+        );
 
         assertThat(response.reviewStatus()).isEqualTo("APPROVED");
         assertThat(response.reviewNote()).isEqualTo("人工确认有效");
         assertThat(response.reviewedAt()).isNotNull();
 
         var competition = competitionRepository.findById("approve-me").orElseThrow();
-        assertThat(competition.getName()).isEqualTo("测试通过竞赛");
+        assertThat(competition.getName()).isEqualTo("人工修改后的名称");
         assertThat(competition.getKind()).isEqualTo("全国赛事");
+        assertThat(competition.getLevel()).isEqualTo("国家级");
         assertThat(competition.getNeedsReview()).isFalse();
     }
 

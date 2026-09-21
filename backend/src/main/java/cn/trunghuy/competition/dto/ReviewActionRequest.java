@@ -1,4 +1,6 @@
 package cn.trunghuy.competition.dto;
 
-public record ReviewActionRequest(String note) {
+import tools.jackson.databind.JsonNode;
+
+public record ReviewActionRequest(String note, JsonNode data) {
 }

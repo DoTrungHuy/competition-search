@@ -55,7 +55,7 @@ public class AdminReviewService {
     }
 
     @Transactional
-    public ReviewCandidateResponse approve(String id, String note) {
+    public ReviewCandidateResponse approve(String id, String note, JsonNode editedData) {
         ReviewCandidate candidate = requirePending(id);
         JsonNode raw = parseRaw(candidate);
 
@@ -68,6 +68,9 @@ public class AdminReviewService {
                 });
 
         competitionJsonMapper.mergeInto(raw, competition);
+        if (editedData != null && editedData.isObject()) {
+            competitionJsonMapper.mergeInto(editedData, competition);
+        }
         if (competition.getName() == null || competition.getName().isBlank()) {
             competition.setName(candidate.getName());
         }

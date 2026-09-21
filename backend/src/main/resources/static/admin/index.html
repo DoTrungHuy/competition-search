@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eef2ff">
+  <title>竞赛审核后台</title>
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body class="admin-page">
+  <header class="admin-header">
+    <div>
+      <div class="eyebrow">Competition Search</div>
+      <h1>竞赛审核后台</h1>
+    </div>
+    <div class="header-actions">
+      <span id="session-user" class="session-user">…</span>
+      <button id="refresh-button" class="ghost-button" type="button">刷新</button>
+      <button id="logout-button" class="ghost-button" type="button">退出</button>
+    </div>
+  </header>
+
+  <main class="admin-layout">
+    <aside class="review-sidebar">
+      <div class="tabs" role="tablist" aria-label="审核状态">
+        <button class="tab is-active" data-status="PENDING" type="button">待审核 <span id="count-pending">0</span></button>
+        <button class="tab" data-status="APPROVED" type="button">已通过 <span id="count-approved">0</span></button>
+        <button class="tab" data-status="REJECTED" type="button">已拒绝 <span id="count-rejected">0</span></button>
+      </div>
+      <div id="review-list" class="review-list" aria-live="polite"></div>
+    </aside>
+
+    <section class="review-detail">
+      <div id="empty-state" class="empty-state">
+        <strong>选择一条候选</strong>
+        <span>查看抓取来源、原始字段和审核操作。</span>
+      </div>
+
+      <article id="detail-card" class="detail-card" hidden>
+        <div class="detail-heading">
+          <div>
+            <div id="detail-source" class="source-label"></div>
+            <h2 id="detail-title"></h2>
+          </div>
+          <span id="detail-status" class="status-badge"></span>
+        </div>
+
+        <a id="detail-link" class="source-link" target="_blank" rel="noopener noreferrer">查看原始页面 ↗</a>
+
+        <div class="detail-grid">
+          <label>
+            <span>名称</span>
+            <input id="field-name">
+          </label>
+          <label>
+            <span>类型</span>
+            <input id="field-kind" placeholder="全国赛事 / 国际赛事 / ...">
+          </label>
+          <label>
+            <span>级别</span>
+            <input id="field-level">
+          </label>
+          <label>
+            <span>主办方</span>
+            <input id="field-organizer">
+          </label>
+          <label class="full-row">
+            <span>正式链接</span>
+            <input id="field-link">
+          </label>
+          <label class="full-row">
+            <span>简介</span>
+            <textarea id="field-description" rows="4"></textarea>
+          </label>
+          <label class="full-row">
+            <span>审核备注</span>
+            <textarea id="review-note" rows="3" placeholder="可选：记录人工判断依据"></textarea>
+          </label>
+        </div>
+
+        <section class="ai-panel">
+          <strong>AI 审核信息</strong>
+          <div id="ai-summary" class="muted">暂无 AI 审核结果</div>
+        </section>
+
+        <details class="raw-panel">
+          <summary>查看原始候选 JSON</summary>
+          <pre id="raw-json"></pre>
+        </details>
+
+        <div id="action-message" class="notice" hidden></div>
+
+        <div id="review-actions" class="review-actions">
+          <button id="approve-button" class="primary-button" type="button">保存修改并通过</button>
+          <button id="reject-button" class="danger-button" type="button">拒绝</button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="/admin/admin.js"></script>
+</body>
+</html>
