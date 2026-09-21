@@ -42,9 +42,8 @@ BRANDS_PATH = os.path.join(ROOT, "data", "brands.json")
 DEFAULT_QUEUE = os.path.join(ROOT, "data", "review_queue.json")
 
 DEFAULT_BASE_URL = "https://api.deepseek.com"
-# deepseek-chat 已下线，接口只认 deepseek-v4-pro / deepseek-v4-flash。
 # 审核要判定赛事真伪且严禁臆造日期，默认取 pro；量小（每周几条到几十条），
-# 精度比省钱重要。用 DEEPSEEK_MODEL 可切到 flash。
+# 精度比省钱重要。DEEPSEEK_MODEL 可在部署环境中覆盖，不需要改代码。
 DEFAULT_MODEL = "deepseek-v4-pro"
 KINDS = ("全国赛事", "大厂赛事", "国际赛事", "校级赛事")
 

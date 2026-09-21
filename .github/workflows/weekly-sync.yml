@@ -207,6 +207,7 @@ jobs:
         env:
           TZ: Asia/Shanghai
           AI_REVIEW_ENABLED: ${{ vars.AI_REVIEW_ENABLED || 'false' }}
+          DEEPSEEK_MODEL: ${{ vars.DEEPSEEK_MODEL || 'deepseek-v4-pro' }}
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: python scripts/review_drafts.py
 
