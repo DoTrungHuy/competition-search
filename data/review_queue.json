@@ -2,7 +2,7 @@
   "meta": {
     "version": 1,
     "count": 25,
-    "note": "AI 审核待处理队列；AI 不可用时保留，恢复后优先处理。"
+    "note": "人工审核队列；DeepSeek 仅写 AI 建议，不自动通过或拒绝。"
   },
   "pending": [
     {
@@ -23,7 +23,13 @@
       "needs_review": true,
       "source_list": "tzgg",
       "source_list_name": "通知公告",
-      "draft": true
+      "draft": true,
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "HIGH",
+      "ai_reason": "这是南京邮电大学发布的嵌入式芯片与系统设计竞赛校内赛道报名通知，属面向大学生的具体竞赛选拔机会。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:14:32Z",
+      "ai_review_fingerprint": "2d186fb309a51bf1ea1c8337b292f1877790ead4cbfb6247b2e4ae7db8a7c643"
     },
     {
       "id": "campus-20260514-cc4e2ad09180",
@@ -43,7 +49,13 @@
       "needs_review": true,
       "source_list": "tzgg",
       "source_list_name": "通知公告",
-      "draft": true
+      "draft": true,
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "MEDIUM",
+      "ai_reason": "南京邮电大学校内数智化企业经营沙盘大赛报名通知，属学生可参加的校级竞赛机会。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:14:36Z",
+      "ai_review_fingerprint": "94e78d452a0f946483afe6b6385988694891022bd119f384b02ef5e8cfde922b"
     },
     {
       "id": "devpost-unknown-8c284e218557",
@@ -68,7 +80,13 @@
         "time_left": null
       },
       "eligibility": "「Hack The Weather」由 JHUB Africa 主办；资格与组队见活动页",
-      "description": "Hack The Weather，由 JHUB Africa 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。"
+      "description": "Hack The Weather，由 JHUB Africa 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。",
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "MEDIUM",
+      "ai_reason": "Devpost 平台上的在线黑客松，属于面向开发者/学生的报名参赛机会，品牌可对应 Devpost。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:14:40Z",
+      "ai_review_fingerprint": "b5573b1f1f4fc07c3352558e9f179a5c96a71d6d7c17a4f5e25d76415de1d32a"
     },
     {
       "id": "devpost-unknown-fdab5f0a93aa",
@@ -93,7 +111,13 @@
         "time_left": null
       },
       "eligibility": "「InfinityX Global Hackathon 2K26」由 Innovation Hacks 主办；资格与组队见活动页",
-      "description": "InfinityX Global Hackathon 2K26，由 Innovation Hacks 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。"
+      "description": "InfinityX Global Hackathon 2K26，由 Innovation Hacks 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。",
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "MEDIUM",
+      "ai_reason": "Devpost 平台上公开发起的在线黑客松，面向大学生开放报名与提交，属可参赛的竞赛机会。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:14:44Z",
+      "ai_review_fingerprint": "b83aaaddfdb443c3e265900f87baada27b241ea46e597ec9c7968f8ce6dc67cc"
     },
     {
       "id": "devpost-unknown-89e859b4b1bc",
@@ -118,7 +142,13 @@
         "time_left": null
       },
       "eligibility": "「Acodemic X G.I.R.L.S. Global SDG Hackathon」由 Hack Club 主办；资格与组队见活动页",
-      "description": "Acodemic X G.I.R.L.S. Global SDG Hackathon，由 Hack Club 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。"
+      "description": "Acodemic X G.I.R.L.S. Global SDG Hackathon，由 Hack Club 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。",
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "MEDIUM",
+      "ai_reason": "Devpost 平台上的在线黑客松，面向全球青年开放报名参赛，属可报名竞赛机会。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:14:48Z",
+      "ai_review_fingerprint": "0de62d855c59b96c4703ddb8f44b3a041cd0267d9c40fd82d342acd197286bb1"
     },
     {
       "id": "devpost-unknown-9214ef5983c8",
@@ -143,7 +173,13 @@
         "time_left": null
       },
       "eligibility": "「3rd-Web-Hack」由 TechZap Club 主办；资格与组队见活动页",
-      "description": "3rd-Web-Hack，由 TechZap Club 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。"
+      "description": "3rd-Web-Hack，由 TechZap Club 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。",
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "HIGH",
+      "ai_reason": "Devpost 官方发起的在线黑客松，属于国际赛事报名机会。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:14:51Z",
+      "ai_review_fingerprint": "7914eeb03bb4acc016c817ca63576359632a5376823bd6eb97738b80da2558d8"
     },
     {
       "id": "devpost-unknown-646872fa278f",
@@ -168,7 +204,13 @@
         "time_left": null
       },
       "eligibility": "「LexHack 2026」由 Lexhack 主办；资格与组队见活动页",
-      "description": "LexHack 2026，由 Lexhack 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。"
+      "description": "LexHack 2026，由 Lexhack 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。",
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "MEDIUM",
+      "ai_reason": "Devpost 上的在线黑客松 LexHack 2026，属可报名的国际赛事机会，品牌可对应 Devpost。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:14:56Z",
+      "ai_review_fingerprint": "b76df09d404cb4aa09f2a2f1ddb54df0b09be32c01959f5674747f828a12f0aa"
     },
     {
       "id": "devpost-unknown-b25bcaecf671",
@@ -193,7 +235,13 @@
         "time_left": null
       },
       "eligibility": "「LUMA Hackathon (September 20th - 28th)」由 LUMA 主办；资格与组队见活动页",
-      "description": "LUMA Hackathon (September 20th - 28th)，由 LUMA 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。"
+      "description": "LUMA Hackathon (September 20th - 28th)，由 LUMA 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。",
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "MEDIUM",
+      "ai_reason": "Devpost 平台上的在线黑客松，属于可报名的国际赛事，对应品牌库中的 Devpost。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:14:59Z",
+      "ai_review_fingerprint": "e2d666cf29a475d5c9a0badb281b80c38d8f3028ef47a80a9944b28ba8de594d"
     },
     {
       "id": "devpost-unknown-1e0d5f3ab3de",
@@ -218,7 +266,13 @@
         "time_left": null
       },
       "eligibility": "「Beginner's Paradise - FirstCommit」由 FirstCommit 主办；资格与组队见活动页",
-      "description": "Beginner's Paradise - FirstCommit，由 FirstCommit 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。"
+      "description": "Beginner's Paradise - FirstCommit，由 FirstCommit 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。",
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "MEDIUM",
+      "ai_reason": "Devpost 上的 FirstCommit 黑客松，面向初学者开放报名，大学生可参加。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:15:04Z",
+      "ai_review_fingerprint": "771e00237b96bf7fc01540d1d47c08895fa55732a81192bf3bf9c812af81585d"
     },
     {
       "id": "devpost-unknown-f5c323fe710b",
@@ -243,7 +297,13 @@
         "time_left": null
       },
       "eligibility": "「305 HackShells Edition September 2026」由 Swift at FIU 主办；资格与组队见活动页",
-      "description": "305 HackShells Edition September 2026，由 Swift at FIU 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。"
+      "description": "305 HackShells Edition September 2026，由 Swift at FIU 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。",
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "MEDIUM",
+      "ai_reason": "Devpost 上由高校社团发起的公开线上黑客松，属可报名参赛的具体赛事。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:15:09Z",
+      "ai_review_fingerprint": "d16c43e9f1da8752ca15500c123f4a3ad33f53380c20edd971067b6c7d783306"
     },
     {
       "id": "devpost-unknown-64892f69f9c3",
@@ -268,7 +328,13 @@
         "time_left": null
       },
       "eligibility": "「Next Byte Hacks: V4」由 Next Byte Hacks 主办；资格与组队见活动页",
-      "description": "Next Byte Hacks: V4，由 Next Byte Hacks 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。"
+      "description": "Next Byte Hacks: V4，由 Next Byte Hacks 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。",
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "MEDIUM",
+      "ai_reason": "Devpost 上开放报名的在线黑客松赛事，大学生可参加，品牌对应 Devpost。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:15:12Z",
+      "ai_review_fingerprint": "aab06b0db4bc105cc56c1697600bb6f370d816d107bb4e0e248d11a87a4854e9"
     },
     {
       "id": "devpost-unknown-b31dd5dd6c9a",
@@ -293,7 +359,13 @@
         "time_left": null
       },
       "eligibility": "「OneAquaHealth IEEE Global Hackathon」由 OneAquaHealth 主办；资格与组队见活动页",
-      "description": "OneAquaHealth IEEE Global Hackathon，由 OneAquaHealth 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。"
+      "description": "OneAquaHealth IEEE Global Hackathon，由 OneAquaHealth 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。",
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "MEDIUM",
+      "ai_reason": "Devpost 平台上的 OneAquaHealth IEEE 全球黑客松，属可报名参加的国际赛事，对应品牌库中的 devpost。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:15:15Z",
+      "ai_review_fingerprint": "7b6b45c35ca5ba9eddac02db85c6aeeb819be13bb5252b13c8550e12dfc2b2d1"
     },
     {
       "id": "devpost-unknown-68b69abeb223",
@@ -321,7 +393,13 @@
       "description": "BunnieX Hackathon，由 TechieBunnies team 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。",
       "_changed_fields": [
         "name"
-      ]
+      ],
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "MEDIUM",
+      "ai_reason": "Devpost 平台上的在线黑客松，大学生可报名参加，属国际赛事且对应品牌库中的 Devpost。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:15:18Z",
+      "ai_review_fingerprint": "cf0a47ecf92a4f68be9d4f789f927636bd3cd8b63727290d228220e39e0668c4"
     },
     {
       "id": "mlh-unknown-1a39658a6839",
@@ -341,7 +419,13 @@
       "competition_start": "2026-09-25",
       "competition_end": "2026-09-27",
       "eligibility": "MLH 2027 赛季「TigerHacks」；对象与组队见活动页",
-      "description": "TigerHacks 为 MLH 2027 赛季认证黑客松。报名、赛程与规则以活动页为准。"
+      "description": "TigerHacks 为 MLH 2027 赛季认证黑客松。报名、赛程与规则以活动页为准。",
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "HIGH",
+      "ai_reason": "TigerHacks 是 MLH 认证的面向大学生黑客松，属于可报名参加的国际赛事。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:15:22Z",
+      "ai_review_fingerprint": "4ae2654f93d806d609432c85c9e1eb62bc541dcebec4c724fdb767114f94f4bb"
     },
     {
       "id": "mlh-unknown-5a973f6a9f49",
@@ -361,7 +445,13 @@
       "competition_start": "2026-10-09",
       "competition_end": "2026-10-10",
       "eligibility": "MLH 2027 赛季「Hackathon TecNM Campus Saltillo 2026」；对象与组队见活动页",
-      "description": "Hackathon TecNM Campus Saltillo 2026 为 MLH 2027 赛季认证黑客松。报名、赛程与规则以活动页为准。"
+      "description": "Hackathon TecNM Campus Saltillo 2026 为 MLH 2027 赛季认证黑客松。报名、赛程与规则以活动页为准。",
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "MEDIUM",
+      "ai_reason": "该活动为MLH认证的大学黑客松，面向大学生可报名参赛，属于国际赛事。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:15:26Z",
+      "ai_review_fingerprint": "2864bb7364b55e19f0520627b408e6d0f6882ab43410013005fb69496975534f"
     },
     {
       "id": "mlh-unknown-5f2b3ceeffee",
@@ -381,7 +471,13 @@
       "competition_start": "2026-10-10",
       "competition_end": "2026-10-11",
       "eligibility": "MLH 2027 赛季「Palmetto Hacks」；对象与组队见活动页",
-      "description": "Palmetto Hacks 为 MLH 2027 赛季认证黑客松。报名、赛程与规则以活动页为准。"
+      "description": "Palmetto Hacks 为 MLH 2027 赛季认证黑客松。报名、赛程与规则以活动页为准。",
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "HIGH",
+      "ai_reason": "MLH 认证黑客松，面向大学生报名参赛，品牌匹配 MLH。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:15:33Z",
+      "ai_review_fingerprint": "23fab5c396b95278a173037a28dc22177b0a8b91f201e6d4b15a44b7a1e06cf0"
     },
     {
       "id": "mlh-unknown-cd63f45a48ca",
@@ -401,7 +497,13 @@
       "competition_start": "2026-10-24",
       "competition_end": "2026-10-25",
       "eligibility": "MLH 2027 赛季「OxHack '26」；对象与组队见活动页",
-      "description": "OxHack '26 为 MLH 2027 赛季认证黑客松。报名、赛程与规则以活动页为准。"
+      "description": "OxHack '26 为 MLH 2027 赛季认证黑客松。报名、赛程与规则以活动页为准。",
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "MEDIUM",
+      "ai_reason": "OxHack '26 是 MLH 赛季认证的面向高校学生的黑客松，属可报名参赛的具体竞赛。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:15:36Z",
+      "ai_review_fingerprint": "84f1574ae952cf5c7d61c949bb2eef09c29fc54e695b790d7c0062ac9dfa6f03"
     },
     {
       "id": "mlh-unknown-57525a6bb1d2",
@@ -421,7 +523,13 @@
       "competition_start": "2026-11-07",
       "competition_end": "2026-11-08",
       "eligibility": "MLH 2027 赛季「HackUTD」；对象与组队见活动页",
-      "description": "HackUTD 为 MLH 2027 赛季认证黑客松。报名、赛程与规则以活动页为准。"
+      "description": "HackUTD 为 MLH 2027 赛季认证黑客松。报名、赛程与规则以活动页为准。",
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "HIGH",
+      "ai_reason": "HackUTD 是 MLH 认证的大学生黑客松，属于可报名参赛的具体竞赛。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:15:44Z",
+      "ai_review_fingerprint": "ed2958dfb3d36e10871abb2e5c2bf28a3d0fc9b7b42534e68aadbadf90a1c8ca"
     },
     {
       "id": "mlh-unknown-fb790f981c94",
@@ -441,7 +549,13 @@
       "competition_start": "2027-02-06",
       "competition_end": "2027-02-07",
       "eligibility": "MLH 2027 赛季「SpartaHack」；对象与组队见活动页",
-      "description": "SpartaHack 为 MLH 2027 赛季认证黑客松。报名、赛程与规则以活动页为准。"
+      "description": "SpartaHack 为 MLH 2027 赛季认证黑客松。报名、赛程与规则以活动页为准。",
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "HIGH",
+      "ai_reason": "SpartaHack 是 MLH 认证的大学生黑客松，面向学生报名参赛，归属 MLH 品牌。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:15:47Z",
+      "ai_review_fingerprint": "8a56f13fe56bbd73f2673b738089490d14c539a84854c3da1584b50d6ae0ef8f"
     },
     {
       "id": "mlh-unknown-a1fd47ff628a",
@@ -461,7 +575,13 @@
       "competition_start": "2026-09-12",
       "competition_end": "2026-09-13",
       "eligibility": "MLH 2027 赛季「HackWesTX 26」；对象与组队见活动页",
-      "description": "HackWesTX 26 为 MLH 2027 赛季认证黑客松。报名、赛程与规则以活动页为准。"
+      "description": "HackWesTX 26 为 MLH 2027 赛季认证黑客松。报名、赛程与规则以活动页为准。",
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "HIGH",
+      "ai_reason": "HackWesTX 26 是 MLH 认证的大学生黑客松，面向学生报名参赛。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:15:50Z",
+      "ai_review_fingerprint": "bcc6adf7d7a0f4d319844b64ffc10d0278207cb438733dd4fc8477c2041acb92"
     },
     {
       "id": "mlh-unknown-efa795eb77f8",
@@ -484,7 +604,13 @@
       "description": "WEHack 为 MLH 2027 赛季认证黑客松。报名、赛程与规则以活动页为准。",
       "_changed_fields": [
         "link"
-      ]
+      ],
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "MEDIUM",
+      "ai_reason": "WEHack 是 MLH 认证的高校黑客松，面向大学生开放报名参赛。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:15:52Z",
+      "ai_review_fingerprint": "87901b9e6d21791cf12048be6a4756cc6e241992f013cda7e8b2260a3c74bb69"
     },
     {
       "id": "mlh-unknown-aad667bcaeda",
@@ -507,7 +633,13 @@
       "description": "HackHers @GSU 为 MLH 2027 赛季认证黑客松。报名、赛程与规则以活动页为准。",
       "_changed_fields": [
         "link"
-      ]
+      ],
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "MEDIUM",
+      "ai_reason": "HackHers @GSU 是 MLH 认证的大学生黑客松，属于可报名参加的国际赛事。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:15:56Z",
+      "ai_review_fingerprint": "e3c4b2f356ddd3b62b02ecf50595e1cae977d54ab1a3ba01bb071a9b6f2385dd"
     },
     {
       "id": "mlh-unknown-4d1be6d4e316",
@@ -530,7 +662,13 @@
       "description": "HackMTY 2026 为 MLH 2027 赛季认证黑客松。报名、赛程与规则以活动页为准。",
       "_changed_fields": [
         "name"
-      ]
+      ],
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "MEDIUM",
+      "ai_reason": "HackMTY 2026 是 MLH 认证的大学生黑客松，面向学生报名参赛。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:15:58Z",
+      "ai_review_fingerprint": "db8efb680e9d241f4ee686fe6a25a90d5879d10654b7837480fe8a2e2f58bd2b"
     },
     {
       "id": "mlh-unknown-c44f9a84ed82",
@@ -553,7 +691,13 @@
       "description": "Midnight Virtual Hackathon [July] 为 MLH 2027 赛季认证黑客松。报名、赛程与规则以活动页为准。",
       "_changed_fields": [
         "name"
-      ]
+      ],
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "HIGH",
+      "ai_reason": "MLH认证的虚拟黑客松，面向学生开放报名参赛，品牌可对应MLH。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:16:01Z",
+      "ai_review_fingerprint": "995226114c838ce8afd56a3da7d0b80b2fa9c1b65e6922a6ebc79123e1854e21"
     },
     {
       "id": "mlh-unknown-30d115bf5ac9",
@@ -576,7 +720,13 @@
       "description": "cuHacking 为 MLH 2027 赛季认证黑客松。报名、赛程与规则以活动页为准。",
       "_changed_fields": [
         "link"
-      ]
+      ],
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "HIGH",
+      "ai_reason": "cuHacking 是 MLH 认证的大学生黑客松，面向高校学生开放报名参赛。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-09-21T15:16:04Z",
+      "ai_review_fingerprint": "b908d8785433dfcaa31af3cb14ff455428653c8a43bf7da94d96007e93fb138b"
     }
   ]
 }
