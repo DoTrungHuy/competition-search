@@ -632,9 +632,23 @@
     });
   }
 
+  function competitionDataSource() {
+    if (window.COMPETITION_API_BASE) {
+      return String(window.COMPETITION_API_BASE).replace(/\/$/, "") + "/api/competitions";
+    }
+    if (
+      window.location.hostname === "127.0.0.1" ||
+      window.location.hostname === "localhost"
+    ) {
+      return "http://127.0.0.1:8080/api/competitions";
+    }
+    return "https://api.cs-contest.cn/api/competitions";
+  }
+
   function loadData(options) {
     var opts = options || {};
     var banner = $("error-banner");
+    var competitionsPath = competitionDataSource();
     if (banner) {
       banner.classList.remove("is-visible");
       banner.textContent = "";
@@ -642,11 +656,18 @@
     $("list").setAttribute("aria-busy", "true");
 
     return Promise.all([
-      fetchJson("./data/competitions.json", opts.bust),
+      fetchJson(competitionsPath, opts.bust).catch(function (error) {
+        if (competitionsPath.indexOf("/api/competitions") !== -1) {
+          return fetchJson("./data/competitions.json", opts.bust);
+        }
+        throw error;
+      }),
       fetchJson("./data/brands.json", opts.bust),
     ])
       .then(function (payloads) {
-        state.items = payloads[0].competitions || [];
+        state.items = Array.isArray(payloads[0])
+          ? payloads[0]
+          : payloads[0].competitions || [];
         state.brands = {};
         (payloads[1].brands || []).forEach(function (brand) {
           state.brands[brand.brand_id] = brand;

@@ -21,6 +21,7 @@ scripts/local/*.md
 !scripts/local/README.md
 .env
 .env.*
+!backend/.env.example
 
 # AI agent tooling and internal docs (not for GitHub)
 docs/
@@ -33,4 +34,3 @@ AGENTS.md
 Thumbs.db
 .idea/
 .vscode/
-
