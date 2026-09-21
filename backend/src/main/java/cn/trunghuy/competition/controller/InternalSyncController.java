@@ -1,6 +1,7 @@
 package cn.trunghuy.competition.controller;
 
 import cn.trunghuy.competition.service.CompetitionSyncService;
+import cn.trunghuy.competition.service.ReviewCandidateSyncService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,22 +22,43 @@ import java.util.Map;
 public class InternalSyncController {
 
     private final CompetitionSyncService competitionSyncService;
+    private final ReviewCandidateSyncService reviewCandidateSyncService;
     private final String syncToken;
 
     public InternalSyncController(
             CompetitionSyncService competitionSyncService,
+            ReviewCandidateSyncService reviewCandidateSyncService,
             @Value("${competition.sync-token:}") String syncToken
     ) {
         this.competitionSyncService = competitionSyncService;
+        this.reviewCandidateSyncService = reviewCandidateSyncService;
         this.syncToken = syncToken;
     }
 
-    @PostMapping("/sync")
+    @PostMapping("/review-candidates/sync")
     @ResponseStatus(HttpStatus.OK)
-    public Map<String, Object> sync(
+    public Map<String, Object> syncReviewCandidates(
             @RequestHeader(value = "X-Sync-Token", required = false) String suppliedToken,
             @RequestBody JsonNode body
     ) {
+        requireValidToken(suppliedToken);
+
+        JsonNode pending = body.path("pending");
+        if (!pending.isArray()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "pending must be an array"
+            );
+        }
+
+        int synced = reviewCandidateSyncService.sync(body);
+        return Map.of(
+                "status", "ok",
+                "synced", synced
+        );
+    }
+
+    private void requireValidToken(String suppliedToken) {
         if (syncToken.isBlank()) {
             throw new ResponseStatusException(
                     HttpStatus.SERVICE_UNAVAILABLE,
@@ -46,6 +68,15 @@ public class InternalSyncController {
         if (!tokenMatches(syncToken, suppliedToken)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid sync token");
         }
+    }
+
+    @PostMapping("/sync")
+    @ResponseStatus(HttpStatus.OK)
+    public Map<String, Object> sync(
+            @RequestHeader(value = "X-Sync-Token", required = false) String suppliedToken,
+            @RequestBody JsonNode body
+    ) {
+        requireValidToken(suppliedToken);
 
         JsonNode competitions = body.path("competitions");
         if (!competitions.isArray()) {
