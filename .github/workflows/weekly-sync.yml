@@ -263,6 +263,17 @@ jobs:
             git push origin "HEAD:${{ github.ref_name }}"
           fi
 
+      - name: Sync production MariaDB through backend API
+        if: steps.weekly_guard.outputs.should_run == 'true'
+        env:
+          BACKEND_SYNC_TOKEN: ${{ secrets.BACKEND_SYNC_TOKEN }}
+        run: |
+          test -n "$BACKEND_SYNC_TOKEN" || {
+            echo "::error::Need repository secret BACKEND_SYNC_TOKEN"
+            exit 1
+          }
+          curl --fail-with-body --silent --show-error +            --retry 3 +            --connect-timeout 15 +            -H "Content-Type: application/json" +            -H "X-Sync-Token: $BACKEND_SYNC_TOKEN" +            --data-binary @data/competitions.json +            https://api.cs-contest.cn/api/internal/sync
+
       # 外链巡检：只报告、不阻断。链接腐烂是长期数据质量问题，不该让某个官网改版
       # 或一次网络抖动中断本周的数据同步，故放在提交之后且 continue-on-error。
       # reports/ 是 gitignore 的本地产物，这里只把统计摘要留在运行记录里。
