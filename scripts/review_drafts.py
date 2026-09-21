@@ -3,8 +3,8 @@
 
 流程定位（自动化管线的第二步）：
 
-    采集脚本 -> draft_*.json -> review_queue.json -> [可选 AI 审核]
-             -> reviewed.json -> apply 合并
+    采集脚本 -> draft_*.json -> review_queue.json -> [可选 AI 辅助审核]
+             -> 在队列中写 ai_* 建议 -> 管理员人工最终审核
 
 赛程策略（源优先 + 模型补充）：
 1. 草稿/API 已带可解析日期 → 直接采用，不让模型编日期
@@ -18,11 +18,13 @@ from __future__ import print_function
 
 import argparse
 import glob
+import hashlib
 import json
 import os
 import re
 import sys
 import time
+from datetime import datetime, timezone
 from urllib.parse import urlparse
 
 from reviewers.deepseek import DeepSeekReviewer, ReviewError
@@ -266,15 +268,38 @@ def load_queue(path):
 
 def merge_candidates(*groups):
     merged = []
-    seen = set()
+    positions = {}
     for group in groups:
         for record in group:
             key = candidate_key(record)
-            if key in seen:
+            if key not in positions:
+                positions[key] = len(merged)
+                merged.append(dict(record))
                 continue
-            seen.add(key)
-            merged.append(record)
+            # 后来的 fresh draft 覆盖抓取字段，但保留已有 ai_* 审核元数据。
+            current = dict(merged[positions[key]])
+            current.update(record)
+            merged[positions[key]] = current
     return merged
+
+
+def review_fingerprint(record):
+    payload = {
+        key: value
+        for key, value in record.items()
+        if not key.startswith("ai_")
+    }
+    encoded = json.dumps(
+        payload,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def utc_now_iso():
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def save_queue(path, pending):
@@ -285,7 +310,7 @@ def save_queue(path, pending):
         "meta": {
             "version": 1,
             "count": len(pending),
-            "note": "AI 审核待处理队列；AI 不可用时保留，恢复后优先处理。",
+            "note": "人工审核队列；DeepSeek 仅写 AI 建议，不自动通过或拒绝。",
         },
         "pending": pending,
     }
@@ -311,8 +336,8 @@ def write_review_output(path, model, files, accepted, rejected, errors, queued, 
                 "schedule_from_model": model_schedule_hits,
             },
             "note": (
-                "审核结论；赛程源优先、模型仅 high 置信补充；"
-                "AI 不可用时候选保留在 review_queue。"
+                "DeepSeek 仅生成辅助审核建议；所有候选继续保留在 review_queue，"
+                "最终 APPROVED/REJECTED 由管理员决定。"
             ),
         },
         "accepted": accepted,
@@ -391,10 +416,30 @@ def main():
         base_url=args.base_url,
         timeout=args.timeout,
     )
-    remaining_queue = []
+    advisory_queue = []
+    skipped_unchanged = 0
 
     for index, record in enumerate(candidates, 1):
         name = record.get("name")
+        fingerprint = review_fingerprint(record)
+        if (
+            record.get("ai_review_fingerprint") == fingerprint
+            and record.get("ai_verdict") in ("ACCEPT", "REJECT")
+        ):
+            advisory_queue.append(record)
+            skipped_unchanged += 1
+            print(
+                "  [%d/%d] 跳过未变化: %s (已有 AI 建议 %s/%s)"
+                % (
+                    index,
+                    len(candidates),
+                    name,
+                    record.get("ai_verdict"),
+                    record.get("ai_confidence") or "unknown",
+                )
+            )
+            continue
+
         source_schedule = schedule_from_source_record(record)
         need_model_schedule = not has_usable_schedule(source_schedule)
         try:
@@ -404,7 +449,10 @@ def main():
             decision = normalize_decision(raw, brand_ids, source_schedule)
         except ReviewError as error:
             errors.append({"name": name, "link": record.get("link"), "error": str(error)})
-            remaining_queue.append(record)
+            failed = dict(record)
+            failed["ai_error"] = str(error)
+            failed["ai_error_at"] = utc_now_iso()
+            advisory_queue.append(failed)
             # 原因要打进日志：只印名字的话，CI 里看不出是 key 失效、余额不足还是限流。
             print(
                 "  [%d/%d] 失败: %s -> %s" % (index, len(candidates), name, error),
@@ -419,6 +467,16 @@ def main():
 
         bucket = accepted if decision["verdict"] == "accept" else rejected
         bucket.append({"record": record, "decision": decision})
+        annotated = dict(record)
+        annotated["ai_verdict"] = decision["verdict"].upper()
+        annotated["ai_confidence"] = str(decision.get("confidence") or "unknown").upper()
+        annotated["ai_reason"] = decision.get("reason")
+        annotated["ai_model"] = args.model
+        annotated["ai_reviewed_at"] = utc_now_iso()
+        annotated["ai_review_fingerprint"] = fingerprint
+        annotated.pop("ai_error", None)
+        annotated.pop("ai_error_at", None)
+        advisory_queue.append(annotated)
         sched_tag = decision.get("schedule_source") or "none"
         print(
             "  [%d/%d] %s <- %s (%s) schedule=%s"
@@ -433,7 +491,7 @@ def main():
         )
         time.sleep(max(0.0, args.delay))
 
-    save_queue(args.queue, remaining_queue)
+    save_queue(args.queue, advisory_queue)
     write_review_output(
         args.out,
         args.model,
@@ -441,21 +499,20 @@ def main():
         accepted,
         rejected,
         errors,
-        len(remaining_queue),
-        "enabled",
+        len(advisory_queue),
+        "advisory",
         source_schedule_hits,
         model_schedule_hits,
     )
 
     print(
-        "完成: 通过 %d / 拒绝 %d / 失败 %d / 留队 %d | 源日期 %d / 模型日期 %d"
+        "完成 AI 建议: 建议通过 %d / 建议拒绝 %d / 失败 %d / 未变化跳过 %d / 待人工审核 %d"
         % (
             len(accepted),
             len(rejected),
             len(errors),
-            len(remaining_queue),
-            source_schedule_hits,
-            model_schedule_hits,
+            skipped_unchanged,
+            len(advisory_queue),
         )
     )
     print("结果: %s" % args.out)

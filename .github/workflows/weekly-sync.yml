@@ -202,7 +202,7 @@ jobs:
             echo "::warning::$attempted 个采集源中有 $((attempted - succeeded)) 个失败，本周同步质量为 partial。"
           fi
 
-      - name: Review drafts (DeepSeek optional)
+      - name: Generate AI review suggestions (DeepSeek optional)
         if: steps.weekly_guard.outputs.should_run == 'true'
         env:
           TZ: Asia/Shanghai
@@ -211,12 +211,8 @@ jobs:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: python scripts/review_drafts.py
 
-      - name: Apply approved competitions
-        if: steps.weekly_guard.outputs.should_run == 'true'
-        run: python scripts/apply_reviewed.py
-
       # 固定清单预计报名：官方窗口优先；仅用已核验历史推算；禁止假深链。
-      # 放在 apply_reviewed 之后、validate 之前，使本周新官方日期能抑制过期预计。
+      # AI 只给人工审核建议，不直接修改生产竞赛数据。
       - name: Refresh registration estimates (fixed catalog)
         if: steps.weekly_guard.outputs.should_run == 'true'
         env:
@@ -260,7 +256,7 @@ jobs:
             echo "本周无数据变更（含 sync_state）。"
           else
             WEEK="$(TZ=Asia/Shanghai date +%G-W%V)"
-            git commit -m "chore(data): weekly auto-sync reviewed competitions (${WEEK})"
+            git commit -m "chore(data): weekly sync AI review suggestions (${WEEK})"
             git push origin "HEAD:${{ github.ref_name }}"
           fi
 

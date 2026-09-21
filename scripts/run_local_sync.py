@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """在维护者本机执行完整自动化流程（适合国内 IP + 天池等需渲染的源）。
 
-顺序：git pull → 各源采集 → 可选 AI 审核 → 合并 → 校验/测试闸门 → 自动提交推送。
+顺序：git pull → 各源采集 → 可选 AI 辅助审核 → 校验/测试闸门 → 自动提交推送。
 
-单个采集源失败不中断整体；但数据校验或测试不通过则中断、绝不提交。
+单个采集源失败不中断整体；DeepSeek 只生成审核建议，不自动写入正式竞赛；
+数据校验或测试不通过则中断、绝不提交。
 配合 Windows 任务计划程序即可每周自动运行。AI_REVIEW_ENABLED=true 时使用
 DEEPSEEK_API_KEY；AI 关闭/不可用时候选进入 data/review_queue.json，
 天池源需先安装 Playwright（见 requirements-playwright.txt）。
@@ -81,8 +82,6 @@ def main():
         print("审核脚本自身执行失败，已中止。", file=sys.stderr)
         return 1
 
-    run([PY, "scripts/apply_reviewed.py"])
-
     # 与 weekly-sync 一致：维护固定清单「预计报名」（无历史不臆造；禁假深链）
     if run([PY, "scripts/apply_registration_estimates.py"]) != 0:
         print("预计报名维护失败，已中止，不提交。", file=sys.stderr)
@@ -112,7 +111,7 @@ def main():
         return 0
 
     run(["git", "add", "data/"])
-    run(["git", "commit", "-m", "chore(data): local auto-sync reviewed competitions"])
+    run(["git", "commit", "-m", "chore(data): local sync AI review suggestions"])
     if not args.no_push:
         run(["git", "push"])
     print("\n完成。")
