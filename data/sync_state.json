@@ -1,9 +1,9 @@
 {
-  "last_success_week": "2026-W38",
-  "last_success_at": "2026-09-14T16:06:45+08:00",
+  "last_success_week": "2026-W39",
+  "last_success_at": "2026-09-21T15:37:05+08:00",
   "source": "github-actions",
-  "run_url": "https://github.com/DoTrungHuy/competition-search/actions/runs/34820013366",
-  "event": "schedule",
+  "run_url": "https://github.com/DoTrungHuy/competition-search/actions/runs/35573768706",
+  "event": "workflow_dispatch",
   "sources": {
     "campus": "success",
     "devpost": "success",
