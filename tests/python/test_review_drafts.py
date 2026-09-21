@@ -165,6 +165,7 @@ class ReviewQueueTests(unittest.TestCase):
             reviewer = mock.Mock()
             argv = [
                 "review_drafts.py",
+                "--in",
                 "--queue",
                 queue_path,
                 "--out",

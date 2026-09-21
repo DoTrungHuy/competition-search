@@ -369,7 +369,7 @@ def main():
     parser.add_argument("--delay", type=float, default=0.5, help="请求间隔秒")
     args = parser.parse_args()
 
-    files = args.infiles if args.infiles else sorted(glob.glob(DEFAULT_GLOB))
+    files = args.infiles if args.infiles is not None else sorted(glob.glob(DEFAULT_GLOB))
     files = [path for path in files if os.path.isfile(path)]
 
     brands = load_brands()
