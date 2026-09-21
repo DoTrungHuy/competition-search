@@ -57,4 +57,11 @@ public class ReviewCandidate {
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    @Column(name = "reviewed_at")
+    private LocalDateTime reviewedAt;
+
+    @Column(name = "review_note")
+    @JdbcTypeCode(SqlTypes.LONGVARCHAR)
+    private String reviewNote;
 }

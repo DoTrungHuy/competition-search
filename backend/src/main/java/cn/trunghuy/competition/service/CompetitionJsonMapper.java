@@ -17,41 +17,57 @@ public class CompetitionJsonMapper {
 
         int order = 0;
         for (JsonNode node : items) {
-            Competition item = new Competition();
-            item.setId(text(node, "id"));
-            item.setDisplayOrder(order++);
-            item.setBrandId(text(node, "brand_id"));
-            item.setName(text(node, "name"));
-            item.setCategory(textList(node.path("category")));
-            item.setTags(textList(node.path("tags")));
-            item.setLevel(text(node, "level"));
-            item.setKind(text(node, "kind"));
-            item.setInfoChannel(text(node, "info_channel"));
-            item.setOrganizer(text(node, "organizer"));
-            item.setLink(text(node, "link"));
-            item.setDescription(text(node, "description"));
-            item.setEligibility(text(node, "eligibility"));
-            item.setHasCampusNotice(bool(node, "has_campus_notice"));
-            item.setActive(bool(node, "active"));
-            item.setEdition(text(node, "edition"));
-            item.setTrackId(text(node, "track_id"));
-            item.setPublishedAt(date(node, "published_at"));
-            item.setRegistrationStart(date(node, "registration_start"));
-            item.setRegistrationEnd(date(node, "registration_end"));
-            item.setCompetitionStart(date(node, "competition_start"));
-            item.setCompetitionEnd(date(node, "competition_end"));
-            item.setLastChecked(date(node, "last_checked"));
-            item.setNeedsReview(bool(node, "needs_review"));
-            item.setStatusOverride(text(node, "status_override"));
-            item.setScheduleSource(text(node, "schedule_source"));
-            item.setScheduleConfidence(text(node, "schedule_confidence"));
-            item.setLinkKind(text(node, "link_kind"));
-            item.setRegistrationStartEstimated(date(node, "registration_start_estimated"));
-            item.setRegistrationEndEstimated(date(node, "registration_end_estimated"));
-            competitions.add(item);
+            competitions.add(fromNode(node, order++));
         }
 
         return competitions;
+    }
+
+    public Competition fromNode(JsonNode node, int displayOrder) {
+        Competition item = new Competition();
+        item.setId(text(node, "id"));
+        item.setDisplayOrder(displayOrder);
+        applyPresentFields(node, item);
+        return item;
+    }
+
+    public void mergeInto(JsonNode node, Competition item) {
+        applyPresentFields(node, item);
+    }
+
+    private void applyPresentFields(JsonNode node, Competition item) {
+        setTextIfPresent(node, "brand_id", item::setBrandId);
+        setTextIfPresent(node, "name", item::setName);
+        if (node.has("category") && !node.get("category").isNull()) {
+            item.setCategory(textList(node.path("category")));
+        }
+        if (node.has("tags") && !node.get("tags").isNull()) {
+            item.setTags(textList(node.path("tags")));
+        }
+        setTextIfPresent(node, "level", item::setLevel);
+        setTextIfPresent(node, "kind", item::setKind);
+        setTextIfPresent(node, "info_channel", item::setInfoChannel);
+        setTextIfPresent(node, "organizer", item::setOrganizer);
+        setTextIfPresent(node, "link", item::setLink);
+        setTextIfPresent(node, "description", item::setDescription);
+        setTextIfPresent(node, "eligibility", item::setEligibility);
+        setBoolIfPresent(node, "has_campus_notice", item::setHasCampusNotice);
+        setBoolIfPresent(node, "active", item::setActive);
+        setTextIfPresent(node, "edition", item::setEdition);
+        setTextIfPresent(node, "track_id", item::setTrackId);
+        setDateIfPresent(node, "published_at", item::setPublishedAt);
+        setDateIfPresent(node, "registration_start", item::setRegistrationStart);
+        setDateIfPresent(node, "registration_end", item::setRegistrationEnd);
+        setDateIfPresent(node, "competition_start", item::setCompetitionStart);
+        setDateIfPresent(node, "competition_end", item::setCompetitionEnd);
+        setDateIfPresent(node, "last_checked", item::setLastChecked);
+        setBoolIfPresent(node, "needs_review", item::setNeedsReview);
+        setTextIfPresent(node, "status_override", item::setStatusOverride);
+        setTextIfPresent(node, "schedule_source", item::setScheduleSource);
+        setTextIfPresent(node, "schedule_confidence", item::setScheduleConfidence);
+        setTextIfPresent(node, "link_kind", item::setLinkKind);
+        setDateIfPresent(node, "registration_start_estimated", item::setRegistrationStartEstimated);
+        setDateIfPresent(node, "registration_end_estimated", item::setRegistrationEndEstimated);
     }
 
     private String text(JsonNode node, String field) {
@@ -76,5 +92,36 @@ public class CompetitionJsonMapper {
         List<String> values = new ArrayList<>();
         node.forEach(value -> values.add(value.asText()));
         return values;
+    }
+
+    private void setTextIfPresent(
+            JsonNode node,
+            String field,
+            java.util.function.Consumer<String> setter
+    ) {
+        if (node.has(field) && !node.get(field).isNull()) {
+            setter.accept(node.get(field).asText());
+        }
+    }
+
+    private void setBoolIfPresent(
+            JsonNode node,
+            String field,
+            java.util.function.Consumer<Boolean> setter
+    ) {
+        if (node.has(field) && !node.get(field).isNull()) {
+            setter.accept(node.get(field).asBoolean());
+        }
+    }
+
+    private void setDateIfPresent(
+            JsonNode node,
+            String field,
+            java.util.function.Consumer<LocalDate> setter
+    ) {
+        if (node.has(field) && !node.get(field).isNull()) {
+            String value = node.get(field).asText();
+            setter.accept(value.isBlank() ? null : LocalDate.parse(value));
+        }
     }
 }

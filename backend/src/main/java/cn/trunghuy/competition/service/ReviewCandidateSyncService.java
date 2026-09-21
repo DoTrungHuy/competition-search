@@ -64,7 +64,7 @@ public class ReviewCandidateSyncService {
             reviewCandidateRepository.save(candidate);
         }
 
-        for (ReviewCandidate candidate : reviewCandidateRepository.findAllByReviewStatus(PENDING)) {
+        for (ReviewCandidate candidate : reviewCandidateRepository.findAllByReviewStatusOrderByUpdatedAtDesc(PENDING)) {
             if (!incomingIds.contains(candidate.getId())) {
                 reviewCandidateRepository.delete(candidate);
             }
