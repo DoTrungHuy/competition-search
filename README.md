@@ -1,214 +1,550 @@
-# 竞赛查询（南邮 · 计算机相关）
+# Competition Search · 南邮竞赛信息平台
 
 <p align="center">
   <img src="assets/images/njupt-badge.png" alt="南京邮电大学校徽" width="88" />
 </p>
 
 <p align="center">
-  <a href="https://njupt.cs-contest.cn"><img src="https://img.shields.io/badge/线上站点-njupt.cs--contest.cn-7c5cff?style=for-the-badge&logo=googlechrome&logoColor=white" alt="线上站点" /></a>
-  &nbsp;
-  <a href="https://njupt.cs-contest.cn"><img src="https://img.shields.io/badge/面向-南邮学生-0ea5e9?style=for-the-badge" alt="面向南邮学生" /></a>
-  &nbsp;
-  <img src="https://img.shields.io/badge/形态-静态站-64748b?style=for-the-badge&logo=cloudflare&logoColor=white" alt="静态站" />
+  面向南京邮电大学学生的竞赛信息聚合、检索与审核平台。<br/>
+  从外部数据采集、AI 辅助审核、人工复核，到 Spring Boot API、MariaDB 持久化与前端展示，形成完整的数据闭环。
 </p>
 
 <p align="center">
-  <a href="https://github.com/DoTrungHuy/competition-search/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/DoTrungHuy/competition-search/ci.yml?branch=main&style=flat-square&label=CI" alt="CI" /></a>
-  <a href="https://github.com/DoTrungHuy/competition-search/actions/workflows/weekly-sync.yml"><img src="https://img.shields.io/github/actions/workflow/status/DoTrungHuy/competition-search/weekly-sync.yml?branch=main&style=flat-square&label=weekly%20sync" alt="Weekly sync" /></a>
-  <img src="https://img.shields.io/badge/license-private-lightgrey?style=flat-square" alt="private" />
-  <img src="https://img.shields.io/badge/stack-HTML%20%7C%20CSS%20%7C%20JS%20%7C%20JSON-informational?style=flat-square" alt="stack" />
+  <a href="https://njupt.cs-contest.cn"><img src="https://img.shields.io/badge/Live-njupt.cs--contest.cn-7c5cff?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Live site" /></a>
+  &nbsp;
+  <a href="https://github.com/DoTrungHuy/competition-search/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/DoTrungHuy/competition-search/ci.yml?branch=main&style=for-the-badge&label=CI" alt="CI" /></a>
+  &nbsp;
+  <a href="https://github.com/DoTrungHuy/competition-search/actions/workflows/weekly-sync.yml"><img src="https://img.shields.io/github/actions/workflow/status/DoTrungHuy/competition-search/weekly-sync.yml?branch=main&style=for-the-badge&label=Weekly%20Sync" alt="Weekly Sync" /></a>
 </p>
 
-面向 **南京邮电大学学生** 的竞赛信息查询站：快速查找还能报名、即将开报、正在进行或即将开赛的比赛，并跳到官网或品牌入口核对原文。
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-21-ED8B00?style=flat-square&logo=openjdk&logoColor=white" alt="Java 21" />
+  <img src="https://img.shields.io/badge/Spring%20Boot-4.1-6DB33F?style=flat-square&logo=springboot&logoColor=white" alt="Spring Boot" />
+  <img src="https://img.shields.io/badge/MariaDB-11-003545?style=flat-square&logo=mariadb&logoColor=white" alt="MariaDB" />
+  <img src="https://img.shields.io/badge/Python-Data%20Pipeline-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/DeepSeek-AI%20Review-4D6BFE?style=flat-square" alt="DeepSeek" />
+</p>
 
-**线上地址：<https://njupt.cs-contest.cn>**
+**在线站点：<https://njupt.cs-contest.cn>**
+
+> 本项目不是学校官方报名系统。报名、组队、奖项认定与赛事规则请以赛事官网和学校正式通知为准。
+
+---
+
+## 项目简介
+
+最初这是一个面向南邮学生的竞赛查询静态站，现在已经演进为一个 **后端主导的全栈竞赛数据平台**。
+
+系统会定期从校园通知、Devpost、MLH、Kaggle 等来源采集候选赛事；DeepSeek 只负责给出 **AI 审核建议**，最终是否进入正式竞赛库由管理员人工确认。通过审核的数据写入 MariaDB，再由 Spring Boot REST API 提供给前端展示。
 
 ### 首页预览
 
 <p align="center">
-  <img src="assets/images/readme/home.png" alt="竞赛查询首页截图：搜索、筛选芯片与赛事卡片" width="920" />
+  <img src="assets/images/readme/home.png" alt="竞赛查询首页截图" width="920" />
 </p>
 
-<p align="center"><sub>本地验收截图（暗色主题）；线上见 <a href="https://njupt.cs-contest.cn">njupt.cs-contest.cn</a></sub></p>
+---
+
+## 核心架构
+
+```mermaid
+flowchart TD
+    A[校园通知 / Devpost / MLH / Kaggle] --> B[Python Collectors]
+    B --> C[review_queue.json]
+    C --> D[DeepSeek Flash]
+    D --> E[AI 建议<br/>verdict / confidence / reason]
+    E --> F[(review_candidates)]
+    F --> G[Spring Security 管理后台]
+    G -->|人工通过| H[(competitions)]
+    G -->|人工拒绝| I[REJECTED]
+    H --> J[Spring Boot REST API]
+    J --> K[前端竞赛查询站]
+
+    L[GitHub Actions] --> B
+    L --> M[测试 / 数据校验 / E2E]
+    L --> N[内部同步 API]
+    N --> F
+    N --> H
+```
+
+整个系统的原则是：
+
+```text
+人工审核
+   >
+AI 建议
+   >
+自动采集
+```
+
+AI 不会直接替代管理员做最终数据决策。
 
 ---
 
-## 面向对象
+## 功能亮点
 
-| 对象 | 能帮什么 |
-|------|----------|
-| 南邮在校生（尤其计软网安等） | 按关键词/类型筛竞赛，看时间与参赛要求摘要 |
-| 想冲校认定目录的同学 | 标有「校认定 A/B/C/C2」的条目来自学校创新创业竞赛认定目录中的计算机相关固定清单 |
-| 辅导员/实验室同学 | 分享同一入口，减少到处翻通知 |
+### 用户侧
 
-**不是**学校官方报名系统，也**不能**代替赛事官网与校内正式通知。
+- 按名称、品牌、标签搜索竞赛
+- 按全国赛 / 大厂赛 / 国际赛等类型筛选
+- 展示报名中、即将报名、即将开始、进行中等状态
+- 支持学校竞赛认定档位、赛程和参赛要求摘要
+- 跳转赛事官网或已核验原始通知
+- API 异常时保留静态数据兜底能力
 
----
+### 管理与数据治理
 
-## 能做什么
+- Python 自动采集多个数据源
+- DeepSeek Flash 对候选赛事给出 `ai_verdict / ai_confidence / ai_reason`
+- AI 结果只作为建议，候选仍保持 `PENDING`
+- Spring Security 管理员登录
+- 单条审核、编辑后通过、拒绝
+- 全选 / 批量批准 / 一键批准 HIGH 置信度候选
+- 人工审核结果优先，后续自动同步不会覆盖人工决定
+- 内容指纹避免同一候选重复调用 AI
 
-- **搜索**：名称、品牌、标签等
-- **筛选**：全部 / 全国赛 / 大厂赛 / 国际赛；以及 **报名中**、**即将开始报名**、**进行中** 等状态
-- **卡片信息**：时间线、简要要求、状态角标；校认定档位；「预计」标记
-- **外链**：有已核验原文 →「查看原文」；预计或仅品牌入口 →「赛事主页」
-- **关于页**：状态与数据边界说明（`about.html`）
+### 工程化
 
-### 状态怎么理解（产品规则）
-
-| 状态 | 含义 |
-|------|------|
-| **报名中** | 报名窗口开着（已核验官方日期，或固定清单上标了「预计」的推算窗口） |
-| **即将开始报名** | 开报日在未来 **1～30 天**内（不含开报当天）；**国际赛不进**此筛选 |
-| **即将开始** | 比赛尚未开始（常有比赛日、报名可能已结束或未录入） |
-| **进行中** | 比赛日已到且未结束 |
-| **预计** | 报名日据往年已核验窗口推算，**不是**官网通知；按钮只给品牌官网，不给假报名深链 |
-
-其它约定：
-
-- **「全部」主栏**默认是国内相关赛事；**国际赛**单独成类（黑客松等在报时，请点「国际赛」或搜索）。
-- 「学校网站有相关通知」只说明校内发过通知，**不等于**学校主办。
-- 待人工复核、无可靠赛程的条目不显示精确公开状态，多为「见官网详情」。
-- 页面上的「刷新列表」只重新加载本站已保存的数据，**不会**当场去外网抓取。
+- Spring Boot 分层架构：Controller / Service / Repository
+- Spring Data JPA + Hibernate ORM
+- MariaDB 持久化
+- Flyway 数据库版本迁移
+- Session + CSRF + 角色权限控制
+- GitHub Actions CI
+- Python / JavaScript / Java 自动测试
+- Playwright E2E 浏览器冒烟测试
+- Weekly Sync 自动采集与数据同步
+- Cloudflare Tunnel 暴露当前本机后端
 
 ---
 
-## 在线使用
+## 技术栈
 
-打开 **[https://njupt.cs-contest.cn](https://njupt.cs-contest.cn)** 即可，无需安装。
-
-| | |
-|:--|:--|
-| 官网 | https://njupt.cs-contest.cn |
-| 关于 | https://njupt.cs-contest.cn/about.html |
-
-建议用手机或电脑现代浏览器；若刚更新后内容异常，可强制刷新（Ctrl+F5 / 清缓存）。
+| 层 | 技术 |
+|---|---|
+| 前端 | HTML / CSS / Vanilla JavaScript |
+| 后端 | Java 21 / Spring Boot 4.1 / Spring MVC |
+| 数据访问 | Spring Data JPA / Hibernate |
+| 数据库 | MariaDB |
+| 数据库迁移 | Flyway |
+| 安全 | Spring Security / Session / CSRF |
+| 数据采集 | Python / Requests / Playwright |
+| AI 审核 | DeepSeek API |
+| 自动化 | GitHub Actions |
+| 测试 | JUnit / H2 / Node Test / Python unittest / Playwright |
+| 部署 | Linux / Cloudflare Workers / Cloudflare Tunnel |
 
 ---
 
-## 本地预览（开发/验收）
+## 后端设计
+
+### 分层结构
+
+```text
+Controller
+    ↓
+Service
+    ↓
+Repository
+    ↓
+MariaDB
+```
+
+主要业务模块：
+
+```text
+backend/src/main/java/cn/trunghuy/competition/
+├── controller/
+│   ├── CompetitionController.java
+│   ├── AdminReviewController.java
+│   ├── AdminSessionController.java
+│   └── InternalSyncController.java
+├── service/
+│   ├── CompetitionService.java
+│   ├── CompetitionSyncService.java
+│   ├── ReviewCandidateSyncService.java
+│   └── AdminReviewService.java
+├── repository/
+│   ├── CompetitionRepository.java
+│   └── ReviewCandidateRepository.java
+├── entity/
+│   ├── Competition.java
+│   └── ReviewCandidate.java
+└── config/
+    └── SecurityConfig.java
+```
+
+### 数据模型
+
+当前主要有两类业务数据：
+
+```text
+review_candidates
+    ↓ 人工审核
+competitions
+```
+
+`review_candidates` 保存待审核候选、AI 建议、人工审核状态与原始 JSON；`competitions` 是正式对外提供的数据。
+
+审核状态：
+
+```text
+PENDING
+  ├──→ APPROVED → competitions
+  └──→ REJECTED
+```
+
+### Flyway
+
+数据库结构不依赖 Hibernate 自动改表，而由 Flyway 管理：
+
+```text
+V1__create_competition_tables.sql
+V2__create_review_candidates.sql
+V3__add_review_decision_fields.sql
+```
+
+生产环境使用：
+
+```properties
+spring.jpa.hibernate.ddl-auto=validate
+```
+
+避免应用启动时静默修改数据库结构。
+
+---
+
+## API
+
+### 公开接口
+
+```http
+GET /api/competitions
+GET /api/hello
+```
+
+### 管理员接口
+
+需要 Spring Security 登录 Session：
+
+```http
+GET  /api/admin/reviews
+GET  /api/admin/reviews/{id}
+POST /api/admin/reviews/{id}/approve
+POST /api/admin/reviews/{id}/reject
+POST /api/admin/reviews/bulk/approve
+```
+
+后台写操作同时启用 CSRF 防护。
+
+### 内部同步接口
+
+供 GitHub Actions / 数据管线调用：
+
+```http
+POST /api/internal/sync
+POST /api/internal/review-candidates/sync
+```
+
+通过独立的 `X-Sync-Token` 认证，不与管理员 Session 混用。
+
+---
+
+## 数据采集与 AI 审核
+
+自动管线：
+
+```text
+fetch_*.py
+    ↓
+draft_*.json
+    ↓
+review_drafts.py
+    ↓
+DeepSeek AI 建议
+    ↓
+review_queue.json
+    ↓
+内部同步 API
+    ↓
+review_candidates
+    ↓
+管理员人工审核
+```
+
+当前设计中 DeepSeek **不会自动批准或拒绝**候选，只写入辅助判断：
+
+```text
+ai_verdict
+ai_confidence
+ai_reason
+```
+
+候选内容未发生变化时，会复用已有 AI 结果，避免重复消耗 API。
+
+---
+
+## Weekly Sync
+
+GitHub Actions 每周自动执行：
+
+```text
+采集多个数据源
+      ↓
+汇总采集健康状态
+      ↓
+DeepSeek 生成审核建议
+      ↓
+刷新固定清单预计报名
+      ↓
+数据校验
+      ↓
+JS / Python 测试
+      ↓
+提交数据变化
+      ↓
+同步 MariaDB
+      ↓
+外链健康巡检
+```
+
+特点：
+
+- 双 cron 时间槽，降低 GitHub Actions 定时漏跑影响
+- 本周已成功执行时备用槽自动跳过
+- 单个采集源失败可容忍
+- 所有实际数据源都失败时整轮失败
+- AI 可通过变量独立开关
+- 数据校验或测试失败时不会提交生产数据
+
+---
+
+## 项目目录
+
+```text
+competition-search/
+├── backend/                    # Spring Boot 后端
+│   ├── src/main/java/          # Controller / Service / Repository / Entity
+│   └── src/main/resources/
+│       ├── db/migration/       # Flyway SQL
+│       └── static/admin/       # 管理员审核后台
+├── data/
+│   ├── competitions.json       # 静态生产数据 / 版本记录
+│   ├── review_queue.json       # AI 辅助审核队列
+│   ├── brands.json
+│   └── sync_state.json
+├── scripts/                    # Python 数据采集与校验
+├── js/                         # 前端交互逻辑
+├── css/                        # 前端样式
+├── tests/
+│   ├── js/
+│   ├── python/
+│   └── e2e/
+├── .github/workflows/
+│   ├── ci.yml
+│   └── weekly-sync.yml
+├── index.html
+└── about.html
+```
+
+---
+
+## 本地开发
+
+### 1. 前端
 
 ```bash
 npm run serve
 ```
 
-浏览器打开 <http://localhost:4173>。  
-页面需要通过 HTTP 加载 JSON。
+浏览器打开 `http://localhost:4173`。
 
-```bash
-npm test                          # JS 语法 + 单元测试 + 生产数据校验
-npm run test:e2e                  # 浏览器冒烟测试（需 playwright + chromium）
-python scripts/validate_data.py   # 仅数据校验
-python scripts/check_links.py     # 外链巡检（生成 reports/，不入库）
-```
-
-`test:e2e` 刻意不并入 `npm test`：它需要额外装 chromium 且要起浏览器，
-日常跑 `npm test` 不该被拖慢。CI 里作为独立 job 并行执行。
-
-```bash
-python -m pip install -r requirements-playwright.txt
-python -m playwright install chromium
-```
-
-脚本依赖：
+### 2. Python 数据脚本
 
 ```bash
 python -m pip install -r requirements-scripts.txt
 ```
 
----
-
-## 项目如何实现（维护者）
-
-技术形态：**纯静态站**（HTML / CSS / JS + `data/*.json`），无前端构建。  
-线上通过 **Cloudflare Workers 静态资源** 发布根目录（见 `wrangler.toml`）；域名 **cs-contest.cn**（**njupt.cs-contest.cn** 同样可用）。
-
-### 目录要点
-
-| 路径 | 作用 |
-|------|------|
-| `index.html` / `about.html` | 查询页 / 关于 |
-| `js/status.js` | 报名/比赛状态、芯片契约、外链诚信解析 |
-| `js/app.js` | 列表、筛选、抽屉 |
-| `data/competitions.json` / `brands.json` / `portals.json` | 生产数据（schema v3） |
-| `scripts/validate_data.py` | 数据闸门（含链接诚信） |
-| `scripts/link_integrity.py` | 禁止预计假深链、`?estimate=` 等 |
-| `scripts/apply_registration_estimates.py` | 固定清单「预计报名」维护 |
-| `assets/images/readme/home.png` | README 首页预览图 |
-| `404.html` / `assets/favicon.svg` | 404 页（`wrangler.toml` 的 `not_found_handling`）/ 站点图标 |
-| `tests/e2e/test_smoke.py` | 浏览器冒烟测试（Playwright，覆盖无法单测的 `app.js`） |
-| `.github/workflows/ci.yml` | push/PR：`npm test` + 独立的 E2E job |
-| `.github/workflows/weekly-sync.yml` | 周更：采集 → **健康汇总** → 审核 → 合并 → **刷新预计** → 校验 → 通过才提交 |
-
-### 数据原则
-
-1. **已核验**记录：需要 `last_checked`、可用赛程或官方状态；赛事深链不得与品牌首页简单重复，也不得带伪参数。  
-2. **待复核**（`needs_review`）：不写公开精确报名/比赛日进状态计算。  
-3. **预计报名**：仅 `njupt_fixed` 且存在往年已核验 `registration_*` 时生成；**不写** `link`（`link_kind: brand_home`）；前端只打开品牌 `official_home`。  
-4. 官方 `registration_*` **优先于**预计字段。  
-5. **人工状态覆盖有有效期**：`已结束 / 已停办 / 报名结束` 是稳定终态，长期有效；`报名中 / 即将开始报名 / 即将开始 / 进行中` 属动态状态，自 `last_checked` 起 90 天有效，可用 `status_override_until` 显式指定。过期后前端回落到日期推导，无日期则显示「待复核」——宁可承认不知道，也不长期谎报「现在能报名」。校验器对过期只告警不报错，避免一条陈旧数据中断无人值守的周更。
-
-手动刷新预计（一般不必，周更会跑）：
+常用命令：
 
 ```bash
-python scripts/apply_registration_estimates.py
-# 复现可用：--today YYYY-MM-DD
+python scripts/validate_data.py
+python scripts/check_links.py
 ```
 
-### 自动化管线（周更）
+### 3. Spring Boot
 
-```text
-采集  fetch_*.py → draft_*.json         ← 单源失败可容忍
-健康  汇总各源结果                       ← 全部源都失败则中止，不记本周成功
-审核  review_drafts.py（DeepSeek；禁止臆造日期）
-合并  apply_reviewed.py
-预计  apply_registration_estimates.py   ← 固定清单维护
-闸门  validate_data.py + npm test       ← 含链接诚信，失败不提交
-状态  data/sync_state.json              ← 本周成功标记 + sources / sync_quality
-```
+需要：
 
-- 定时：周一北京时间约 10:17 / 22:47（UTC `02:17` / `14:47`），双槽 + 本周成功守卫。  
-- 采集源健康：单源失败只记 `partial` 并继续；**所有实际尝试的源都失败时工作流直接失败**，`last_success_week` 保持上周，下一个槽位重试。未配置凭据的 Kaggle 记 `skipped`，不计入分母。  
-- Secrets：`DEEPSEEK_API_KEY`（必填）；Kaggle 可选。  
-- 天池等需国内网络的源：本机 `scripts/run_local_sync.py` / Windows 任务（同样会跑预计维护）。  
-- `scripts/upgrade_pending.py` 为**手动**补审工具，不进自动周更。
+- Java 21
+- MariaDB
 
-### 发布
-
-Cloudflare 已连接本仓库：**推送到 `main` 即自动构建发布**，周更工作流提交的数据同样会自动上线，无需手动操作。
-
-应急/本地直发（跳过 Git 流程时才用）：
+复制环境变量模板：
 
 ```bash
-npx wrangler deploy
+cp backend/.env.example backend/.env.local
 ```
 
-发布后如果内容看着没变，多半是浏览器或边缘缓存；用户侧强刷（Ctrl+F5），核验时给 URL 加 `?cachebust=<时间戳>` 绕开 `cf-cache-status: HIT`。
-
-### 视觉
-
-多风格组合（liquidGlassAgency 玻璃底、openDoor 芯片、bloom 卡片、flower 粒子等）；字体本地 WOFF2，不请求 Google Fonts；左上角南邮校徽；页面不展示本站维护日期。
-
-更新 README 首页截图（本机已起 `npm run serve` 时）：
+主要环境变量：
 
 ```text
-Edge/Chrome headless → assets/images/readme/home.png（建议 1440×900）
+DB_URL
+DB_USERNAME
+DB_PASSWORD
+SYNC_TOKEN
+ADMIN_USERNAME
+ADMIN_PASSWORD
+SESSION_COOKIE_SECURE
 ```
 
+构建并启动：
+
+```bash
+cd backend
+./mvnw -DskipTests package
+./scripts/start-backend.sh
+```
+
+`start-backend.sh` 会读取 `backend/.env.local`，并在需要时尝试启动本机 MariaDB。默认监听 `127.0.0.1:8080`。
+
+停止后端：
+
+```bash
+./scripts/stop-backend.sh
+```
+
+> `.env.local`、API Key、数据库密码和 Token 不应提交到 Git。
+
 ---
 
-## 验证与诚信
+## 测试
 
-- `npm test`：语法检查、状态/访问量单测、Python 单测、**生产数据校验**。  
-- `npm run test:e2e`：真实浏览器冒烟（首页渲染 / 搜索 / 状态筛选 / 抽屉与焦点 / 移动端布局 / 主题持久化）。
-  `js/app.js` 是封闭 IIFE、结构上无法单测，E2E 是它唯一的覆盖方式；更关键的是单测只能证明
-  「函数算得对」，证不了「结果真的显示到屏幕上」——例如 JS 设了 `hidden`、CSS 的 `display` 却把它抵消。
-- 预计卡片与任何 `estimate=` / 往届冒充本届深链会被 **生成脚本 + validate + 前端** 拦截。  
-- 外链存活巡检：`python scripts/check_links.py`。周更里作为**只报告不阻断**的步骤执行，
-  结果写进 job summary；不进 `npm test`，避免外网抖动挡合并。
+### 前端 / Python / 数据校验
+
+```bash
+npm test
+```
+
+包括：
+
+- JavaScript 语法检查
+- JavaScript 单元测试
+- Python 单元测试
+- 生产数据校验
+
+### Spring Boot
+
+```bash
+cd backend
+./mvnw test
+```
+
+覆盖：
+
+- Flyway migration
+- Repository / Service
+- Competition sync
+- Review candidate sync
+- 人工审核流程
+- 批量审核
+- Spring Security
+- Session / CSRF
+- 内部同步接口
+
+### E2E
+
+```bash
+python -m pip install -r requirements-playwright.txt
+python -m playwright install chromium
+npm run test:e2e
+```
+
+CI 中 E2E 与普通测试并行运行。
 
 ---
 
-## 许可与声明
+## 安全设计
 
-数据与链接可能滞后或不完整；**报名、组队、奖项认定一律以赛事官网与学校通知为准**。  
-本仓库为查询辅助工具，不代表南京邮电大学官方教务或竞赛组委会立场。
+- 数据库只由 Spring Boot 访问，不直接暴露给公网
+- 管理后台使用 Spring Security Session
+- 后台写操作启用 CSRF
+- Session Cookie 设置 `Secure / HttpOnly / SameSite=Lax`
+- GitHub Actions 使用独立同步 Token
+- API Key、数据库密码、管理员密码放在环境变量 / GitHub Secrets
+- DeepSeek 只提供建议，不拥有最终生产数据决策权
+
+---
+
+## 部署
+
+当前部署形态：
+
+```text
+前端
+njupt.cs-contest.cn
+    ↓
+Cloudflare Workers 静态资源
+
+后端
+api.cs-contest.cn
+    ↓
+Cloudflare Tunnel
+    ↓
+127.0.0.1:8080
+    ↓
+Spring Boot
+    ↓
+MariaDB
+```
+
+当前机器位于 NAT 网络后，因此使用 Cloudflare Tunnel 将本地 Spring Boot 暴露到公网。
+
+---
+
+## Roadmap
+
+当前重点不是继续堆业务功能，而是补生产部署能力：
+
+- [ ] Docker + Docker Compose
+- [ ] 正式公网服务器部署
+- [ ] Nginx 反向代理与 HTTPS
+- [ ] Spring Boot Actuator 健康检查
+- [ ] 后端 / Tunnel 自动启动与故障恢复
+- [ ] MariaDB 自动备份
+- [ ] API 分页与查询优化
+
+Redis、MQ、微服务、Kubernetes 暂不引入：当前业务规模没有真实需求。
+
+---
+
+## 项目价值
+
+这个项目重点不在“用了多少框架”，而在于完成了一条真实的数据闭环：
+
+```text
+数据采集
+  ↓
+AI 辅助判断
+  ↓
+人工数据治理
+  ↓
+关系型数据库
+  ↓
+REST API
+  ↓
+前端展示
+  ↓
+CI / 自动同步 / 线上部署
+```
+
+对于后端实践，项目覆盖了 Java Web 开发、数据库设计、权限控制、事务、数据迁移、自动测试、CI/CD 和线上部署等完整环节。
+
+---
+
+## 声明
+
+数据与链接可能存在滞后或遗漏。
+
+**报名、组队、赛程、奖项及学校认定请始终以赛事官网与学校正式通知为准。**
+
+本项目为个人学习与信息查询辅助工具，不代表南京邮电大学官方教务部门、竞赛组织方或任何赛事主办方。
