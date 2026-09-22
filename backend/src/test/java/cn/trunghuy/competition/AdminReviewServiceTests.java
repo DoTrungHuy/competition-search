@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import tools.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -94,6 +95,37 @@ class AdminReviewServiceTests {
         assertThat(response.reviewStatus()).isEqualTo("REJECTED");
         assertThat(response.reviewNote()).isEqualTo("不是有效赛事");
         assertThat(competitionRepository.findById("reject-me")).isEmpty();
+    }
+
+    @Test
+    void bulkApproveCreatesAllCompetitionsAndMarksAllApproved() {
+        saveCandidate(
+                "bulk-a",
+                "批量 A",
+                """
+                {"id":"bulk-a","name":"批量 A","kind":"全国赛事"}
+                """
+        );
+        saveCandidate(
+                "bulk-b",
+                "批量 B",
+                """
+                {"id":"bulk-b","name":"批量 B","kind":"国际赛事"}
+                """
+        );
+
+        List<String> approved = adminReviewService.bulkApprove(
+                List.of("bulk-a", "bulk-b", "bulk-a"),
+                "批量人工通过"
+        );
+
+        assertThat(approved).containsExactly("bulk-a", "bulk-b");
+        assertThat(competitionRepository.findById("bulk-a")).isPresent();
+        assertThat(competitionRepository.findById("bulk-b")).isPresent();
+        assertThat(reviewCandidateRepository.findById("bulk-a").orElseThrow().getReviewStatus())
+                .isEqualTo("APPROVED");
+        assertThat(reviewCandidateRepository.findById("bulk-b").orElseThrow().getReviewStatus())
+                .isEqualTo("APPROVED");
     }
 
     private void saveCandidate(String id, String name, String rawData) {

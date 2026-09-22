@@ -16,6 +16,7 @@ import tools.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
+import java.util.LinkedHashSet;
 
 @Service
 public class AdminReviewService {
@@ -57,6 +58,54 @@ public class AdminReviewService {
     @Transactional
     public ReviewCandidateResponse approve(String id, String note, JsonNode editedData) {
         ReviewCandidate candidate = requirePending(id);
+        approveCandidate(candidate, note, editedData);
+        competitionRepository.flush();
+        reviewCandidateRepository.flush();
+        return toResponse(candidate);
+    }
+
+    @Transactional
+    public List<String> bulkApprove(List<String> ids, String note) {
+        if (ids == null || ids.isEmpty()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "ids must contain at least one review candidate"
+            );
+        }
+
+        LinkedHashSet<String> uniqueIds = new LinkedHashSet<>();
+        for (String id : ids) {
+            if (id != null && !id.isBlank()) {
+                uniqueIds.add(id.trim());
+            }
+        }
+        if (uniqueIds.isEmpty()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "ids must contain at least one review candidate"
+            );
+        }
+        if (uniqueIds.size() > 100) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "bulk approve is limited to 100 candidates"
+            );
+        }
+
+        List<ReviewCandidate> candidates = uniqueIds.stream()
+                .map(this::requirePending)
+                .toList();
+
+        for (ReviewCandidate candidate : candidates) {
+            approveCandidate(candidate, note, null);
+        }
+        competitionRepository.flush();
+        reviewCandidateRepository.flush();
+        return List.copyOf(uniqueIds);
+    }
+
+    private void approveCandidate(ReviewCandidate candidate, String note, JsonNode editedData) {
+        String id = candidate.getId();
         JsonNode raw = parseRaw(candidate);
 
         Competition competition = competitionRepository.findById(id)
@@ -75,10 +124,9 @@ public class AdminReviewService {
             competition.setName(candidate.getName());
         }
         competition.setNeedsReview(false);
-        competitionRepository.saveAndFlush(competition);
+        competitionRepository.save(competition);
 
         markReviewed(candidate, APPROVED, note);
-        return toResponse(candidate);
     }
 
     @Transactional
@@ -94,7 +142,7 @@ public class AdminReviewService {
         candidate.setReviewNote(note == null || note.isBlank() ? null : note.trim());
         candidate.setReviewedAt(now);
         candidate.setUpdatedAt(now);
-        reviewCandidateRepository.saveAndFlush(candidate);
+        reviewCandidateRepository.save(candidate);
     }
 
     private ReviewCandidate requireCandidate(String id) {

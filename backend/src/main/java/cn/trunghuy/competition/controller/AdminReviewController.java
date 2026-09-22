@@ -1,5 +1,7 @@
 package cn.trunghuy.competition.controller;
 
+import cn.trunghuy.competition.dto.BulkReviewRequest;
+import cn.trunghuy.competition.dto.BulkReviewResponse;
 import cn.trunghuy.competition.dto.ReviewActionRequest;
 import cn.trunghuy.competition.dto.ReviewCandidateResponse;
 import cn.trunghuy.competition.service.AdminReviewService;
@@ -54,5 +56,14 @@ public class AdminReviewController {
             @RequestBody(required = false) ReviewActionRequest request
     ) {
         return adminReviewService.reject(id, request == null ? null : request.note());
+    }
+
+    @PostMapping("/bulk/approve")
+    public BulkReviewResponse bulkApprove(@RequestBody BulkReviewRequest request) {
+        List<String> approvedIds = adminReviewService.bulkApprove(
+                request == null ? null : request.ids(),
+                request == null ? null : request.note()
+        );
+        return new BulkReviewResponse("ok", approvedIds.size(), approvedIds);
     }
 }

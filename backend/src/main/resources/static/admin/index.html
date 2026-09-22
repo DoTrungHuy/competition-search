@@ -27,6 +27,16 @@
         <button class="tab" data-status="APPROVED" type="button">已通过 <span id="count-approved">0</span></button>
         <button class="tab" data-status="REJECTED" type="button">已拒绝 <span id="count-rejected">0</span></button>
       </div>
+      <div id="bulk-toolbar" class="bulk-toolbar">
+        <div class="bulk-selection">
+          <button id="select-all-button" class="ghost-button compact-button" type="button">全选</button>
+          <span id="selected-count" class="selected-count">已选 0</span>
+        </div>
+        <div class="bulk-actions">
+          <button id="bulk-approve-button" class="ghost-button compact-button" type="button" disabled>批准所选</button>
+          <button id="approve-high-button" class="primary-button compact-button" type="button">一键批准 HIGH</button>
+        </div>
+      </div>
       <div id="review-list" class="review-list" aria-live="polite"></div>
     </aside>
 
