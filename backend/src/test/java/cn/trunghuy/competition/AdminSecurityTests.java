@@ -46,6 +46,20 @@ class AdminSecurityTests {
     }
 
     @Test
+    void healthEndpointIsPublicAndDoesNotExposeDetails() throws Exception {
+        mockMvc.perform(get("/actuator/health"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("UP"))
+                .andExpect(jsonPath("$.components").doesNotExist());
+    }
+
+    @Test
+    void nonHealthActuatorEndpointIsNotExposed() throws Exception {
+        mockMvc.perform(get("/actuator/env"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     void adminSessionRequiresAuthentication() throws Exception {
         mockMvc.perform(get("/api/admin/session"))
                 .andExpect(status().is3xxRedirection());

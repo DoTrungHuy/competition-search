@@ -1,0 +1,93 @@
+name: Deploy production
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  deployments: write
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: >-
+      vars.PRODUCTION_DEPLOY_ENABLED == 'true' &&
+      (
+        (github.event_name == 'workflow_run' &&
+         github.event.workflow_run.conclusion == 'success' &&
+         github.event.workflow_run.event == 'push') ||
+        (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
+      )
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://api.cs-contest.cn
+    env:
+      DEPLOY_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+      PROD_HOST: ${{ vars.PRODUCTION_HOST }}
+      PROD_USER: ${{ vars.PRODUCTION_USER }}
+      PROD_PORT: ${{ vars.PRODUCTION_SSH_PORT || '22' }}
+      PROD_APP_DIR: ${{ vars.PRODUCTION_APP_DIR || '/opt/competition-search' }}
+
+    steps:
+      - name: Validate deployment configuration
+        env:
+          SSH_KEY: ${{ secrets.PRODUCTION_SSH_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.PRODUCTION_SSH_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          test -n "$PROD_HOST" || { echo "::error::PRODUCTION_HOST is not configured"; exit 1; }
+          test -n "$PROD_USER" || { echo "::error::PRODUCTION_USER is not configured"; exit 1; }
+          test -n "$SSH_KEY" || { echo "::error::PRODUCTION_SSH_KEY is not configured"; exit 1; }
+          test -n "$SSH_KNOWN_HOSTS" || { echo "::error::PRODUCTION_SSH_KNOWN_HOSTS is not configured"; exit 1; }
+
+      - name: Checkout exact tested revision
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ env.DEPLOY_SHA }}
+          fetch-depth: 1
+
+      - name: Configure SSH
+        env:
+          SSH_KEY: ${{ secrets.PRODUCTION_SSH_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.PRODUCTION_SSH_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          install -d -m 0700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 0600 ~/.ssh/id_ed25519
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 0600 ~/.ssh/known_hosts
+
+      - name: Deploy on production server
+        run: |
+          set -euo pipefail
+          ssh \
+            -i ~/.ssh/id_ed25519 \
+            -p "$PROD_PORT" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "$PROD_USER@$PROD_HOST" \
+            "bash -s -- '$DEPLOY_SHA' '$PROD_APP_DIR'" \
+            < deploy/remote-deploy.sh
+
+      - name: Verify public production health
+        run: |
+          set -euo pipefail
+          body="$(curl \
+            --fail \
+            --silent \
+            --show-error \
+            --retry 12 \
+            --retry-delay 5 \
+            --retry-all-errors \
+            https://api.cs-contest.cn/actuator/health)"
+          printf '%s\n' "$body"
+          python3 -c 'import json,sys; assert json.load(sys.stdin).get("status") == "UP"' <<< "$body"

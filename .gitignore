@@ -9,6 +9,9 @@ node_modules/
 # Local drafts and reports
 scripts/out/
 reports/
+backups/
+deploy/certs/*
+!deploy/certs/README.md
 
 # Local secrets / machine-only sync (API keys — never commit)
 scripts/local/*.bat

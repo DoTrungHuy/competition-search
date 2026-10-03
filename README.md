@@ -477,7 +477,107 @@ CI 中 E2E 与普通测试并行运行。
 
 ## 部署
 
-当前部署形态：
+### Docker Compose（本机 / 未来云服务器）
+
+推荐后端运行形态：
+
+```text
+api.cs-contest.cn
+    ↓
+Nginx
+    ↓
+Spring Boot
+    ↓
+MariaDB
+```
+
+仓库根目录已提供 `docker-compose.yml`、`docker.env.example`、`backend/Dockerfile` 和 `deploy/nginx/api.conf`。
+
+首次启动：
+
+```bash
+cp docker.env.example .env
+# 编辑 .env，替换所有 replace_with_* 密码 / Token
+docker compose up -d --build
+```
+
+默认本机入口：
+
+```text
+http://127.0.0.1:8088/api/competitions
+http://127.0.0.1:8088/admin/
+http://127.0.0.1:8088/actuator/health
+```
+
+`/actuator/health` 是公开健康检查端点，其余 Actuator 端点不对外暴露。
+Docker 使用该端点判断 Spring Boot 是否真正可用；Nginx 会等待后端进入 `healthy` 状态后再启动。
+
+MariaDB 数据放在 named volume `mariadb_data` 中，重新构建后端镜像不会删除数据库。
+只有明确需要连数据库一起清空时，才执行 `docker compose down -v`。
+
+### 数据库备份与恢复
+
+生产 Compose 额外启动 `db-backup` 容器。默认启动后立即备份一次，之后每 24 小时备份一次，并保留 14 天。
+备份文件写入仓库根目录下的 `backups/`，该目录不会提交到 Git。
+
+可在 `.env` 中调整：
+
+```text
+BACKUP_INTERVAL_SECONDS=86400
+BACKUP_RETENTION_DAYS=14
+```
+
+需要立刻手工备份时：
+
+```bash
+bash deploy/backup/backup-now.sh
+```
+
+恢复数据库前建议先再做一次当前状态备份。恢复命令要求显式确认：
+
+```bash
+bash deploy/backup/restore-db.sh backups/competition_search-YYYYMMDDTHHMMSSZ.sql.gz --confirm
+```
+
+如果 `backups/` 与数据库仍位于同一台服务器，它只能防止误删和容器损坏，不能防止整台服务器或磁盘损坏。
+正式上线后应再把备份同步到 OSS 等独立存储。
+
+未来迁移到 Linux 云服务器时，只需要安装 Docker / Compose、克隆仓库、配置服务器自己的 `.env`，
+再执行同一个 `docker compose up -d --build`。真实 `.env` 不提交到 GitHub。
+
+### 生产 Compose 与 HTTPS
+
+生产环境使用基础 Compose 与生产覆盖文件：
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+```
+
+生产覆盖会：
+
+- 将 Session Cookie 强制设为 Secure
+- 对外开放 80 / 443
+- 使用 `deploy/nginx/api.prod.conf`
+- 启动自动数据库备份容器
+- 使用 `deploy/certs/origin.pem` 与 `deploy/certs/origin.key` 提供源站 TLS
+
+证书目录中的真实证书和私钥已被 Git 忽略。当前方案按 Cloudflare Origin Certificate 设计，
+生产时 Cloudflare SSL/TLS 模式使用 **Full (strict)**。
+
+### GitHub Actions 自动部署
+
+仓库包含 `.github/workflows/deploy.yml`。自动部署默认关闭；正式服务器准备好后，
+将 Repository Variable `PRODUCTION_DEPLOY_ENABLED` 设为 `true` 才会启用；SSH 私钥等敏感信息保存在 `production` Environment Secrets。
+
+启用后，`main` 的 CI 全部成功才会部署对应的**精确 commit SHA**，而不是在服务器上盲目 `git pull`。
+发布过程会在更新前备份数据库，更新后检查容器健康、Nginx 配置和公网 HTTPS 健康状态。
+若应用发布失败，会尝试将应用代码自动回退到上一版本；数据库不会自动回退。
+
+服务器首次准备、GitHub Variables / Secrets 和 SSH host key 配置详见 `deploy/PRODUCTION.md`。
+
+### 当前线上形态
+
+现有前端仍保持：
 
 ```text
 前端
@@ -498,6 +598,7 @@ MariaDB
 ```
 
 当前机器位于 NAT 网络后，因此使用 Cloudflare Tunnel 将本地 Spring Boot 暴露到公网。
+完成本机 Docker 验证后，再把 API 容器迁移到长期在线 Linux 服务器；前端无需一起迁移。
 
 ---
 
@@ -505,12 +606,12 @@ MariaDB
 
 当前重点不是继续堆业务功能，而是补生产部署能力：
 
-- [ ] Docker + Docker Compose
+- [x] Docker + Docker Compose 配置
 - [ ] 正式公网服务器部署
-- [ ] Nginx 反向代理与 HTTPS
-- [ ] Spring Boot Actuator 健康检查
-- [ ] 后端 / Tunnel 自动启动与故障恢复
-- [ ] MariaDB 自动备份
+- [x] Nginx 生产反向代理与 HTTPS 配置
+- [x] Spring Boot Actuator 健康检查
+- [x] GitHub Actions 自动部署 / 应用失败回滚配置
+- [x] MariaDB 自动备份 / 手工恢复
 - [ ] API 分页与查询优化
 
 Redis、MQ、微服务、Kubernetes 暂不引入：当前业务规模没有真实需求。

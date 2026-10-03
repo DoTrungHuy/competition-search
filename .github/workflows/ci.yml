@@ -30,6 +30,21 @@ jobs:
         working-directory: backend
         run: ./mvnw test
 
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Validate shell scripts
+        run: bash -n deploy/remote-deploy.sh deploy/backup/*.sh
+      - name: Validate Compose configuration
+        run: |
+          cp docker.env.example .env
+          docker compose -f docker-compose.yml -f docker-compose.prod.yml config >/dev/null
+      - name: Build backend Docker image
+        run: docker build -t competition-backend:ci ./backend
+      - name: Build backup Docker image
+        run: docker build -t competition-db-backup:ci ./deploy/backup
+
   # 单独一个 job：E2E 要装 chromium（约 1 分钟），不该拖慢上面的快速闸门，
   # 两者也没有依赖关系，并行跑更快拿到反馈。
   e2e:
