@@ -3,6 +3,7 @@ package cn.trunghuy.competition;
 import cn.trunghuy.competition.entity.ReviewCandidate;
 import cn.trunghuy.competition.repository.ReviewCandidateRepository;
 import cn.trunghuy.competition.service.ReviewCandidateSyncService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +22,11 @@ class ReviewCandidateSyncServiceTests {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @BeforeEach
+    void cleanUp() {
+        reviewCandidateRepository.deleteAll();
+    }
 
     @Test
     void syncCreatesAndRemovesPendingCandidates() throws Exception {
