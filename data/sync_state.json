@@ -1,8 +1,8 @@
 {
-  "last_success_week": "2026-W43",
-  "last_success_at": "2026-10-19T15:48:47+08:00",
+  "last_success_week": "2026-W44",
+  "last_success_at": "2026-10-26T15:49:33+08:00",
   "source": "github-actions",
-  "run_url": "https://github.com/DoTrungHuy/competition-search/actions/runs/39218195292",
+  "run_url": "https://github.com/DoTrungHuy/competition-search/actions/runs/40288016243",
   "event": "schedule",
   "sources": {
     "campus": "success",
