@@ -24,6 +24,7 @@ from source_config import SourceConfigError, load_sources
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_OUT = os.path.join(ROOT, "scripts", "out", "draft_campus.json")
 PRODUCTION_DATA = os.path.join(ROOT, "data", "competitions.json")
+BRANDS_DATA = os.path.join(ROOT, "data", "brands.json")
 
 
 class ParseError(ValueError):
@@ -38,6 +39,25 @@ def fetch(url, user_agent, timeout=25):
     )
     response.raise_for_status()
     return response.content
+
+
+def extract_article_text(html, max_chars=1500):
+    """提取通知正文纯文本（用于辅助提取报名/比赛日期）。"""
+    try:
+        soup = BeautifulSoup(html, "html.parser")
+        node = (
+            soup.select_one(".wp_articlecontent")
+            or soup.select_one(".v_news_content")
+            or soup.select_one(".article-content")
+            or soup.body
+            or soup
+        )
+        text = " ".join(node.get_text(" ", strip=True).split())
+        # 修复网页中常见拆字空格，如 "202 6 年 11 月 2 0 日" -> "2026年11月20日"
+        text = re.sub(r"(?<=\d)\s+(?=\d)", "", text)
+        return text[:max_chars] if text else None
+    except Exception:
+        return None
 
 
 def parse_list_html(html, base, selectors, allow_empty=False):
@@ -115,10 +135,44 @@ def guess_brand_id(title):
         ("天梯", "gplt"),
         ("华为 ICT", "huawei_ict"),
         ("华为软件精英", "huawei_codecraft"),
+        ("美国大学生数学建模", "mcm_us"),
+        ("美赛", "mcm_us"),
+        ("全国大学生数学建模", "mcm_cn"),
+        ("嵌入式芯片与系统设计", "embedded_chip"),
+        ("正大杯", "zhengdabei"),
+        ("市场调查与分析大赛", "zhengdabei"),
+        ("企业竞争模拟", "ibizsim"),
+        ("企业经营沙盘", "sandtable_contest"),
+        ("计算机设计大赛", "jssj"),
+        ("中国高校计算机大赛", "c4"),
+        ("系统能力大赛", "sys"),
+        ("挑战杯", "challengecup"),
+        ("电子设计竞赛", "nuedc"),
+        ("智能汽车竞赛", "smartcar"),
+        ("服务外包", "service_outsourcing"),
+        ("节能减排", "jieneng"),
+        ("光电设计", "optodesign"),
+        ("集成电路创新创业", "ic_design"),
+        ("睿抗", "raicom"),
+        ("大唐杯", "datang_cup"),
     )
     for keyword, brand_id in mappings:
         if keyword in text:
             return brand_id
+    try:
+        with open(BRANDS_DATA, "r", encoding="utf-8") as handle:
+            brands = json.load(handle).get("brands", [])
+        for brand in brands:
+            bid = brand.get("brand_id")
+            for candidate in [brand.get("name"), brand.get("njupt_catalog_name")] + (
+                brand.get("aliases") or []
+            ):
+                if candidate and len(candidate) >= 3 and candidate in text:
+                    return bid
+    except Exception:
+        pass
+    if "南京邮电大学" in text:
+        return "njupt_cxcy"
     return None
 
 
@@ -133,10 +187,10 @@ def stable_id(url, published_at=None):
     return "campus-%s-%s" % (day, digest)
 
 
-def to_draft_record(item, list_meta):
+def to_draft_record(item, list_meta, source_schedule_text=None):
     title = item["title"]
     digest = hashlib.sha256(item["url"].encode("utf-8")).hexdigest()[:10]
-    return {
+    record = {
         "id": stable_id(item["url"], item.get("published_at")),
         "brand_id": guess_brand_id(title),
         "edition": derive_edition(title),
@@ -156,6 +210,9 @@ def to_draft_record(item, list_meta):
         "source_list_name": list_meta.get("name"),
         "draft": True,
     }
+    if source_schedule_text:
+        record["source_schedule_text"] = source_schedule_text
+    return record
 
 
 def load_production():
@@ -261,7 +318,15 @@ def main():
                     accepted = True
                     reason = "all-titles 模式"
                 if accepted:
-                    accepted_records.append(to_draft_record(item, source_list))
+                    body_text = None
+                    try:
+                        detail_html = fetch(item["url"], config["user_agent"], timeout)
+                        body_text = extract_article_text(detail_html)
+                    except requests.RequestException:
+                        body_text = None
+                    accepted_records.append(
+                        to_draft_record(item, source_list, source_schedule_text=body_text)
+                    )
                 else:
                     rejected.append(
                         {

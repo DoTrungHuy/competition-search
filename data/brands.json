@@ -844,6 +844,63 @@
       "priority_tier": "P3",
       "active": true,
       "auto_added": true
+    },
+    {
+      "brand_id": "ibizsim",
+      "name": "全国企业竞争模拟大赛",
+      "kind": "全国赛事",
+      "official_home": "http://www.ibizsim.cn/",
+      "aliases": [
+        "企业竞争模拟大赛",
+        "江苏省高校企业竞争模拟大赛"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_catalog_name": "全国企业竞争模拟大赛"
+    },
+    {
+      "brand_id": "zhengdabei",
+      "name": "正大杯全国大学生市场调查与分析大赛",
+      "kind": "全国赛事",
+      "official_home": "http://www.china-cssc.org/",
+      "aliases": [
+        "正大杯",
+        "市场调查与分析大赛"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_catalog_name": "全国大学生市场调查与分析大赛"
+    },
+    {
+      "brand_id": "sandtable_contest",
+      "name": "全国高等院校数智化企业经营沙盘大赛",
+      "kind": "全国赛事",
+      "official_home": "https://www.seentao.com/",
+      "aliases": [
+        "数智化企业经营沙盘大赛",
+        "企业经营沙盘大赛"
+      ],
+      "priority_tier": "P1",
+      "active": true,
+      "njupt_fixed": true,
+      "njupt_tier": "C",
+      "njupt_catalog_name": "全国高等院校数智化企业经营沙盘大赛"
+    },
+    {
+      "brand_id": "njupt_cxcy",
+      "name": "南京邮电大学科创与学科竞赛",
+      "kind": "校级赛事",
+      "official_home": "https://cxcy.njupt.edu.cn/",
+      "aliases": [
+        "南邮校赛",
+        "南邮科创竞赛"
+      ],
+      "priority_tier": "P2",
+      "active": true
     }
   ]
 }

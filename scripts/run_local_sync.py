@@ -1,13 +1,7 @@
 # -*- coding: utf-8 -*-
-"""在维护者本机执行完整自动化流程（适合国内 IP + 天池等需渲染的源）。
+"""在维护者本机或 ECS 上执行完整自动化流程（适合国内 IP + 校内通知 + 国际源）。
 
-顺序：git pull → 各源采集 → 可选 AI 辅助审核 → 校验/测试闸门 → 自动提交推送。
-
-单个采集源失败不中断整体；DeepSeek 只生成审核建议，不自动写入正式竞赛；
-数据校验或测试不通过则中断、绝不提交。
-配合 Windows 任务计划程序即可每周自动运行。AI_REVIEW_ENABLED=true 时使用
-DEEPSEEK_API_KEY；AI 关闭/不可用时候选进入 data/review_queue.json，
-天池源需先安装 Playwright（见 requirements-playwright.txt）。
+顺序：git pull → 各源采集 → AI 审核 → 自动发布 AI 通过项 → 预计报名推算 → 校验/测试闸门 → 自动提交推送。
 """
 from __future__ import print_function
 
@@ -36,7 +30,6 @@ def run(cmd, check=False):
 
 
 def data_changed():
-    # 兼容较旧 Python（无 capture_output / text=）
     result = subprocess.Popen(
         ["git", "status", "--porcelain", "data/"],
         cwd=ROOT,
@@ -49,7 +42,7 @@ def data_changed():
 
 
 def main():
-    parser = argparse.ArgumentParser(description="本机完整同步流程")
+    parser = argparse.ArgumentParser(description="本机/ECS 完整同步流程")
     parser.add_argument("--skip", default="", help="跳过的源，逗号分隔，如 tianchi,kaggle")
     parser.add_argument("--no-pull", action="store_true", help="跳过 git pull")
     parser.add_argument("--no-push", action="store_true", help="只提交不推送")
@@ -60,7 +53,6 @@ def main():
     if not args.no_pull:
         run(["git", "pull", "--rebase"])
 
-    # 单源失败不中断，但要记账：与 weekly-sync 一致，全部源都失败时不写入成功状态。
     results = {}
     for name, script in FETCHERS:
         if name in skip:
@@ -80,6 +72,10 @@ def main():
 
     if run([PY, "scripts/review_drafts.py"]) != 0:
         print("审核脚本自身执行失败，已中止。", file=sys.stderr)
+        return 1
+
+    if run([PY, "scripts/auto_publish_queue.py"]) != 0:
+        print("自动发布 AI 通过候选失败，已中止，不提交。", file=sys.stderr)
         return 1
 
     # 与 weekly-sync 一致：维护固定清单「预计报名」（无历史不臆造；禁假深链）
@@ -111,7 +107,7 @@ def main():
         return 0
 
     run(["git", "add", "data/"])
-    run(["git", "commit", "-m", "chore(data): local sync AI review suggestions"])
+    run(["git", "commit", "-m", "chore(data): auto sync & publish competitions"])
     if not args.no_push:
         run(["git", "push"])
     print("\n完成。")

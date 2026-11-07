@@ -474,6 +474,18 @@ def main():
         annotated["ai_model"] = args.model
         annotated["ai_reviewed_at"] = utc_now_iso()
         annotated["ai_review_fingerprint"] = fingerprint
+        if decision.get("brand_id"):
+            annotated["ai_brand_id"] = decision.get("brand_id")
+        if decision.get("kind"):
+            annotated["ai_kind"] = decision.get("kind")
+        if decision.get("new_brand"):
+            annotated["ai_new_brand"] = decision.get("new_brand")
+        if decision.get("schedule_source"):
+            annotated["ai_schedule"] = {
+                field: decision.get(field) for field in SCHEDULE_FIELDS
+            }
+            annotated["ai_schedule"]["schedule_source"] = decision.get("schedule_source")
+            annotated["ai_schedule"]["schedule_confidence"] = decision.get("schedule_confidence")
         annotated.pop("ai_error", None)
         annotated.pop("ai_error_at", None)
         advisory_queue.append(annotated)
