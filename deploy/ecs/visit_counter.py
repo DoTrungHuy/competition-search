@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """零外部依赖的本机 SQLite 页面浏览计数服务（供阿里云 ECS 部署替代 api.counterapi.dev）。
 
-仅监听 127.0.0.1:9001，由 Nginx 反向代理 `location = /api/visits/up`。
+仅监听 127.0.0.1:9001，由 Nginx / Cloudflare Tunnel 反向代理 `location = /api/visits/up`。
 响应格式 `{"value": <int>}` 与前端 `js/visits.js` 的 `extractCount` 完全兼容。
 """
 from __future__ import print_function
@@ -59,14 +59,25 @@ class CounterStore(object):
 
 def make_handler(store):
     class CounterHandler(BaseHTTPRequestHandler):
+        def _send_cors(self):
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+
         def _send_json(self, status, payload):
             body = (json.dumps(payload) + "\n").encode("utf-8")
             self.send_response(status)
             self.send_header("Content-Type", "application/json; charset=utf-8")
             self.send_header("Cache-Control", "no-store")
+            self._send_cors()
             self.send_header("Content-Length", str(len(body)))
             self.end_headers()
             self.wfile.write(body)
+
+        def do_OPTIONS(self):
+            self.send_response(204)
+            self._send_cors()
+            self.end_headers()
 
         def do_GET(self):
             path = self.path.split("?", 1)[0].rstrip("/")
