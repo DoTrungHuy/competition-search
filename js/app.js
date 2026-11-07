@@ -41,7 +41,6 @@
     大厂: true,
     国际: true,
     报名中: true,
-    即将开始报名: true,
     进行中: true,
   };
 
@@ -322,11 +321,6 @@
       } else if (state.quick === "报名中") {
         // 与 CompStatus.matchesStatusChip 同源：有核验在报区间必出现
         if (!window.CompStatus.matchesStatusChip(item, "报名中")) return false;
-      } else if (state.quick === "即将开始报名") {
-        // 开报前 30 天；国际不进；有核验 registration_start 进入窗口后必出现
-        if (!window.CompStatus.matchesStatusChip(item, "即将开始报名")) {
-          return false;
-        }
       } else if (state.quick === "进行中") {
         if (!window.CompStatus.matchesStatusChip(item, "进行中")) return false;
       } else {
@@ -375,11 +369,9 @@
 
     if (!list.length) {
       var emptyHint =
-        state.quick === "即将开始报名"
-          ? "仅显示开报前 30 天内、已核验报名开始日的赛事（国际赛不计入）；有日期进入窗口后会自动出现"
-          : state.quick === "国际"
-            ? "当前没有符合条件的国际赛；可清空搜索或切回「全部」查看国内主栏"
-            : "可以清空搜索、切换「国际赛」或回到「全部」";
+        state.quick === "国际"
+          ? "当前没有符合条件的国际赛；可清空搜索或切回「全部」查看国内主栏"
+          : "可以清空搜索、切换「国际赛」或回到「全部」";
       root.innerHTML =
         '<div class="empty liquid-glass"><p>没有符合条件的竞赛</p><p>' +
         emptyHint +
