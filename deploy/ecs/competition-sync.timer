@@ -1,0 +1,12 @@
+[Unit]
+Description=Run Competition Search Weekly Sync on Mondays
+
+[Timer]
+# 主时段：每周一 10:17；备时段：每周一 22:47（与 GitHub Actions 对齐）
+OnCalendar=Mon *-*-* 10:17:00
+OnCalendar=Mon *-*-* 22:47:00
+Persistent=true
+Unit=competition-sync.service
+
+[Install]
+WantedBy=timers.target

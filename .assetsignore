@@ -1,12 +1,20 @@
-# 不要把采集脚本、测试、内部文档当静态资源发布
+# 不要把采集脚本、后端源码、部署配置、测试、内部文档当静态资源发布
 .git
 .github
 README.md
 assets/images/readme
 .claude
 .grok
+.workbuddy-ai
 .venv
 node_modules
+backend
+deploy
+backups
+docker-compose.yml
+docker-compose.prod.yml
+docker.env.example
+data/review_queue.json
 scripts
 tests
 docs

@@ -35,6 +35,16 @@
 
   var TIER_RANK = { A: 0, B: 1, C: 2, C2: 3 };
 
+  var VALID_CHIPS = {
+    "": true,
+    全国: true,
+    大厂: true,
+    国际: true,
+    报名中: true,
+    即将开始报名: true,
+    进行中: true,
+  };
+
   function $(id) {
     return document.getElementById(id);
   }
@@ -615,12 +625,74 @@
     });
   }
 
+  /**
+   * 从地址栏读取初始搜索词与芯片筛选（如 ?q=蓝桥&chip=报名中），方便分享过滤视图。
+   */
+  function readUrlState() {
+    if (
+      typeof window === "undefined" ||
+      !window.location ||
+      typeof window.URLSearchParams !== "function"
+    ) {
+      return;
+    }
+    try {
+      var params = new window.URLSearchParams(window.location.search);
+      var q = params.get("q");
+      var chip = params.get("chip");
+      if (q) {
+        state.query = q;
+        var input = $("search-input");
+        if (input) input.value = q;
+        var clear = $("search-clear");
+        if (clear) clear.classList.toggle("is-visible", true);
+      }
+      if (chip && VALID_CHIPS[chip]) {
+        state.quick = chip;
+      }
+    } catch (e) {
+      // 忽略异常 URL 参数
+    }
+  }
+
+  /**
+   * 将当前搜索词与筛选芯片静默同步回地址栏（replaceState 不污染后退历史）。
+   */
+  function syncUrlState() {
+    if (
+      typeof window === "undefined" ||
+      !window.location ||
+      !window.history ||
+      typeof window.history.replaceState !== "function" ||
+      typeof window.URLSearchParams !== "function"
+    ) {
+      return;
+    }
+    try {
+      var params = new window.URLSearchParams(window.location.search);
+      var q = state.query.trim();
+      if (q) params.set("q", q);
+      else params.delete("q");
+      if (state.quick) params.set("chip", state.quick);
+      else params.delete("chip");
+      var qs = params.toString();
+      var next =
+        window.location.pathname +
+        (qs ? "?" + qs : "") +
+        (window.location.hash || "");
+      window.history.replaceState(null, "", next);
+    } catch (e) {
+      // 受限环境下忽略
+    }
+  }
+
   function resetFilters() {
     state.query = "";
     state.quick = "";
     $("search-input").value = "";
     $("search-clear").classList.remove("is-visible");
     syncChips();
+    syncUrlState();
     renderList();
   }
 
@@ -701,6 +773,7 @@
       window.clearTimeout(searchTimer);
       searchTimer = window.setTimeout(function () {
         state.query = value;
+        syncUrlState();
         renderList();
       }, 180);
     });
@@ -709,6 +782,7 @@
       search.value = "";
       state.query = "";
       $("search-clear").classList.remove("is-visible");
+      syncUrlState();
       renderList();
       search.focus();
     });
@@ -717,6 +791,7 @@
       chip.addEventListener("click", function () {
         state.quick = chip.getAttribute("data-quick") || "";
         syncChips();
+        syncUrlState();
         renderList();
       });
     });
@@ -747,6 +822,7 @@
   }
 
   function init() {
+    readUrlState();
     bind();
     if (window.CompTheme) window.CompTheme.init();
     if (window.CompVisits) window.CompVisits.init();

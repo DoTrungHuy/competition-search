@@ -1133,7 +1133,8 @@
       "active": true,
       "status_override": "进行中",
       "last_checked": "2026-07-24",
-      "needs_review": false
+      "needs_review": false,
+      "status_override_until": "2026-12-31"
     },
     {
       "id": "ciscn-2026-innovation",
@@ -1159,7 +1160,8 @@
       "active": true,
       "status_override": "进行中",
       "last_checked": "2026-07-24",
-      "needs_review": false
+      "needs_review": false,
+      "status_override_until": "2026-12-31"
     },
     {
       "id": "devpost-unknown-726498b9f6ea",

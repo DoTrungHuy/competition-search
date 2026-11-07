@@ -1,0 +1,13 @@
+[Unit]
+Description=Competition Search Local Pageview Counter (SQLite)
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+ExecStart=/usr/bin/python3 /opt/competition-search/deploy/ecs/visit_counter.py --host 127.0.0.1 --port 9001 --db /var/lib/competition-search/visits.db
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

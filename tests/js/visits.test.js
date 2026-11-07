@@ -11,6 +11,15 @@ test("every page load uses one fixed increment endpoint", () => {
   );
 });
 
+test("counterUrl supports custom self-hosted endpoint when COMP_COUNTER_URL is set", () => {
+  globalThis.COMP_COUNTER_URL = "/api/visits/up";
+  try {
+    assert.equal(visits.counterUrl(), "/api/visits/up");
+  } finally {
+    delete globalThis.COMP_COUNTER_URL;
+  }
+});
+
 test("counter responses are normalized without inventing a local value", () => {
   assert.equal(visits.extractCount({ value: 12 }), 12);
   assert.equal(visits.extractCount({ count: 13 }), 13);

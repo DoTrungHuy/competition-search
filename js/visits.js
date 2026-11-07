@@ -3,6 +3,7 @@
  *
  * 注意这是「页面浏览次数」而非独立访客数：刷新与爬虫都会计入，
  * 且 CounterAPI v1 是公开无鉴权计数器。真实站点统计以 Cloudflare Web Analytics 为准。
+ * 迁移至自有服务器（如阿里云 ECS）后，可通过 window.COMP_COUNTER_URL 指向同源计数接口（如 /api/visits/up）。
  */
 (function (global) {
   "use strict";
@@ -60,6 +61,13 @@
   }
 
   function counterUrl() {
+    if (
+      global &&
+      typeof global.COMP_COUNTER_URL === "string" &&
+      global.COMP_COUNTER_URL.trim()
+    ) {
+      return global.COMP_COUNTER_URL.trim();
+    }
     return (
       "https://api.counterapi.dev/v1/" +
       encodeURIComponent(NAMESPACE) +

@@ -11,7 +11,8 @@
 否则没人会信它。
 
 依赖 requirements-playwright.txt（项目本就为天池采集器装了 playwright），
-另需 `python -m playwright install chromium`。未安装时整体跳过而非失败。
+另需 `python -m playwright install chromium`（本机有 Edge/Chrome 时会自动回退复用）。
+未安装时整体跳过而非失败。
 """
 from __future__ import print_function
 
@@ -34,6 +35,17 @@ except ImportError:  # pragma: no cover - 环境未装时优雅跳过
 class _QuietHandler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, *args):
         pass  # 静音访问日志，否则测试输出被刷屏
+
+
+def _launch_browser(playwright):
+    """优先启动 Playwright 内置 chromium；若本机未下载对应版本，回退复用系统 msedge / chrome。"""
+    last_error = None
+    for kwargs in ({}, {"channel": "msedge"}, {"channel": "chrome"}):
+        try:
+            return playwright.chromium.launch(headless=True, **kwargs)
+        except Exception as error:
+            last_error = error
+    raise RuntimeError(str(last_error))
 
 
 class SiteSmokeTests(unittest.TestCase):
@@ -59,7 +71,7 @@ class SiteSmokeTests(unittest.TestCase):
 
         cls.playwright = sync_playwright().start()
         try:
-            cls.browser = cls.playwright.chromium.launch(headless=True)
+            cls.browser = _launch_browser(cls.playwright)
         except Exception as error:  # 内核没下载时给出可操作的提示
             cls.playwright.stop()
             cls.server.shutdown()
@@ -81,13 +93,13 @@ class SiteSmokeTests(unittest.TestCase):
     def url(self, path="/index.html"):
         return "http://127.0.0.1:%d%s" % (self.port, path)
 
-    def open_home(self, **context_kwargs):
+    def open_home(self, path="/index.html", **context_kwargs):
         """打开首页并等到列表渲染完成，返回 (context, page)。"""
         context = self.browser.new_context(**context_kwargs)
         page = context.new_page()
         self.errors = []
         page.on("pageerror", lambda e: self.errors.append(str(e)))
-        page.goto(self.url(), wait_until="networkidle")
+        page.goto(self.url(path), wait_until="networkidle")
         page.wait_for_selector(".card", timeout=10000)
         return context, page
 
@@ -103,7 +115,7 @@ class SiteSmokeTests(unittest.TestCase):
         finally:
             context.close()
 
-    # 2. 搜索能命中对应赛事
+    # 2. 搜索能命中对应赛事，并同步 URL 参数
     def test_search_narrows_results_to_matching_competition(self):
         context, page = self.open_home()
         try:
@@ -117,6 +129,7 @@ class SiteSmokeTests(unittest.TestCase):
             self.assertGreater(cards.count(), 0, "搜索「蓝桥」应有结果")
             for i in range(cards.count()):
                 self.assertIn("蓝桥", cards.nth(i).inner_text())
+            self.assertIn("q=", page.url)
         finally:
             context.close()
 
@@ -197,6 +210,22 @@ class SiteSmokeTests(unittest.TestCase):
                 theme,
                 "刷新后主题没有保留",
             )
+        finally:
+            context.close()
+
+    # 7. URL 查询参数可直接初始化搜索与芯片筛选
+    def test_url_query_params_initialize_filters(self):
+        context, page = self.open_home(path="/index.html?q=%E8%93%9D%E6%A1%A5&chip=%E5%85%A8%E5%9B%BD")
+        try:
+            self.assertEqual(page.input_value("#search-input"), "蓝桥")
+            self.assertEqual(
+                page.get_attribute(".chip[data-quick='全国']", "aria-pressed"),
+                "true",
+            )
+            cards = page.locator(".card")
+            self.assertGreater(cards.count(), 0)
+            for i in range(cards.count()):
+                self.assertIn("蓝桥", cards.nth(i).inner_text())
         finally:
             context.close()
 

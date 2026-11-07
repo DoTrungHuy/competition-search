@@ -1,0 +1,14 @@
+[Unit]
+Description=Competition Search Weekly Data Sync & Static Publish
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=www-data
+WorkingDirectory=/opt/competition-search
+Environment="TZ=Asia/Shanghai"
+EnvironmentFile=-/etc/competition-search.env
+ExecStart=/bin/bash /opt/competition-search/deploy/ecs/ecs_sync.sh
+StandardOutput=journal
+StandardError=journal
