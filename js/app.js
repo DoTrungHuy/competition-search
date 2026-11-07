@@ -305,6 +305,7 @@
     var query = state.query.trim().toLowerCase();
     var list = state.items.map(enrich).filter(function (item) {
       if (item.active === false) return false;
+      if (item._status === "已结束" || item._status === "报名结束") return false;
       if (
         window.CompStatus.withinTwoYears &&
         !window.CompStatus.withinTwoYears(item)

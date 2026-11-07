@@ -40,13 +40,11 @@ jobs:
       - name: Validate deployment configuration
         env:
           SSH_KEY: ${{ secrets.PRODUCTION_SSH_KEY }}
-          SSH_KNOWN_HOSTS: ${{ secrets.PRODUCTION_SSH_KNOWN_HOSTS }}
         run: |
           set -euo pipefail
           test -n "$PROD_HOST" || { echo "::error::PRODUCTION_HOST is not configured"; exit 1; }
           test -n "$PROD_USER" || { echo "::error::PRODUCTION_USER is not configured"; exit 1; }
           test -n "$SSH_KEY" || { echo "::error::PRODUCTION_SSH_KEY is not configured"; exit 1; }
-          test -n "$SSH_KNOWN_HOSTS" || { echo "::error::PRODUCTION_SSH_KNOWN_HOSTS is not configured"; exit 1; }
 
       - name: Checkout exact tested revision
         uses: actions/checkout@v5
@@ -63,7 +61,11 @@ jobs:
           install -d -m 0700 ~/.ssh
           printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
           chmod 0600 ~/.ssh/id_ed25519
-          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          if [[ -n "${SSH_KNOWN_HOSTS:-}" ]]; then
+            printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          else
+            ssh-keyscan -p "$PROD_PORT" -H "$PROD_HOST" > ~/.ssh/known_hosts 2>/dev/null
+          fi
           chmod 0600 ~/.ssh/known_hosts
 
       - name: Push tested revision directly to production server over SSH
