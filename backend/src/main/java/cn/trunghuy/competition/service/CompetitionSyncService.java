@@ -43,7 +43,20 @@ public class CompetitionSyncService {
                 .filter(item -> !manuallyReviewedIds.contains(item.getId()))
                 .toList();
 
+        Set<String> incomingIds = new HashSet<>();
+        competitions.forEach(item -> incomingIds.add(item.getId()));
+
+        List<Competition> staleEstimates = competitionRepository.findAll().stream()
+                .filter(existing -> existing.getId() != null && existing.getId().startsWith("estimate-"))
+                .filter(existing -> !incomingIds.contains(existing.getId()))
+                .filter(existing -> Boolean.TRUE.equals(existing.getActive()))
+                .peek(existing -> existing.setActive(false))
+                .toList();
+
         competitionRepository.saveAll(automaticUpdates);
+        if (!staleEstimates.isEmpty()) {
+            competitionRepository.saveAll(staleEstimates);
+        }
         competitionRepository.flush();
         return automaticUpdates.size();
     }

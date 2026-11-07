@@ -132,6 +132,47 @@ def parse_english_range(text):
     return None, None
 
 
+def _fmt_ymd(year, month, day):
+    try:
+        return date(int(year), int(month), int(day)).isoformat()
+    except ValueError:
+        return None
+
+
+def parse_chinese_schedule(text, published_at=None):
+    """从校内通知等中文正文中提取报名起止与比赛日期（如 2026年10月22日）。"""
+    if not text:
+        return None
+    raw = re.sub(r"(?<=\d)\s+(?=\d)", "", str(text))
+    # 1) 报名区间：YYYY年M月D日 至/—/- (YYYY年)?M月D日
+    reg_range = re.search(
+        r"报名[^。；\n]{0,30}?(20\d{2})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日"
+        r"[^。；\n]{0,15}?(?:至|到|—|–|-|~|～)\s*(?:(20\d{2})\s*年\s*)?(\d{1,2})\s*月\s*(\d{1,2})\s*日",
+        raw,
+    )
+    if reg_range:
+        y1, m1, d1, y2, m2, d2 = reg_range.groups()
+        rs = _fmt_ymd(y1, m1, d1)
+        re_date = _fmt_ymd(y2 or y1, m2, d2)
+        if rs and re_date and rs <= re_date:
+            return {"registration_start": rs, "registration_end": re_date}
+
+    # 2) 即日起至 / 报名截止：YYYY年M月D日
+    reg_end_match = re.search(
+        r"(?:报名[^。；\n]{0,25}?(?:截止|截至)|即日起至|请于)\s*(20\d{2})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日",
+        raw,
+    )
+    if reg_end_match:
+        re_date = _fmt_ymd(*reg_end_match.groups())
+        rs = normalize_iso(published_at)
+        if re_date:
+            payload = {"registration_end": re_date}
+            if rs and rs <= re_date:
+                payload["registration_start"] = rs
+            return payload
+    return None
+
+
 def empty_schedule():
     return {
         "registration_start": None,
@@ -214,6 +255,12 @@ def schedule_from_source_record(record):
             return cleaned
 
     for text in texts:
+        zh_payload = parse_chinese_schedule(text, record.get("published_at"))
+        if zh_payload:
+            cleaned = clean_schedule(zh_payload, "source", "high")
+            if has_usable_schedule(cleaned):
+                return cleaned
+
         start, end = parse_english_range(text)
         if start or end:
             # 区间文本优先当报名/提交窗口；仅单点则同时记截止

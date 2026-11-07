@@ -126,6 +126,12 @@ jobs:
         continue-on-error: true
         run: python scripts/fetch_mlh.py
 
+      - name: Collect Tianchi drafts
+        id: collect_tianchi
+        if: steps.weekly_guard.outputs.should_run == 'true'
+        continue-on-error: true
+        run: python scripts/fetch_tianchi.py
+
       # Kaggle 可选：未配置 KAGGLE_USERNAME/KAGGLE_KEY 时脚本自动跳过。
       - name: Collect Kaggle drafts
         id: collect_kaggle

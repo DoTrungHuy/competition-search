@@ -17,12 +17,16 @@ fi
 
 cd "${REPO_DIR}"
 
+# 始终对齐远端 main，避免本机 --no-push 残留提交与 GitHub Actions 产生 rebase 冲突
+git fetch origin main
+git reset --hard origin/main
+
 PYTHON_BIN="${REPO_DIR}/.venv/bin/python"
 if [[ ! -x "${PYTHON_BIN}" ]]; then
   PYTHON_BIN="python3"
 fi
 
-"${PYTHON_BIN}" scripts/run_local_sync.py --skip tianchi,kaggle --no-push "$@"
+"${PYTHON_BIN}" scripts/run_local_sync.py --skip kaggle --no-pull --no-push "$@"
 
 API_BASE="http://127.0.0.1:${API_PORT:-8088}"
 if [[ -n "${SYNC_TOKEN:-}" ]]; then
