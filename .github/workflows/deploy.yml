@@ -52,7 +52,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           ref: ${{ env.DEPLOY_SHA }}
-          fetch-depth: 1
+          fetch-depth: 0
 
       - name: Configure SSH
         env:
@@ -66,6 +66,12 @@ jobs:
           printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
           chmod 0600 ~/.ssh/known_hosts
 
+      - name: Push tested revision directly to production server over SSH
+        run: |
+          set -euo pipefail
+          GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519 -p $PROD_PORT -o BatchMode=yes -o StrictHostKeyChecking=yes" \
+            git push --force "ssh://$PROD_USER@$PROD_HOST:$PROD_PORT$PROD_APP_DIR" "$DEPLOY_SHA:refs/remotes/origin/main"
+
       - name: Deploy on production server
         run: |
           set -euo pipefail
@@ -74,6 +80,7 @@ jobs:
             -p "$PROD_PORT" \
             -o BatchMode=yes \
             -o StrictHostKeyChecking=yes \
+            -o ServerAliveInterval=15 \
             "$PROD_USER@$PROD_HOST" \
             "bash -s -- '$DEPLOY_SHA' '$PROD_APP_DIR'" \
             < deploy/remote-deploy.sh

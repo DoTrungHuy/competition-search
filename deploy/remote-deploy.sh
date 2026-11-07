@@ -44,8 +44,15 @@ rollback() {
 }
 trap rollback EXIT
 
-echo "[deploy] fetching revision $DEPLOY_SHA"
-git fetch --prune origin main
+if ! git cat-file -e "${DEPLOY_SHA}^{commit}" 2>/dev/null; then
+  echo "[deploy] fetching revision $DEPLOY_SHA"
+  for retry in 1 2 3; do
+    if git fetch --prune origin main; then
+      break
+    fi
+    sleep 3
+  done
+fi
 git cat-file -e "${DEPLOY_SHA}^{commit}"
 
 if "${COMPOSE[@]}" ps --status running --services 2>/dev/null | grep -qx db; then
