@@ -17,8 +17,9 @@ cd "$APP_DIR"
 
 test -d .git || { echo "$APP_DIR is not a Git repository" >&2; exit 1; }
 test -f .env || { echo "$APP_DIR/.env is missing" >&2; exit 1; }
-test -s deploy/certs/origin.pem || { echo "deploy/certs/origin.pem is missing" >&2; exit 1; }
-test -s deploy/certs/origin.key || { echo "deploy/certs/origin.key is missing" >&2; exit 1; }
+
+API_PORT="$(grep -E '^API_PORT=' .env | tail -n 1 | cut -d= -f2- | tr -d '[:space:]\"'\''' || true)"
+API_PORT="${API_PORT:-8088}"
 
 if ! git diff --quiet || ! git diff --cached --quiet; then
   echo "Tracked production files have local changes; refusing to deploy." >&2
@@ -84,10 +85,11 @@ done
 echo "[deploy] validating nginx configuration"
 "${COMPOSE[@]}" exec -T nginx nginx -t
 
-echo "[deploy] checking HTTPS through local nginx"
-health="$(curl --insecure --fail --silent --show-error \
-  --resolve api.cs-contest.cn:443:127.0.0.1 \
-  https://api.cs-contest.cn/actuator/health)"
+echo "[deploy] checking health through local nginx on 127.0.0.1:${API_PORT}"
+health="$(curl --fail --silent --show-error \
+  -H "Host: api.cs-contest.cn" \
+  -H "X-Forwarded-Proto: https" \
+  "http://127.0.0.1:${API_PORT}/actuator/health")"
 printf '%s\n' "$health"
 printf '%s' "$health" | grep -q '"status":"UP"'
 
