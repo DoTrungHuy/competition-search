@@ -104,7 +104,7 @@ def project_window(template, today):
         return None
 
     # Base year from the later of start/end
-    base = re or rs
+    base = rs or re
     year = base.year + 1
     # Keep advancing until the window is not entirely in the past
     for _ in range(0, 6):
