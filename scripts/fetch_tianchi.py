@@ -21,17 +21,61 @@ import re
 import sys
 from datetime import datetime
 
+import json
+import requests
 from draft_common import ROOT, categorize, load_production, save_draft, stable_id
 from platform_text import description_for, eligibility_for
 
 
 DEFAULT_OUT = os.path.join(ROOT, "scripts", "out", "draft_tianchi.json")
 ACTIVE_URL = "https://tianchi.aliyun.com/competition/activeList"
+API_URL = "https://tianchi.aliyun.com/competition/proxy/api/competition/api/race/listBrief"
 ENTRANCE_RE = re.compile(r"/competition/entrance/(\d+)")
 USER_AGENT = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"
 )
+
+
+def collect_via_api(timeout_ms=25000, max_pages=5):
+    """优先调用天池公开 JSON 接口获取进行中竞赛及起止日期（免 Playwright）。"""
+    events = {}
+    timeout_sec = max(5, int(timeout_ms / 1000))
+    for page_num in range(1, max_pages + 1):
+        resp = requests.get(
+            API_URL,
+            params={"pageNum": page_num, "pageSize": 20, "state": 1},
+            headers={"User-Agent": USER_AGENT, "Accept": "application/json"},
+            timeout=timeout_sec,
+        )
+        resp.raise_for_status()
+        payload = resp.json()
+        race_list = (payload.get("data") or {}).get("list") or []
+        if not race_list:
+            break
+        for item in race_list:
+            cid = str(item.get("raceId") or "").strip()
+            name = str(item.get("raceName") or "").strip()
+            if not cid or not name or cid in events:
+                continue
+            start_raw = str(item.get("currentSeasonStart") or "")[:10]
+            end_raw = str(item.get("currentSeasonEnd") or "")[:10]
+            brief = " ".join(str(item.get("brief") or "").split())
+            events[cid] = {
+                "id": cid,
+                "name": name,
+                "link": "https://tianchi.aliyun.com/competition/entrance/%s/introduction"
+                % cid,
+                "registration_start": start_raw if re.match(r"^\d{4}-\d{2}-\d{2}$", start_raw) else None,
+                "registration_end": end_raw if re.match(r"^\d{4}-\d{2}-\d{2}$", end_raw) else None,
+                "competition_start": start_raw if re.match(r"^\d{4}-\d{2}-\d{2}$", start_raw) else None,
+                "competition_end": end_raw if re.match(r"^\d{4}-\d{2}-\d{2}$", end_raw) else None,
+                "brief": brief[:240] if brief else None,
+            }
+        total = (payload.get("data") or {}).get("total") or 0
+        if page_num * 20 >= total:
+            break
+    return list(events.values())
 
 
 def collect(url, headed, timeout_ms, scrolls, wait_ms):
@@ -96,13 +140,21 @@ def to_draft_record(event):
         "source_list": "tianchi",
         "source_list_name": "阿里云天池",
     }
+    for field in (
+        "registration_start",
+        "registration_end",
+        "competition_start",
+        "competition_end",
+    ):
+        if event.get(field):
+            record[field] = event[field]
     record["eligibility"] = eligibility_for(record, "tianchi")
-    record["description"] = description_for(record, "tianchi")
+    record["description"] = event.get("brief") or description_for(record, "tianchi")
     return record
 
 
 def main():
-    parser = argparse.ArgumentParser(description="用 Playwright 抓取天池竞赛草稿")
+    parser = argparse.ArgumentParser(description="抓取天池竞赛草稿（优先公开 JSON API，回退 Playwright）")
     parser.add_argument("--out", default=DEFAULT_OUT, help="输出草稿 JSON 路径")
     parser.add_argument("--url", default=ACTIVE_URL, help="列表页地址")
     parser.add_argument("--headed", action="store_true", help="显示浏览器（调试/过反爬）")
@@ -114,13 +166,15 @@ def main():
     errors = []
     accepted = []
     try:
-        events = collect(args.url, args.headed, args.timeout, args.scrolls, args.wait)
+        events = collect_via_api(timeout_ms=args.timeout)
+        if not events:
+            events = collect(args.url, args.headed, args.timeout, args.scrolls, args.wait)
         print("抽到 %d 个竞赛" % len(events))
         accepted = [to_draft_record(event) for event in events]
     except RuntimeError as error:
         print("失败: %s" % error, file=sys.stderr)
         errors.append(str(error))
-    except Exception as error:  # Playwright 超时/反爬等运行期错误
+    except Exception as error:  # API / Playwright 超时或反爬错误
         message = "%s -> %s" % (args.url, error)
         print("失败: %s" % message, file=sys.stderr)
         errors.append(message)

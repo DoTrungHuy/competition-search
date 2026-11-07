@@ -152,11 +152,19 @@ def brand_has_actionable_official(items, today):
             continue
         if str(c.get("id", "")).startswith("estimate-"):
             continue
+        if c.get("status_override") in ("已结束", "已停办", "报名结束"):
+            continue
         rs = parse(c.get("registration_start"))
         re = parse(c.get("registration_end"))
+        cs = parse(c.get("competition_start"))
+        ce = parse(c.get("competition_end"))
         if rs and rs > today:
             return True
         if re and re >= today and (not rs or rs <= today):
+            return True
+        if cs and cs >= today:
+            return True
+        if ce and ce >= today:
             return True
     return False
 
@@ -221,6 +229,14 @@ def main():
         bid = brand["brand_id"]
         items = by_brand.get(bid) or []
         if brand_has_actionable_official(items, today):
+            comps = [
+                c
+                for c in comps
+                if not (
+                    c.get("brand_id") == bid
+                    and str(c.get("id", "")).startswith("estimate-")
+                )
+            ]
             skipped.append((bid, "has_official_actionable"))
             continue
         template = latest_reg_template(items)

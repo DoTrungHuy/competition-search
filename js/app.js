@@ -191,6 +191,9 @@
     if (status === "已结束" && item.competition_end) {
       return "比赛结束 " + item.competition_end;
     }
+    if (status === "报名中" && schedule.estimated && re) {
+      return "预计报名截止 " + re;
+    }
     if (rs && re) {
       return prefix + "报名 " + rs + " 至 " + re;
     }
@@ -305,7 +308,12 @@
     var query = state.query.trim().toLowerCase();
     var list = state.items.map(enrich).filter(function (item) {
       if (item.active === false) return false;
-      if (!query && (item._status === "已结束" || item._status === "报名结束")) {
+      if (
+        !query &&
+        (item._status === "已结束" ||
+          item._status === "报名结束" ||
+          item._status === "待复核")
+      ) {
         return false;
       }
       if (
@@ -768,7 +776,10 @@
       window.clearTimeout(searchTimer);
       searchTimer = window.setTimeout(function () {
         state.query = value;
-        if (value.trim() && state.quick) {
+        if (
+          value.trim() &&
+          (state.quick === "报名中" || state.quick === "进行中")
+        ) {
           state.quick = "";
           syncChips();
         }

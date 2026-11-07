@@ -603,8 +603,9 @@
       "track_id": "main",
       "published_at": "2026-03-24",
       "competition_start": "2026-09-10",
-      "last_checked": "2026-07-24",
-      "needs_review": false
+      "last_checked": "2026-11-07",
+      "needs_review": false,
+      "competition_end": "2026-09-13"
     },
     {
       "id": "mcm-icm-2025",
@@ -1134,7 +1135,9 @@
       "status_override": "进行中",
       "last_checked": "2026-07-24",
       "needs_review": false,
-      "status_override_until": "2026-12-31"
+      "competition_end": "2026-08-20",
+      "status_override_until": "2026-08-20",
+      "competition_start": "2026-05-01"
     },
     {
       "id": "ciscn-2026-innovation",
@@ -1161,7 +1164,9 @@
       "status_override": "进行中",
       "last_checked": "2026-07-24",
       "needs_review": false,
-      "status_override_until": "2026-12-31"
+      "competition_end": "2026-08-20",
+      "status_override_until": "2026-08-20",
+      "competition_start": "2026-05-01"
     },
     {
       "id": "devpost-unknown-726498b9f6ea",
@@ -1871,18 +1876,22 @@
       "name": "【科创竞赛】关于我校学生参加2026年第十八届全国高校大学生数学竞赛的通知",
       "info_channel": "校内官网",
       "published_at": "2026-06-30",
-      "eligibility": "「【科创竞赛】关于我校学生参加2026年第十八届全国高校大学生数学竞赛的通知」规则以官方原文为准",
+      "eligibility": "南京邮电大学全日制在校本科生（分数学专业组与非数学专业组）",
       "description": "学校网站通知，赛事主办与规则以通知和赛事官网为准。",
       "has_campus_notice": true,
       "brand_id": "national_college_math_contest",
       "kind": "全国赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
+      "needs_review": false,
+      "last_checked": "2026-11-07",
       "link": "https://cxcy.njupt.edu.cn/2026/0630/c11336a305576/page.htm",
       "tags": [
         "校认定"
-      ]
+      ],
+      "registration_start": "2026-06-30",
+      "registration_end": "2026-09-30",
+      "competition_start": "2026-11-07",
+      "competition_end": "2026-11-07"
     },
     {
       "id": "campus-20260514-123ad6acb1ca",
@@ -1891,18 +1900,22 @@
       "name": "【科创竞赛】2026年“学创杯”全国大学生创业综合模拟大赛校内报名通知",
       "info_channel": "校内官网",
       "published_at": "2026-05-14",
-      "eligibility": "「【科创竞赛】2026年“学创杯”全国大学生创业综合模拟大赛校内报名通知」规则以官方原文为准",
+      "eligibility": "南京邮电大学全日制在校大学生；每队3人跨专业组队",
       "description": "学校网站通知，赛事主办与规则以通知和赛事官网为准。",
       "has_campus_notice": true,
       "brand_id": "xuechuangbei",
       "kind": "全国赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
+      "needs_review": false,
+      "last_checked": "2026-11-07",
       "link": "https://cxcy.njupt.edu.cn/2026/0514/c11336a301863/page.htm",
       "tags": [
         "校认定"
-      ]
+      ],
+      "registration_start": "2026-05-14",
+      "registration_end": "2026-05-30",
+      "competition_start": "2026-06-01",
+      "competition_end": "2026-06-15"
     },
     {
       "id": "campus-20260506-be1fd4a127e0",
@@ -1911,18 +1924,22 @@
       "name": "【科创竞赛】关于举办“2026年南京邮电大学iCAN创新大赛”的通知",
       "info_channel": "校内官网",
       "published_at": "2026-05-06",
-      "eligibility": "「【科创竞赛】关于举办“2026年南京邮电大学iCAN创新大赛”的通知」规则以官方原文为准",
+      "eligibility": "在校本科、专科、研究生；2-5人团队参赛",
       "description": "学校网站通知，赛事主办与规则以通知和赛事官网为准。",
       "has_campus_notice": true,
       "brand_id": "ican",
       "kind": "全国赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
+      "needs_review": false,
+      "last_checked": "2026-11-07",
       "link": "https://cxcy.njupt.edu.cn/2026/0506/c11336a301334/page.htm",
       "tags": [
         "校认定"
-      ]
+      ],
+      "registration_start": "2026-05-06",
+      "registration_end": "2026-09-10",
+      "competition_start": "2026-09-15",
+      "competition_end": "2026-09-15"
     },
     {
       "id": "campus-20260423-ce71ea70a2e7",
@@ -1931,18 +1948,22 @@
       "name": "【科创竞赛】关于举办2026年“全国大学生物联网设计竞赛”校内选拔赛的通知",
       "info_channel": "校内官网",
       "published_at": "2026-04-23",
-      "eligibility": "「【科创竞赛】关于举办2026年“全国大学生物联网设计竞赛”校内选拔赛的通知」规则以官方原文为准",
+      "eligibility": "在校本科生和研究生；2-4人组队参赛",
       "description": "学校网站通知，赛事主办与规则以通知和赛事官网为准。",
       "has_campus_notice": true,
       "brand_id": "iot",
       "kind": "全国赛事",
       "active": true,
-      "needs_review": true,
-      "last_checked": null,
+      "needs_review": false,
+      "last_checked": "2026-11-07",
       "link": "https://cxcy.njupt.edu.cn/2026/0423/c11336a300638/page.htm",
       "tags": [
         "校认定"
-      ]
+      ],
+      "registration_start": "2026-04-23",
+      "registration_end": "2026-06-15",
+      "competition_start": "2026-06-16",
+      "competition_end": "2026-08-25"
     },
     {
       "id": "mlh-unknown-105357d34033",
@@ -3410,13 +3431,17 @@
       "published_at": "2026-06-26",
       "description": "学校网站通知，赛事主办与规则以通知和赛事官网为准。",
       "has_campus_notice": true,
-      "brand_id": "njupt_engineering_practice",
+      "brand_id": "gjjn",
       "kind": "全国赛事",
       "active": true,
       "link": "https://cxcy.njupt.edu.cn/2026/0626/c11336a305509/page.htm",
-      "eligibility": "「【科创竞赛】关于举办2026年南京邮电大学工程实践与创新能力竞赛暨2027年江苏省大学生工程实践与创新能力大赛选拔赛的通知」规则以官方原文为准",
-      "needs_review": true,
-      "last_checked": null
+      "eligibility": "南京邮电大学全日制在校大学生；每组4人",
+      "needs_review": false,
+      "last_checked": "2026-11-07",
+      "registration_start": "2026-06-26",
+      "registration_end": "2026-10-08",
+      "competition_start": "2026-11-01",
+      "competition_end": "2026-11-30"
     },
     {
       "id": "campus-20260518-daffb8790b0b",
@@ -3431,9 +3456,13 @@
       "kind": "校级赛事",
       "active": true,
       "link": "https://cxcy.njupt.edu.cn/2026/0518/c11336a302076/page.htm",
-      "eligibility": "「【科创竞赛】关于开展2026年第20届教育部“西门子杯”中国智能制造挑战赛 南京邮电大学校内选拔赛的通知」规则以官方原文为准",
-      "needs_review": true,
-      "last_checked": null
+      "eligibility": "在校全日制本科生及研究生；1-3人组队参赛",
+      "needs_review": false,
+      "last_checked": "2026-11-07",
+      "registration_start": "2026-05-18",
+      "registration_end": "2026-05-31",
+      "competition_start": "2026-06-01",
+      "competition_end": "2026-06-30"
     },
     {
       "id": "devpost-unknown-053df1e4e952",
@@ -8443,33 +8472,539 @@
       "last_checked": null
     },
     {
-      "id": "estimate-lanqiao-2026",
+      "id": "lanqiao-18",
       "brand_id": "lanqiao",
-      "edition": "2026",
-      "track_id": "estimate-main",
-      "name": "蓝桥杯（2026 预计报名）",
+      "edition": "18",
+      "track_id": "main",
+      "name": "第十八届蓝桥杯全国软件和信息技术专业人才大赛",
+      "category": [
+        "算法",
+        "软件开发",
+        "人工智能",
+        "电子"
+      ],
+      "level": "国家级",
       "kind": "全国赛事",
       "info_channel": "官方渠道",
-      "description": "校认定固定清单。报名日为据往年已核验记录推算的预计时间，不构成官方通知；不提供本届报名深链（避免失效/伪造链接），请从赛事品牌官网与校内通知自行核对。",
-      "eligibility": "高校在校生；个人赛为主",
+      "organizer": "工业和信息化部人才交流中心",
+      "link": "https://dasai.lanqiao.cn/pages/v7/dasai/competition/Newindividual_competition.html",
+      "description": "第十八届蓝桥杯大赛涵盖软件赛（C/C++、Java、Python、Web应用开发等）、电子赛、人工智能赛及专项赛，省赛预计2027年4月举办，全国总决赛预计2027年6月举办。",
+      "eligibility": "普通高校全日制在校本科生、研究生及高职高专学生；个人赛为主",
+      "tags": [
+        "校认定",
+        "C++",
+        "Java",
+        "Python",
+        "电子"
+      ],
+      "has_campus_notice": true,
+      "active": true,
+      "registration_start": "2026-10-08",
+      "registration_end": "2026-12-18",
+      "competition_start": "2027-04-10",
+      "competition_end": "2027-06-15",
+      "last_checked": "2026-11-07",
+      "needs_review": false
+    },
+    {
+      "id": "huawei-ict-2026-2027",
+      "brand_id": "huawei_ict",
+      "edition": "2026-2027",
+      "track_id": "main",
+      "name": "第十一届华为 ICT 大赛（2026-2027赛季中国区）",
+      "category": [
+        "网络与安全",
+        "云计算",
+        "人工智能",
+        "综合"
+      ],
+      "level": "国家级",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "organizer": "华为技术有限公司",
+      "link": "https://e.huawei.com/cn/talent/ict-academy/#/ict-contest",
+      "description": "第十一届华为ICT大赛中国区涵盖实践赛、创新赛、编程赛（仓颉编程赛）、挑战赛等赛道，省赛与全国总决赛分阶段推进。",
+      "eligibility": "全国普通高校全日制在校大学生；按赛道要求1-3人组队或个人参赛",
+      "tags": [
+        "校认定",
+        "华为",
+        "ICT",
+        "AI",
+        "云计算"
+      ],
+      "has_campus_notice": false,
+      "active": true,
+      "registration_start": "2026-08-31",
+      "registration_end": "2026-11-30",
+      "competition_start": "2026-11-15",
+      "competition_end": "2027-05-31",
+      "last_checked": "2026-11-07",
+      "needs_review": false
+    },
+    {
+      "id": "fwwb-18",
+      "brand_id": "service_outsourcing",
+      "edition": "18",
+      "track_id": "main",
+      "name": "第十八届中国大学生服务外包创新创业大赛",
+      "category": [
+        "软件开发",
+        "人工智能",
+        "创业",
+        "综合"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "教育部、商务部、无锡市人民政府",
+      "link": "http://www.fwwb.org.cn/index.html",
+      "description": "第十八届服创大赛分为企业命题类（A类）、创业实践类（B类）、创响无锡类（C类）等赛道，聚焦信息技术与现代服务产业创新。",
+      "eligibility": "全国高校全日制在校本科生、研究生；每队不超过5人",
+      "tags": [
+        "校认定",
+        "服务外包",
+        "软件",
+        "创业"
+      ],
+      "has_campus_notice": false,
+      "active": true,
+      "registration_start": "2026-10-26",
+      "registration_end": "2027-03-25",
+      "competition_start": "2027-04-01",
+      "competition_end": "2027-08-20",
+      "last_checked": "2026-11-07",
+      "needs_review": false
+    },
+    {
+      "id": "datang-cup-14",
+      "brand_id": "datang_cup",
+      "edition": "14",
+      "track_id": "main",
+      "name": "第十四届“大唐杯”全国大学生新一代信息通信技术大赛",
+      "category": [
+        "通信与网络",
+        "硬件与物联网",
+        "人工智能"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "中国通信学会、中信科移动通信技术股份有限公司",
+      "link": "https://dtcup.dtxiaotangren.com/home",
+      "description": "第十四届大唐杯聚焦5G-A/6G信息通信工程实践、ICT产教融合及智能网联创新设计，设省赛与全国总决赛。",
+      "eligibility": "普通高校全日制在校本科生、研究生；单人或2人组队参赛",
+      "tags": [
+        "校认定",
+        "5G",
+        "通信",
+        "信息科技"
+      ],
+      "has_campus_notice": false,
+      "active": true,
+      "registration_start": "2026-11-01",
+      "registration_end": "2027-03-31",
+      "competition_start": "2027-04-10",
+      "competition_end": "2027-07-20",
+      "last_checked": "2026-11-07",
+      "needs_review": false
+    },
+    {
+      "id": "3d-innovation-19",
+      "brand_id": "3d_innovation",
+      "edition": "19",
+      "track_id": "elite-league",
+      "name": "第19届全国三维数字化创新设计大赛（2026-2027精英联赛）",
+      "category": [
+        "数字媒体与设计",
+        "智能制造",
+        "机器人"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "全国三维数字化创新设计大赛组委会",
+      "link": "https://3dshow.3ddl.net/",
+      "description": "全国3D大赛包含数字工业设计、数字人居设计、数字文化设计及元宇宙/AI创新设计等方向。",
+      "eligibility": "普通高校全日制在校大学生；2-5人团队参赛",
+      "tags": [
+        "校认定",
+        "3D设计",
+        "数字化",
+        "智能制造"
+      ],
+      "has_campus_notice": false,
+      "active": true,
+      "registration_start": "2026-09-01",
+      "registration_end": "2027-04-15",
+      "competition_start": "2027-04-16",
+      "competition_end": "2027-07-31",
+      "last_checked": "2026-11-07",
+      "needs_review": false
+    },
+    {
+      "id": "robomaster-2027",
+      "brand_id": "robomaster",
+      "edition": "2027",
+      "track_id": "rmuc",
+      "name": "RoboMaster 2027 机甲大师高校系列赛",
+      "category": [
+        "机器人",
+        "嵌入式与硬件",
+        "人工智能"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "中国光华科技基金会、深圳市大疆创新科技有限公司",
+      "link": "https://www.robomaster.com/zh-CN/robo/rmuc",
+      "description": "RoboMaster 2027赛季包含超级对抗赛（RMUC）与高校联盟赛（RMUL），融合机器视觉、嵌入式系统与机械控制研发。",
+      "eligibility": "全日制高等院校在校学生；以学校战队为单位报名参赛",
+      "tags": [
+        "校认定",
+        "机器人",
+        "大疆",
+        "视觉算法"
+      ],
+      "has_campus_notice": false,
+      "active": true,
+      "registration_start": "2026-10-20",
+      "registration_end": "2026-10-30",
+      "competition_start": "2027-03-15",
+      "competition_end": "2027-08-10",
+      "last_checked": "2026-11-07",
+      "needs_review": false
+    },
+    {
+      "id": "gaia-ai-8",
+      "brand_id": "gaia_ai",
+      "edition": "8",
+      "track_id": "main",
+      "name": "第八届全球校园人工智能算法精英大赛",
+      "category": [
+        "人工智能",
+        "算法",
+        "机器人"
+      ],
+      "level": "国家级",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "organizer": "江苏省人工智能学会、全球校园人工智能算法精英大赛组委会",
+      "link": "https://www.aicomp.cn/",
+      "description": "涵盖算法挑战赛、算法精英赛、算法创新赛、算法应用赛及产业命题赛，全国总决赛于2026年11月举行。",
+      "eligibility": "全球高等院校在校本硕博学生；每队1-3人",
+      "tags": [
+        "校认定",
+        "人工智能",
+        "算法精英"
+      ],
+      "has_campus_notice": true,
+      "active": true,
+      "registration_start": "2026-04-28",
+      "registration_end": "2026-10-15",
+      "competition_start": "2026-11-01",
+      "competition_end": "2026-11-30",
+      "last_checked": "2026-11-07",
+      "needs_review": false
+    },
+    {
+      "id": "tianchi-unknown-8a1c5df53e7c",
+      "brand_id": "tianchi",
+      "edition": "2026",
+      "track_id": "tianchi-532536",
+      "name": "2026 Qoder 高校创造力大赛",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "organizer": "阿里云天池",
+      "link": "https://tianchi.aliyun.com/competition/entrance/532536/introduction",
+      "registration_start": "2026-10-29",
+      "registration_end": "2026-12-15",
+      "competition_start": "2026-10-29",
+      "competition_end": "2026-12-15",
       "active": true,
       "needs_review": false,
       "last_checked": "2026-11-07",
-      "registration_start_estimated": "2026-10-20",
-      "registration_end_estimated": "2027-03-11",
-      "schedule_source": "estimated",
-      "estimate_note": "据 17 届报名窗口推算；入口为品牌官网，非本届报名页",
-      "estimate_basis_id": "lanqiao-17",
-      "link_kind": "brand_home",
-      "tags": [
-        "校认定",
-        "固定清单",
-        "预计"
-      ],
       "category": [
+        "人工智能",
         "算法",
-        "软件开发"
-      ]
+        "数据科学"
+      ],
+      "tags": [
+        "天池",
+        "AI",
+        "算法挑战"
+      ],
+      "eligibility": "天池「2026 Qoder 高校创造力大赛」；对象与规则见赛题页",
+      "description": "2026 Qoder 高校创造力大赛面向全国在校大学生（含港澳台本科生与硕博研究生），不限专业。参赛者用 Qoder 完成一个完整项目，部署到 Qoder Sites 并开放公开访问，于 11 月 30 日 18:00 前在天池赛题页论坛发布作品帖。 大赛设 StudyHack 学习科研、LifeHack 生活娱乐、Hack4Good 技术向善三个赛道，分别评分、分别设奖，选手任选其一：StudyHack 征集科研与学习场景的各类应用；"
+    },
+    {
+      "id": "tianchi-unknown-eb52216e328f",
+      "brand_id": "tianchi",
+      "edition": "2026",
+      "track_id": "tianchi-532514",
+      "name": "蚂蚁灵波具身大模型挑战赛",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "organizer": "阿里云天池",
+      "link": "https://tianchi.aliyun.com/competition/entrance/532514/introduction",
+      "registration_start": "2026-09-11",
+      "registration_end": "2026-11-16",
+      "competition_start": "2026-09-11",
+      "competition_end": "2026-11-16",
+      "active": true,
+      "needs_review": false,
+      "last_checked": "2026-11-07",
+      "category": [
+        "人工智能",
+        "算法",
+        "数据科学"
+      ],
+      "tags": [
+        "天池",
+        "AI",
+        "算法挑战"
+      ],
+      "eligibility": "天池「蚂蚁灵波具身大模型挑战赛」；对象与规则见赛题页",
+      "description": "蚂蚁灵波具身大模型挑战赛由蚂蚁灵波科技、魔搭社区、阿里云天池共同发起，是一场面向具身智能开发者的算法挑战赛。 赛事基于开源 LingBot-VLA 2.0 模型搭建统一评测体系，由线上初赛和线下真机黑客马拉松两个阶段组成，面向全球企业、高校、个人开发者及技术爱好者开放。 本次赛事希望让更多开发者真正上手 LingBot-VLA 2.0，在统一任务与真实机器人场景中验证模型复现、训练调优、泛化评测和真机适配能力，推动具身智能技术从模型能力"
+    },
+    {
+      "id": "tianchi-unknown-e7a9898885ed",
+      "brand_id": "tianchi",
+      "edition": "2026",
+      "track_id": "tianchi-532510",
+      "name": "知乎知学堂大模型挑战赛：大模型复杂表格识别与内容理解",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "organizer": "阿里云天池",
+      "link": "https://tianchi.aliyun.com/competition/entrance/532510/introduction",
+      "registration_start": "2026-08-07",
+      "registration_end": "2026-12-31",
+      "competition_start": "2026-08-07",
+      "competition_end": "2026-12-31",
+      "active": true,
+      "needs_review": false,
+      "last_checked": "2026-11-07",
+      "category": [
+        "人工智能",
+        "算法",
+        "数据科学"
+      ],
+      "tags": [
+        "天池",
+        "AI",
+        "算法挑战"
+      ],
+      "eligibility": "天池「知乎知学堂大模型挑战赛：大模型复杂表格识别与内容理解」；对象与规则见赛题页",
+      "description": "本赛题面向图片和 PDF 文件中的复杂表格识别与内容理解。参赛者需要读取 题目清单，识别目标文档中的表格结构和表格内容，并完成结构恢复、内容提取 或简单推理计算，最终提交可自动评分的 Excel 结果文件。"
+    },
+    {
+      "id": "tianchi-unknown-d9b33643a6d4",
+      "brand_id": "tianchi",
+      "edition": "2026",
+      "track_id": "tianchi-532508",
+      "name": "2026-跨本体具身认知极限联合挑战赛",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "organizer": "阿里云天池",
+      "link": "https://tianchi.aliyun.com/competition/entrance/532508/introduction",
+      "registration_start": "2026-07-30",
+      "registration_end": "2026-11-22",
+      "competition_start": "2026-07-30",
+      "competition_end": "2026-11-22",
+      "active": true,
+      "needs_review": false,
+      "last_checked": "2026-11-07",
+      "category": [
+        "人工智能",
+        "算法",
+        "数据科学"
+      ],
+      "tags": [
+        "天池",
+        "AI",
+        "算法挑战"
+      ],
+      "eligibility": "天池「2026-跨本体具身认知极限联合挑战赛」；对象与规则见赛题页",
+      "description": "本赛道聚焦具身智能从仿真训练走向多型号真机验证，探索机器人策略在不同本体和真实物理环境中的迁移能力。本次赛事是全球首个跨本体、跨平台、跨场景仿真+真机挑战赛。"
+    },
+    {
+      "id": "tianchi-unknown-92d904652045",
+      "brand_id": "tianchi",
+      "edition": "2026",
+      "track_id": "tianchi-532507",
+      "name": "2026-具身安全应用挑战赛",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "organizer": "阿里云天池",
+      "link": "https://tianchi.aliyun.com/competition/entrance/532507/introduction",
+      "registration_start": "2026-07-30",
+      "registration_end": "2026-11-15",
+      "competition_start": "2026-07-30",
+      "competition_end": "2026-11-15",
+      "active": true,
+      "needs_review": false,
+      "last_checked": "2026-11-07",
+      "category": [
+        "人工智能",
+        "算法",
+        "数据科学"
+      ],
+      "tags": [
+        "天池",
+        "AI",
+        "算法挑战"
+      ],
+      "eligibility": "天池「2026-具身安全应用挑战赛」；对象与规则见赛题页",
+      "description": "围绕“感知—决策—执行”完整闭环，设置视觉感知、空间感知、任务决策、控制通信、状态估计、执行反馈六个攻击环节，考察具身智能模型在遭受多域攻击时的异常发现、链路识别、危险阻断、降级处置与任务恢复等能力。本次比赛是全球首个以具身安全为核心命题，特别支持VLA、WAM等多模态融合技术的具身安全应用挑战赛，旨在检验多模态感知与决策系统在复杂攻击下的鲁棒性。每类赛题包含简单、中等和困难等难度，正式评测中的攻击形式与参数不公开，重点考察具身模型面对"
+    },
+    {
+      "id": "tianchi-unknown-1a6ea848615c",
+      "brand_id": "tianchi",
+      "edition": "2026",
+      "track_id": "tianchi-532506",
+      "name": "2026-具身仿真合成挑战赛",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "organizer": "阿里云天池",
+      "link": "https://tianchi.aliyun.com/competition/entrance/532506/introduction",
+      "registration_start": "2026-07-30",
+      "registration_end": "2026-11-15",
+      "competition_start": "2026-07-30",
+      "competition_end": "2026-11-15",
+      "active": true,
+      "needs_review": false,
+      "last_checked": "2026-11-07",
+      "category": [
+        "人工智能",
+        "算法",
+        "数据科学"
+      ],
+      "tags": [
+        "天池",
+        "AI",
+        "算法挑战"
+      ],
+      "eligibility": "天池「2026-具身仿真合成挑战赛」；对象与规则见赛题页",
+      "description": "仿真资产是具身智能发展的重要基础，广泛应用于仿真场景构建、机器人训练以及仿真到现实的部署验证。本次比赛是全球首个聚焦多设备真实视频到可交互仿真资产端到端生成与系统评测的具身仿真合成挑战赛。参赛队伍需基于多设备采集的真实物体视频，构建自动化处理流水线，生成结构准确、外观真实、物理可信且可交互的高质量仿真就绪型资产。"
+    },
+    {
+      "id": "tianchi-unknown-fe33a399b8de",
+      "brand_id": "tianchi",
+      "edition": "2026",
+      "track_id": "tianchi-532460",
+      "name": "余震预测技术国际大赛",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "organizer": "阿里云天池",
+      "link": "https://tianchi.aliyun.com/competition/entrance/532460/introduction",
+      "registration_start": "2026-01-28",
+      "registration_end": "2026-12-20",
+      "competition_start": "2026-01-28",
+      "competition_end": "2026-12-20",
+      "active": true,
+      "needs_review": false,
+      "last_checked": "2026-11-07",
+      "category": [
+        "人工智能",
+        "算法",
+        "数据科学"
+      ],
+      "tags": [
+        "天池",
+        "AI",
+        "算法挑战"
+      ],
+      "eligibility": "天池「余震预测技术国际大赛」；对象与规则见赛题页",
+      "description": "中国地震局地震预测研究所主办。本次比赛旨在梳理地震序列预测中的科技问题，汇集全球智慧，借助人工智能、大模型等新兴技术，推动学科交叉和合作，提升余震预测的准确性，并为地震序列后续强震的预测提供思路和参考，从而提升全球地震灾害应对能力。"
+    },
+    {
+      "id": "tianchi-unknown-fa924e418391",
+      "brand_id": "tianchi",
+      "edition": "2026",
+      "track_id": "tianchi-532515",
+      "name": "OpenLET 具身智能挑战赛",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "organizer": "阿里云天池",
+      "link": "https://tianchi.aliyun.com/competition/entrance/532515/introduction",
+      "registration_start": "2026-09-23",
+      "registration_end": "2026-12-31",
+      "competition_start": "2026-09-23",
+      "competition_end": "2026-12-31",
+      "active": true,
+      "needs_review": false,
+      "last_checked": "2026-11-07",
+      "category": [
+        "人工智能",
+        "算法",
+        "数据科学"
+      ],
+      "tags": [
+        "天池",
+        "AI",
+        "算法挑战"
+      ],
+      "eligibility": "天池「OpenLET 具身智能挑战赛」；对象与规则见赛题页",
+      "description": "OpenLET 具身智能挑战赛面向高校实验室、企业研发团队与个人开发者，赛事按赛季组织，围绕真实工业任务开放数据、工具与评测支持。参赛队伍可在赛季内持续提交、改进方案，参与月度揭榜与季度评选。首阶段安排冬季仿真赛、春季仿真与真机赛，优秀队伍可争取全球总决赛参赛资格。"
+    },
+    {
+      "id": "tianchi-unknown-4872a475e577",
+      "brand_id": "tianchi",
+      "edition": "2026",
+      "track_id": "tianchi-532421",
+      "name": "【天池经典打榜赛】赛道六-评论观点挖掘赛",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "organizer": "阿里云天池",
+      "link": "https://tianchi.aliyun.com/competition/entrance/532421/introduction",
+      "registration_start": "2025-08-26",
+      "registration_end": "2026-11-30",
+      "competition_start": "2025-08-26",
+      "competition_end": "2026-11-30",
+      "active": true,
+      "needs_review": false,
+      "last_checked": "2026-11-07",
+      "category": [
+        "人工智能",
+        "算法",
+        "数据科学"
+      ],
+      "tags": [
+        "天池",
+        "AI",
+        "算法挑战"
+      ],
+      "eligibility": "天池「【天池经典打榜赛】赛道六-评论观点挖掘赛」；对象与规则见赛题页",
+      "description": "本次品牌评论观点挖掘的任务是在商品评论中抽取商品属性特征和消费者观点，并确认其情感极性和属性种类。"
+    },
+    {
+      "id": "tianchi-unknown-aed4cfcf03a0",
+      "brand_id": "tianchi",
+      "edition": "2026",
+      "track_id": "tianchi-532338",
+      "name": "【打榜赛】CCL25-Eval  任务2：第三届汉语框架语义解析评测",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "organizer": "阿里云天池",
+      "link": "https://tianchi.aliyun.com/competition/entrance/532338/introduction",
+      "registration_start": "2025-03-20",
+      "registration_end": "2027-05-25",
+      "competition_start": "2025-03-20",
+      "competition_end": "2027-05-25",
+      "active": true,
+      "needs_review": false,
+      "last_checked": "2026-11-07",
+      "category": [
+        "人工智能",
+        "算法",
+        "数据科学"
+      ],
+      "tags": [
+        "天池",
+        "AI",
+        "算法挑战"
+      ],
+      "eligibility": "天池「【打榜赛】CCL25-Eval 任务2：第三届汉语框架语义解析评测」；对象与规则见赛题页",
+      "description": "框架语义解析（Frame Semantic Parsing，FSP）是一项基于框架语义学的细粒度语义分析任务，其目标是从句子中提取框架语义结构，实现对句子中事件或情境的深层理解。框架语义解析对阅读理解、文本摘要、关系抽取等下游任务具有重要意义。"
     },
     {
       "id": "estimate-cnsoftbei-2027",
@@ -8557,34 +9092,6 @@
       ]
     },
     {
-      "id": "estimate-mcm_us-2027",
-      "brand_id": "mcm_us",
-      "edition": "2027",
-      "track_id": "estimate-main",
-      "name": "MCM/ICM（2027 预计报名）",
-      "kind": "全国赛事",
-      "info_channel": "官方渠道",
-      "description": "校认定固定清单。报名日为据往年已核验记录推算的预计时间，不构成官方通知；不提供本届报名深链（避免失效/伪造链接），请从赛事品牌官网与校内通知自行核对。",
-      "eligibility": "「【科创竞赛】2027年美国大学生数学建模竞赛组织报名通知」规则以官方原文为准",
-      "active": true,
-      "needs_review": false,
-      "last_checked": "2026-11-07",
-      "registration_start_estimated": "2027-10-08",
-      "registration_end_estimated": "2027-10-18",
-      "schedule_source": "estimated",
-      "estimate_note": "据 2027 届报名窗口推算；入口为品牌官网，非本届报名页",
-      "estimate_basis_id": "campus-20261008-f9daf3bbacae",
-      "link_kind": "brand_home",
-      "tags": [
-        "校认定",
-        "固定清单",
-        "预计"
-      ],
-      "category": [
-        "综合"
-      ]
-    },
-    {
       "id": "estimate-huawei_codecraft-2027",
       "brand_id": "huawei_codecraft",
       "edition": "2027",
@@ -8614,23 +9121,107 @@
       ]
     },
     {
-      "id": "estimate-embedded_chip-2027",
-      "brand_id": "embedded_chip",
+      "id": "estimate-iot-2027",
+      "brand_id": "iot",
       "edition": "2027",
       "track_id": "estimate-main",
-      "name": "全国大学生嵌入式芯片与系统设计竞赛（2027 预计报名）",
+      "name": "全国大学生物联网设计竞赛（2027 预计报名）",
       "kind": "全国赛事",
       "info_channel": "官方渠道",
       "description": "校认定固定清单。报名日为据往年已核验记录推算的预计时间，不构成官方通知；不提供本届报名深链（避免失效/伪造链接），请从赛事品牌官网与校内通知自行核对。",
-      "eligibility": "「【科创竞赛】关于举办“2026年南京邮电大学嵌入式芯片与系统设计竞赛-FPGA创新设计赛道”的通知」规则以官方原文为准",
+      "eligibility": "在校本科生和研究生；2-4人组队参赛",
       "active": true,
       "needs_review": false,
       "last_checked": "2026-11-07",
-      "registration_start_estimated": "2027-09-03",
-      "registration_end_estimated": "2027-09-22",
+      "registration_start_estimated": "2027-04-23",
+      "registration_end_estimated": "2027-06-15",
       "schedule_source": "estimated",
       "estimate_note": "据 2026 届报名窗口推算；入口为品牌官网，非本届报名页",
-      "estimate_basis_id": "campus-20260903-4f55e595d79e",
+      "estimate_basis_id": "campus-20260423-ce71ea70a2e7",
+      "link_kind": "brand_home",
+      "tags": [
+        "校认定",
+        "固定清单",
+        "预计"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "estimate-xuechuangbei-2027",
+      "brand_id": "xuechuangbei",
+      "edition": "2027",
+      "track_id": "estimate-main",
+      "name": "学创杯全国大学生创业综合模拟大赛（2027 预计报名）",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定固定清单。报名日为据往年已核验记录推算的预计时间，不构成官方通知；不提供本届报名深链（避免失效/伪造链接），请从赛事品牌官网与校内通知自行核对。",
+      "eligibility": "南京邮电大学全日制在校大学生；每队3人跨专业组队",
+      "active": true,
+      "needs_review": false,
+      "last_checked": "2026-11-07",
+      "registration_start_estimated": "2027-05-14",
+      "registration_end_estimated": "2027-05-30",
+      "schedule_source": "estimated",
+      "estimate_note": "据 2026 届报名窗口推算；入口为品牌官网，非本届报名页",
+      "estimate_basis_id": "campus-20260514-123ad6acb1ca",
+      "link_kind": "brand_home",
+      "tags": [
+        "校认定",
+        "固定清单",
+        "预计"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "estimate-ican-2027",
+      "brand_id": "ican",
+      "edition": "2027",
+      "track_id": "estimate-main",
+      "name": "iCAN创新大赛（2027 预计报名）",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定固定清单。报名日为据往年已核验记录推算的预计时间，不构成官方通知；不提供本届报名深链（避免失效/伪造链接），请从赛事品牌官网与校内通知自行核对。",
+      "eligibility": "在校本科、专科、研究生；2-5人团队参赛",
+      "active": true,
+      "needs_review": false,
+      "last_checked": "2026-11-07",
+      "registration_start_estimated": "2027-05-06",
+      "registration_end_estimated": "2027-09-10",
+      "schedule_source": "estimated",
+      "estimate_note": "据 2026 届报名窗口推算；入口为品牌官网，非本届报名页",
+      "estimate_basis_id": "campus-20260506-be1fd4a127e0",
+      "link_kind": "brand_home",
+      "tags": [
+        "校认定",
+        "固定清单",
+        "预计"
+      ],
+      "category": [
+        "综合"
+      ]
+    },
+    {
+      "id": "estimate-siemens_cup-2027",
+      "brand_id": "siemens_cup",
+      "edition": "2027",
+      "track_id": "estimate-main",
+      "name": "西门子杯中国智能制造挑战赛（2027 预计报名）",
+      "kind": "全国赛事",
+      "info_channel": "官方渠道",
+      "description": "校认定固定清单。报名日为据往年已核验记录推算的预计时间，不构成官方通知；不提供本届报名深链（避免失效/伪造链接），请从赛事品牌官网与校内通知自行核对。",
+      "eligibility": "在校全日制本科生及研究生；1-3人组队参赛",
+      "active": true,
+      "needs_review": false,
+      "last_checked": "2026-11-07",
+      "registration_start_estimated": "2027-05-18",
+      "registration_end_estimated": "2027-05-31",
+      "schedule_source": "estimated",
+      "estimate_note": "据 2026 届报名窗口推算；入口为品牌官网，非本届报名页",
+      "estimate_basis_id": "campus-20260518-daffb8790b0b",
       "link_kind": "brand_home",
       "tags": [
         "校认定",
