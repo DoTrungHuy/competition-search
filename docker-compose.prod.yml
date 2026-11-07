@@ -13,6 +13,11 @@ services:
         max-file: "3"
 
   backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        MAVEN_MIRROR_URL: ${MAVEN_MIRROR_URL:-https://maven.aliyun.com/repository/public}
     mem_limit: 640m
     environment:
       SESSION_COOKIE_SECURE: "true"
