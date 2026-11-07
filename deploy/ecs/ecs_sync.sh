@@ -17,9 +17,12 @@ fi
 
 cd "${REPO_DIR}"
 
-# 始终对齐远端 main，避免本机 --no-push 残留提交与 GitHub Actions 产生 rebase 冲突
-git fetch origin main
-git reset --hard origin/main
+# 尝试对齐远端 main；国内 ECS 若偶发连不上 github.com 不阻断本地采集与入库
+if timeout 20 git fetch origin main 2>/dev/null; then
+  git reset --hard origin/main
+else
+  echo "WARN: git fetch origin main 超时，继续使用本地工作区执行采集与同步"
+fi
 
 PYTHON_BIN="${REPO_DIR}/.venv/bin/python"
 if [[ ! -x "${PYTHON_BIN}" ]]; then
