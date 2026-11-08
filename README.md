@@ -33,9 +33,9 @@
 
 ## 项目简介
 
-最初这是一个面向南邮学生的竞赛查询静态站，现在已经演进为一个 **后端主导的全栈竞赛数据平台**。
+这是一个面向南京邮电大学学生的竞赛数据平台，提供竞赛检索、自动采集、AI 辅助审核和人工复核。
 
-系统会定期从校园通知、Devpost、MLH、Kaggle 等来源采集候选赛事；DeepSeek 只负责给出 **AI 审核建议**，最终是否进入正式竞赛库由管理员人工确认。通过审核的数据写入 MariaDB，再由 Spring Boot REST API 提供给前端展示。
+系统定期从校园通知、Devpost、MLH、Kaggle、天池等来源采集候选赛事。DeepSeek 给出审核建议；`ACCEPT` 且置信度为 `HIGH` 或 `MEDIUM` 的候选会自动写入正式竞赛数据，其余候选由管理员在后台处理。正式数据保存在 MariaDB 中，由 Spring Boot REST API 提供给前端展示。
 
 ### 首页预览
 
@@ -95,8 +95,9 @@ AI 不会直接替代管理员做最终数据决策。
 ### 管理与数据治理
 
 - Python 自动采集多个数据源
-- DeepSeek Flash 对候选赛事给出 `ai_verdict / ai_confidence / ai_reason`
-- AI 结果只作为建议，候选仍保持 `PENDING`
+- DeepSeek 对候选赛事给出 `ai_verdict / ai_confidence / ai_reason`
+- `ACCEPT` 且置信度为 `HIGH` 或 `MEDIUM` 的候选由脚本自动写入正式竞赛数据
+- 无法匹配品牌、`REJECT`、`LOW` 或尚未审核的候选保留为 `PENDING`
 - Spring Security 管理员登录
 - 单条审核、编辑后通过、拒绝
 - 全选 / 批量批准 / 一键批准 HIGH 置信度候选
@@ -114,7 +115,7 @@ AI 不会直接替代管理员做最终数据决策。
 - Python / JavaScript / Java 自动测试
 - Playwright E2E 浏览器冒烟测试
 - Weekly Sync 自动采集与数据同步
-- Cloudflare Tunnel 暴露当前本机后端
+- 阿里云 ECS 运行网站、API、数据库、备份和每周采集
 
 ---
 
@@ -132,7 +133,7 @@ AI 不会直接替代管理员做最终数据决策。
 | AI 审核 | DeepSeek API |
 | 自动化 | GitHub Actions |
 | 测试 | JUnit / H2 / Node Test / Python unittest / Playwright |
-| 部署 | Linux / Cloudflare Workers / Cloudflare Tunnel |
+| 部署 | 阿里云 ECS / Docker Compose / Nginx / Cloudflare |
 
 ---
 
@@ -471,25 +472,27 @@ CI 中 E2E 与普通测试并行运行。
 - Session Cookie 设置 `Secure / HttpOnly / SameSite=Lax`
 - GitHub Actions 使用独立同步 Token
 - API Key、数据库密码、管理员密码放在环境变量 / GitHub Secrets
-- DeepSeek 只提供建议，不拥有最终生产数据决策权
+- DeepSeek 可以自动发布高置信度和中置信度的 `ACCEPT` 候选；人工已通过或已拒绝的记录不会被后续同步覆盖
 
 ---
 
 ## 部署
 
-### Docker Compose（本机 / 未来云服务器）
+### Docker Compose（本机验证 / ECS 生产）
 
-推荐后端运行形态：
+生产环境运行在阿里云 ECS 上。ECS 前面由统一网关按域名转发，仓库内的 Docker Compose 同时运行网站、API、数据库和备份：
 
 ```text
-api.cs-contest.cn
+Cloudflare
     ↓
-Nginx
+ECS 统一网关
     ↓
-Spring Boot
-    ↓
-MariaDB
+Docker Nginx
+    ├── 网站、CSS、JavaScript、JSON
+    └── /api、/admin → Spring Boot → MariaDB
 ```
+
+`njupt.cs-contest.cn` 和 `cs-contest.cn` 由 Nginx 返回静态网站；`api.cs-contest.cn` 的请求转给 Spring Boot。数据库端口不向公网开放。
 
 仓库根目录已提供 `docker-compose.yml`、`docker.env.example`、`backend/Dockerfile` 和 `deploy/nginx/api.conf`。
 
@@ -542,8 +545,7 @@ bash deploy/backup/restore-db.sh backups/competition_search-YYYYMMDDTHHMMSSZ.sql
 如果 `backups/` 与数据库仍位于同一台服务器，它只能防止误删和容器损坏，不能防止整台服务器或磁盘损坏。
 正式上线后应再把备份同步到 OSS 等独立存储。
 
-未来迁移到 Linux 云服务器时，只需要安装 Docker / Compose、克隆仓库、配置服务器自己的 `.env`，
-再执行同一个 `docker compose up -d --build`。真实 `.env` 不提交到 GitHub。
+ECS 上使用服务器自己的 `.env`，真实 `.env` 不提交到 GitHub。
 
 ### 生产 Compose 与 HTTPS
 
@@ -556,13 +558,13 @@ docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
 生产覆盖会：
 
 - 将 Session Cookie 强制设为 Secure
-- 对外开放 80 / 443
-- 使用 `deploy/nginx/api.prod.conf`
+- 限制 MariaDB、Spring Boot、Nginx 和备份容器的内存
+- 使用阿里云 Maven 镜像构建后端
+- 使用 `deploy/nginx/api.conf`，由 ECS 前面的统一网关处理 HTTPS
 - 启动自动数据库备份容器
-- 使用 `deploy/certs/origin.pem` 与 `deploy/certs/origin.key` 提供源站 TLS
+- 在同一台 ECS 上发布网站文件和 API
 
-证书目录中的真实证书和私钥已被 Git 忽略。当前方案按 Cloudflare Origin Certificate 设计，
-生产时 Cloudflare SSL/TLS 模式使用 **Full (strict)**。
+因此生产 Compose 不在容器内重复监听公网 443，也不使用独立的 `api.prod.conf`。Cloudflare 作为域名和 HTTPS 代理，SSL/TLS 模式使用 **Full (strict)**。
 
 ### GitHub Actions 自动部署
 
@@ -577,28 +579,24 @@ docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
 
 ### 当前线上形态
 
-现有前端仍保持：
+网站、API、MariaDB、数据库备份和每周采集都运行在阿里云 ECS 上：
 
 ```text
-前端
-njupt.cs-contest.cn
+njupt.cs-contest.cn / cs-contest.cn / api.cs-contest.cn
     ↓
-Cloudflare Workers 静态资源
-
-后端
-api.cs-contest.cn
+Cloudflare
     ↓
-Cloudflare Tunnel
-    ↓
-127.0.0.1:8080
-    ↓
-Spring Boot
-    ↓
-MariaDB
+阿里云 ECS
+    ├── Docker Nginx：网站与反向代理
+    ├── Spring Boot：竞赛 API、管理后台、内部同步
+    ├── MariaDB：正式竞赛与审核队列
+    ├── db-backup：每天备份并保留 14 天
+    └── systemd 定时器：每周一 10:17、22:47 采集和入库
 ```
 
-当前机器位于 NAT 网络后，因此使用 Cloudflare Tunnel 将本地 Spring Boot 暴露到公网。
-完成本机 Docker 验证后，再把 API 容器迁移到长期在线 Linux 服务器；前端无需一起迁移。
+每周任务执行 `deploy/ecs/ecs_sync.sh`。它先尝试同步 GitHub；国内网络连接失败时继续使用 ECS 上现有代码，依次完成采集、AI 审核、自动发布、数据检查，再写入本机 MariaDB。
+
+代码发布由 GitHub Actions 在 CI 成功后通过 SSH 把经过测试的 commit 推到 ECS。发布失败只回滚应用，不自动回滚数据库。`backend/scripts/start-tunnel.sh` 是迁移前的本机 Cloudflare Tunnel 脚本，不再是当前线上入口。
 
 ---
 
@@ -607,8 +605,8 @@ MariaDB
 当前重点不是继续堆业务功能，而是补生产部署能力：
 
 - [x] Docker + Docker Compose 配置
-- [ ] 正式公网服务器部署
-- [x] Nginx 生产反向代理与 HTTPS 配置
+- [x] 阿里云 ECS 线上部署
+- [x] Nginx 反向代理；HTTPS 由 ECS 统一网关和 Cloudflare 处理
 - [x] Spring Boot Actuator 健康检查
 - [x] GitHub Actions 自动部署 / 应用失败回滚配置
 - [x] MariaDB 自动备份 / 手工恢复

@@ -4,7 +4,7 @@ This project keeps application code in Git and machine-specific state on the pro
 
 ## 1. One-time server preparation
 
-Use a long-running Linux server with a public IP. Install Git, Docker Engine and Docker Compose v2, then clone the repository:
+The current production server is an Alibaba Cloud ECS instance. Install Git, Docker Engine and Docker Compose v2, then clone the repository:
 
 ```bash
 sudo mkdir -p /opt/competition-search
@@ -22,7 +22,7 @@ chmod 600 .env
 
 Replace every placeholder password/token in `.env` with a unique random value.
 
-Create a Cloudflare Origin Certificate for `api.cs-contest.cn` and place:
+The current ECS deployment places Nginx behind the shared gateway, so the gateway owns the public HTTPS listener. Keep the following certificate paths documented for a deployment that must terminate TLS inside the Compose Nginx instead:
 
 ```text
 deploy/certs/origin.pem
@@ -57,7 +57,7 @@ PRODUCTION_APP_DIR=/opt/competition-search
 ```
 
 Keep `PRODUCTION_DEPLOY_ENABLED=false` until the first manual deployment is healthy. Set it to `true` only when automatic deployment is ready.
-Before enabling it, update Cloudflare so `api.cs-contest.cn` reaches the new server and verify HTTPS manually.
+Before enabling it, point Cloudflare at the ECS gateway and verify HTTPS manually.
 
 Then create a GitHub Environment named `production` and add these **Environment Secrets**:
 
@@ -90,7 +90,7 @@ push main
      -> wait for backend healthy
      -> nginx -t
      -> local HTTPS health check
-     -> public Cloudflare HTTPS health check
+     -> HTTPS health check through the ECS gateway and Cloudflare
 ```
 
 A deployment concurrency lock prevents two production releases from running at the same time.

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """零外部依赖的本机 SQLite 页面浏览计数服务（供阿里云 ECS 部署替代 api.counterapi.dev）。
 
-仅监听 127.0.0.1:9001，由 Nginx / Cloudflare Tunnel 反向代理 `location = /api/visits/up`。
+仅监听 127.0.0.1:9001，由 ECS 上的 Nginx 反向代理 `location = /api/visits/up`。
 响应格式 `{"value": <int>}` 与前端 `js/visits.js` 的 `extractCount` 完全兼容。
 """
 from __future__ import print_function

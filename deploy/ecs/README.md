@@ -1,9 +1,10 @@
 # 阿里云 ECS 迁移与运维指南
 
-本目录提供将 `competition-search` 迁移至 **阿里云 ECS 实例** 的全套生产配置。你可以根据需求选择：
+当前生产环境已经运行在阿里云 ECS 上，不再使用个人电脑上的 Cloudflare Tunnel。本目录包含 ECS 上的采集、发布和计数配置：
 
-1. **后端容器化部署（API + MariaDB + 自动备份）**：与仓库根目录的 `docker-compose.yml` + `docker-compose.prod.yml` 及 [`deploy/PRODUCTION.md`](../PRODUCTION.md) 配合，将当前运行在本机 Cloudflare Tunnel 后的 `api.cs-contest.cn` 迁至阿里云 ECS。
-2. **前端静态站 + 本机周更采集一体化托管**：将前端 `njupt.cs-contest.cn`、天池 Playwright + 南邮校内通知采集（`systemd` 定时器）以及 SQLite 页面浏览计数服务一并迁至阿里云 ECS，彻底脱离个人电脑 Windows 计划任务。
+1. **Docker Compose 生产栈**：`docker-compose.yml`、`docker-compose.prod.yml` 和 [`deploy/PRODUCTION.md`](../PRODUCTION.md) 在 ECS 上运行 Nginx、Spring Boot、MariaDB 与自动备份。
+2. **每周采集**：ECS 的 systemd 定时器运行南邮通知、天池和国际来源采集，并把通过检查的数据写入 ECS 本机 MariaDB。
+3. **可选的 SQLite 浏览计数**：需要把浏览计数从 API 域名切换到网站域名时，再启用本节的本机计数服务。
 
 ---
 
