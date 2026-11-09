@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": 1,
-    "count": 5,
+    "count": 7,
     "note": "人工审核队列；DeepSeek 仅写 AI 建议，不自动通过或拒绝。"
   },
   "pending": [
@@ -159,6 +159,79 @@
       "ai_model": "deepseek-flash",
       "ai_reviewed_at": "2026-11-02T09:31:18Z",
       "ai_review_fingerprint": "14ac9cef1b8d83b6a0d5f66043078eb4cdf320d7cf6564785b6357e27d5e6177"
+    },
+    {
+      "id": "mlh-unknown-44469f2f60bb",
+      "brand_id": "mlh",
+      "edition": "2027",
+      "track_id": "mlh-hackbi-x",
+      "name": "HackBI X",
+      "kind": "国际赛事",
+      "info_channel": "官方渠道",
+      "link": "https://hackbi.org/",
+      "active": true,
+      "last_checked": null,
+      "needs_review": true,
+      "draft": true,
+      "source_list": "mlh",
+      "source_list_name": "MLH Hackathons",
+      "competition_start": "2027-01-16",
+      "competition_end": "2027-01-17",
+      "eligibility": "MLH 2027 赛季「HackBI X」；对象与组队见活动页",
+      "description": "HackBI X 为 MLH 2027 赛季认证黑客松。报名、赛程与规则以活动页为准。",
+      "ai_verdict": "REJECT",
+      "ai_confidence": "MEDIUM",
+      "ai_reason": "HackBI 为面向高中生的黑客松，且 MLH 只是赛事联盟并非该活动本体，2027 赛季日期亦无可靠依据，不属于大学生可报名的具体竞赛机会。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-11-09T09:49:39Z",
+      "ai_review_fingerprint": "fad93b077e2ecb3e59826fd97ff39811508b1c2885fc538e9b8131e6d4c812b7",
+      "ai_kind": "国际赛事",
+      "ai_schedule": {
+        "registration_start": null,
+        "registration_end": null,
+        "competition_start": "2027-01-16",
+        "competition_end": "2027-01-17",
+        "schedule_source": "source",
+        "schedule_confidence": "high"
+      }
+    },
+    {
+      "id": "tianchi-unknown-633fda5b5823",
+      "brand_id": "tianchi",
+      "edition": "2026",
+      "track_id": "tianchi-532512",
+      "name": "面向生物医学全文的特定患者表型概念识别任务-赛后评测",
+      "kind": "大厂赛事",
+      "info_channel": "官方渠道",
+      "link": "https://tianchi.aliyun.com/competition/entrance/532512/introduction",
+      "active": true,
+      "last_checked": null,
+      "needs_review": true,
+      "draft": true,
+      "source_list": "tianchi",
+      "source_list_name": "阿里云天池",
+      "registration_start": "2026-08-20",
+      "registration_end": "2028-10-03",
+      "competition_start": "2026-08-20",
+      "competition_end": "2028-10-03",
+      "eligibility": "天池「面向生物医学全文的特定患者表型概念识别任务-赛后评测」；对象与规则见赛题页",
+      "description": "第十二届中国健康信息处理大会（CHIP 2026）评测-赛后评测",
+      "ai_verdict": "REJECT",
+      "ai_confidence": "HIGH",
+      "ai_reason": "该条目是 CHIP 2026 的“赛后评测”任务页面，属于赛后的结果评测与榜单环节，不面向大学生提供新的报名或参赛机会。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-11-09T09:49:43Z",
+      "ai_review_fingerprint": "caab1e1296342f735deaeffaa7dbf8a99c15a863ef3b0cf152a6138b2dcd89b9",
+      "ai_brand_id": "tianchi",
+      "ai_kind": "大厂赛事",
+      "ai_schedule": {
+        "registration_start": "2026-08-20",
+        "registration_end": "2028-10-03",
+        "competition_start": "2026-08-20",
+        "competition_end": "2028-10-03",
+        "schedule_source": "source",
+        "schedule_confidence": "high"
+      }
     }
   ]
 }
