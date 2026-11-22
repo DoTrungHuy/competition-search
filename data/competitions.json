@@ -44,7 +44,7 @@
       "kind": "全国赛事",
       "info_channel": "官方渠道",
       "organizer": "工业和信息化部人才交流中心等",
-      "link": "https://dasai.lanqiao.cn/pages/v7/dasai/competition/individual_competition.html",
+      "link": "https://jwc.ustb.edu.cn/docs/2026-03/93bc9052694b411ba47ba6d6fd460ccf.pdf",
       "description": "第十七届蓝桥杯个人赛软件、电子与鸿蒙应用开发科目。",
       "eligibility": "高校在校生；个人赛为主",
       "tags": [
@@ -58,7 +58,7 @@
       "track_id": "main",
       "registration_start": "2025-10-20",
       "registration_end": "2026-03-11",
-      "last_checked": "2026-07-24",
+      "last_checked": "2026-11-22",
       "needs_review": false
     },
     {
@@ -8075,7 +8075,7 @@
       "name": "【科创竞赛】关于开展“第十一届（2026）江苏省高校企业竞争模拟大赛” 报名和校内选拔赛的通知",
       "info_channel": "校内官网",
       "published_at": "2026-10-22",
-      "description": "学校网站通知，赛事主办与规则以通知和赛事官网为准。",
+      "description": "南邮校内报名于2026年11月1日24时截止。11月23日18时为入选队伍办理省赛复赛报名及审核的截止时间。",
       "has_campus_notice": true,
       "brand_id": "ibizsim",
       "kind": "全国赛事",
@@ -8083,9 +8083,9 @@
       "link": "https://cxcy.njupt.edu.cn/2026/1022/c11336a310161/page.htm",
       "eligibility": "「【科创竞赛】关于开展“第十一届（2026）江苏省高校企业竞争模拟大赛” 报名和校内选拔赛的通知」规则以官方原文为准",
       "needs_review": false,
-      "last_checked": "2026-11-07",
+      "last_checked": "2026-11-22",
       "registration_start": "2026-10-22",
-      "registration_end": "2026-11-23",
+      "registration_end": "2026-11-01",
       "competition_start": "2026-11-14",
       "competition_end": "2026-12-13",
       "schedule_source": "source",
@@ -8487,7 +8487,7 @@
       "kind": "全国赛事",
       "info_channel": "官方渠道",
       "organizer": "工业和信息化部人才交流中心",
-      "link": "https://dasai.lanqiao.cn/pages/v7/dasai/competition/Newindividual_competition.html",
+      "link": "https://dasai.lanqiao.cn/pages/v7/dasai/competition/individual_competition.html",
       "description": "第十八届蓝桥杯大赛涵盖软件赛（C/C++、Java、Python、Web应用开发等）、电子赛、人工智能赛及专项赛，省赛预计2027年4月举办，全国总决赛预计2027年6月举办。",
       "eligibility": "普通高校全日制在校本科生、研究生及高职高专学生；个人赛为主",
       "tags": [
@@ -8503,7 +8503,7 @@
       "registration_end": "2026-12-18",
       "competition_start": "2027-04-10",
       "competition_end": "2027-06-15",
-      "last_checked": "2026-11-07",
+      "last_checked": "2026-11-22",
       "needs_review": false
     },
     {
@@ -8623,8 +8623,8 @@
       "kind": "全国赛事",
       "info_channel": "官方渠道",
       "organizer": "全国三维数字化创新设计大赛组委会",
-      "link": "https://3dshow.3ddl.net/",
-      "description": "全国3D大赛包含数字工业设计、数字人居设计、数字文化设计及元宇宙/AI创新设计等方向。",
+      "link": "https://ds.3ddl.net/index.php?ctl=Informationlist&id=431&met=newsdetails",
+      "description": "全国3D大赛包含数字工业设计、数字人居设计、数字文化设计及元宇宙/AI创新设计等方向。开放赛项初赛作品提交截至2027年3月22日24时。",
       "eligibility": "普通高校全日制在校大学生；2-5人团队参赛",
       "tags": [
         "校认定",
@@ -8634,11 +8634,11 @@
       ],
       "has_campus_notice": false,
       "active": true,
-      "registration_start": "2026-09-01",
-      "registration_end": "2027-04-15",
+      "registration_start": "2026-09-22",
+      "registration_end": "2027-03-10",
       "competition_start": "2027-04-16",
       "competition_end": "2027-07-31",
-      "last_checked": "2026-11-07",
+      "last_checked": "2026-11-22",
       "needs_review": false
     },
     {
