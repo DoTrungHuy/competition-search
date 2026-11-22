@@ -115,7 +115,7 @@ AI 不会直接替代管理员做最终数据决策。
 - Python / JavaScript / Java 自动测试
 - Playwright E2E 浏览器冒烟测试
 - Weekly Sync 自动采集与数据同步
-- 阿里云 ECS 运行网站、API、数据库、备份和每周采集
+- 阿里云 ECS 运行网站、API、数据库和备份
 
 ---
 
@@ -579,7 +579,7 @@ docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
 
 ### 当前线上形态
 
-网站、API、MariaDB、数据库备份和每周采集都运行在阿里云 ECS 上：
+网站、API、MariaDB 和数据库备份运行在阿里云 ECS 上：
 
 ```text
 njupt.cs-contest.cn / cs-contest.cn / api.cs-contest.cn
@@ -590,11 +590,10 @@ Cloudflare
     ├── Docker Nginx：网站与反向代理
     ├── Spring Boot：竞赛 API、管理后台、内部同步
     ├── MariaDB：正式竞赛与审核队列
-    ├── db-backup：每天备份并保留 14 天
-    └── systemd 定时器：每周一 10:17、22:47 采集和入库
+    └── db-backup：每天备份并保留 14 天
 ```
 
-每周任务执行 `deploy/ecs/ecs_sync.sh`。它先尝试同步 GitHub；国内网络连接失败时继续使用 ECS 上现有代码，依次完成采集、AI 审核、自动发布、数据检查，再写入本机 MariaDB。
+每周采集由 GitHub Actions 的 Weekly competition sync 调度，校验通过后经内部 API 同步至生产 MariaDB。生产服务器停用 ECS 采集定时器，使发布工作目录只由部署流程更新。静态备用数据随发布更新。
 
 代码发布由 GitHub Actions 在 CI 成功后通过 SSH 把经过测试的 commit 推到 ECS。发布失败只回滚应用，不自动回滚数据库。`backend/scripts/start-tunnel.sh` 是迁移前的本机 Cloudflare Tunnel 脚本，不再是当前线上入口。
 

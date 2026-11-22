@@ -23,6 +23,7 @@ API_PORT="${API_PORT:-8088}"
 
 if ! git diff --quiet || ! git diff --cached --quiet; then
   echo "Tracked production files have local changes; refusing to deploy." >&2
+  git status --short --untracked-files=no >&2
   exit 1
 fi
 
@@ -39,7 +40,8 @@ rollback() {
   ROLLED_BACK=1
   echo "[deploy] deployment failed; rolling application code back to $PREVIOUS_SHA" >&2
   git checkout --detach "$PREVIOUS_SHA" || true
-  "${COMPOSE[@]}" up -d --build --remove-orphans || true
+  "${COMPOSE[@]}" up -d --build --remove-orphans &&
+    "${COMPOSE[@]}" up -d --no-deps --force-recreate nginx || true
   echo "[deploy] application rollback attempted; database was not automatically restored" >&2
 }
 trap rollback EXIT
@@ -88,6 +90,9 @@ for attempt in {1..30}; do
   fi
   sleep 4
 done
+
+echo "[deploy] refreshing nginx file mounts"
+"${COMPOSE[@]}" up -d --no-deps --force-recreate nginx
 
 echo "[deploy] validating nginx configuration"
 "${COMPOSE[@]}" exec -T nginx nginx -t

@@ -3,7 +3,7 @@
 当前生产环境已经运行在阿里云 ECS 上，不再使用个人电脑上的 Cloudflare Tunnel。本目录包含 ECS 上的采集、发布和计数配置：
 
 1. **Docker Compose 生产栈**：`docker-compose.yml`、`docker-compose.prod.yml` 和 [`deploy/PRODUCTION.md`](../PRODUCTION.md) 在 ECS 上运行 Nginx、Spring Boot、MariaDB 与自动备份。
-2. **每周采集**：ECS 的 systemd 定时器运行南邮通知、天池和国际来源采集，并把通过检查的数据写入 ECS 本机 MariaDB。
+2. **每周采集**：GitHub Actions 采集和校验赛事，通过内部 API 写入 ECS 上的 MariaDB。
 3. **可选的 SQLite 浏览计数**：需要把浏览计数从 API 域名切换到网站域名时，再启用本节的本机计数服务。
 
 ---
@@ -61,27 +61,15 @@ sudo nginx -t && sudo systemctl reload nginx
 sudo certbot --nginx -d njupt.cs-contest.cn -d cs-contest.cn
 ```
 
-### 3. 启用 ECS 本机自动周更（替代个人电脑 Windows 计划任务）
+### 3. 生产数据同步
 
-在阿里云国内 ECS 上可直接访问南邮创学院通知网与阿里云天池：
+[Weekly competition sync](../../.github/workflows/weekly-sync.yml) 负责定时采集和校验，并通过内部 API 将结果写入 ECS 上的 MariaDB。生产服务器保留专用于部署的 Git 工作目录。曾安装 ECS 定时器的生产主机可按以下方式停用它：
 
 ```bash
-cd /opt/competition-search
-python3 -m venv .venv
-.venv/bin/pip install -U pip
-.venv/bin/pip install -r requirements-scripts.txt -r requirements-playwright.txt
-.venv/bin/playwright install --with-deps chromium
-
-sudo tee /etc/competition-search.env >/dev/null <<'EOF'
-DEEPSEEK_API_KEY=在此填入你的密钥
-EOF
-sudo chmod 600 /etc/competition-search.env
-
-sudo cp /opt/competition-search/deploy/ecs/competition-sync.service /etc/systemd/system/
-sudo cp /opt/competition-search/deploy/ecs/competition-sync.timer /etc/systemd/system/
-sudo systemctl daemon-reload
-sudo systemctl enable --now competition-sync.timer
+sudo systemctl disable --now competition-sync.timer
 ```
+
+需要独立运行 ECS 采集脚本时，请使用单独的可写 Git 克隆目录，预装 Node.js、npm 和 Python 采集依赖，并通过服务环境提供同步所需配置。
 
 ### 4. （可选）启用 ECS 本机 SQLite 浏览计数服务
 
