@@ -44,7 +44,6 @@ rollback() {
     "${COMPOSE[@]}" up -d --no-deps --force-recreate nginx || true
   echo "[deploy] application rollback attempted; database was not automatically restored" >&2
 }
-trap rollback EXIT
 
 if ! git cat-file -e "${DEPLOY_SHA}^{commit}" 2>/dev/null; then
   echo "[deploy] fetching revision $DEPLOY_SHA"
@@ -59,11 +58,12 @@ git cat-file -e "${DEPLOY_SHA}^{commit}"
 
 if "${COMPOSE[@]}" ps --status running --services 2>/dev/null | grep -qx db; then
   echo "[deploy] taking pre-deploy database backup"
-  bash deploy/backup/backup-now.sh
+  git show "$DEPLOY_SHA:deploy/backup/backup-now.sh" | bash -s -- "$APP_DIR"
 else
   echo "[deploy] database is not running yet; skipping pre-deploy backup"
 fi
 
+trap rollback EXIT
 git checkout --detach "$DEPLOY_SHA"
 
 echo "[deploy] validating production compose"
