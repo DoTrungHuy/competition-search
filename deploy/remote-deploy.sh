@@ -95,7 +95,7 @@ echo "[deploy] refreshing nginx file mounts"
 "${COMPOSE[@]}" up -d --no-deps --force-recreate nginx
 
 echo "[deploy] validating nginx configuration"
-"${COMPOSE[@]}" exec -T nginx nginx -t
+"${COMPOSE[@]}" exec -T nginx nginx -t </dev/null
 
 echo "[deploy] checking health through local nginx on 127.0.0.1:${API_PORT}"
 health="$(curl --fail --silent --show-error \

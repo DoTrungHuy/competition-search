@@ -14,7 +14,7 @@ trap 'rm -f -- "$temporary"' EXIT
 
 echo "Writing $output"
 docker compose -f docker-compose.yml -f docker-compose.prod.yml exec -T db sh -lc \
-  'export MYSQL_PWD="$MARIADB_ROOT_PASSWORD"; exec mariadb-dump --user=root --single-transaction --quick --routines --events competition_search' \
+  'export MYSQL_PWD="$MARIADB_ROOT_PASSWORD"; exec mariadb-dump --user=root --single-transaction --quick --routines --events competition_search' </dev/null \
   | gzip -9 > "$temporary"
 
 mv -- "$temporary" "$output"
