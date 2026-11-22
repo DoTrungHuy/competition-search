@@ -32,7 +32,7 @@ if [[ "$BACKUP" == *.gz ]]; then
 else
   cat "$BACKUP"
 fi | "${COMPOSE[@]}" exec -T db sh -lc \
-  'export MARIADB_PWD="$MARIADB_ROOT_PASSWORD"; exec mariadb --user=root competition_search'
+  'export MYSQL_PWD="$MARIADB_ROOT_PASSWORD"; exec mariadb --user=root competition_search'
 
 trap - EXIT
 "${COMPOSE[@]}" start backend db-backup

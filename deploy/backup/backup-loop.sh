@@ -7,8 +7,9 @@ INTERVAL="${BACKUP_INTERVAL_SECONDS:-86400}"
 RETENTION_DAYS="${BACKUP_RETENTION_DAYS:-14}"
 BACKUP_DIR="/backups"
 
+umask 077
 mkdir -p "$BACKUP_DIR"
-export MARIADB_PWD="$DB_ROOT_PASSWORD"
+export MYSQL_PWD="$DB_ROOT_PASSWORD"
 
 while true; do
   timestamp="$(date -u +%Y%m%dT%H%M%SZ)"
