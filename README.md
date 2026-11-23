@@ -593,6 +593,8 @@ Cloudflare
     └── db-backup：每天备份并保留 14 天
 ```
 
+公网主域名 `njupt.cs-contest.cn` 的网页请求由 Cloudflare Worker 转发到 ECS 上的 Nginx。Worker 通过现有 `api.cs-contest.cn` HTTPS 通道读取源站的 `/_ecs_frontend/` 静态资源。
+
 每周采集由 GitHub Actions 的 Weekly competition sync 调度，校验通过后经内部 API 同步至生产 MariaDB。生产服务器停用 ECS 采集定时器，使发布工作目录只由部署流程更新。静态备用数据随发布更新。
 
 代码发布由 GitHub Actions 在 CI 成功后通过 SSH 把经过测试的 commit 推到 ECS。发布失败只回滚应用，不自动回滚数据库。`backend/scripts/start-tunnel.sh` 是迁移前的本机 Cloudflare Tunnel 脚本，不再是当前线上入口。
