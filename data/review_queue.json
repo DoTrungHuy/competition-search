@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": 1,
-    "count": 8,
+    "count": 9,
     "note": "人工审核队列；DeepSeek 仅写 AI 建议，不自动通过或拒绝。"
   },
   "pending": [
@@ -272,6 +272,39 @@
         "schedule_source": "source",
         "schedule_confidence": "high"
       }
+    },
+    {
+      "id": "devpost-unknown-d26a63e11126",
+      "brand_id": "devpost",
+      "edition": "2026",
+      "track_id": "devpost-31733",
+      "name": "305 Veterans Hackathon Edition November 2026 — 305Hackathons.vercel.app",
+      "kind": "国际赛事",
+      "info_channel": "官方渠道",
+      "organizer": "GOOGLE DEVELOPER GROUP AT FIU",
+      "link": "https://305veteransnov2026.devpost.com/",
+      "active": true,
+      "last_checked": null,
+      "needs_review": true,
+      "draft": true,
+      "source_list": "devpost",
+      "source_list_name": "Devpost Hackathons",
+      "source_schedule_text": "Nov 01 - 30, 2026",
+      "raw_schedule": {
+        "submission_period_dates": "Nov 01 - 30, 2026",
+        "open_state": "open",
+        "time_left": null
+      },
+      "eligibility": "「305 Veterans Hackathon Edition November 2026 — 305Hackathons.vercel.app」由 GOOGLE DEVELOPER GROUP AT FIU 主办；资格与组队见活动页",
+      "description": "305 Veterans Hackathon Edition November 2026 — 305Hackathons.vercel.app，由 GOOGLE DEVELOPER GROUP AT FIU 在 Devpost 发起的在线黑客松。报名与规则以活动页为准。",
+      "ai_verdict": "ACCEPT",
+      "ai_confidence": "LOW",
+      "ai_reason": "Devpost 上由 GDG at FIU 发起的在线黑客松，公开报名，大学生可参加，属于国际赛事且已对上 Devpost 品牌。",
+      "ai_model": "deepseek-flash",
+      "ai_reviewed_at": "2026-11-23T10:47:29Z",
+      "ai_review_fingerprint": "648f82b5ff03f8f3837a213560affdb84cc6cd19b5a08a6099364c1c4a477b14",
+      "ai_brand_id": "devpost",
+      "ai_kind": "国际赛事"
     }
   ]
 }
